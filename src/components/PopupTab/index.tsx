@@ -21,7 +21,7 @@ export const PopupTabs: FC<Popups> = ({
   });
 
   return (
-    <div className='popup_tabs' style={{ width: `${popupWidth}px` }}>
+    <div className='popup_tabs bg-white dark:bg-dark-800 shadow-popup dark:shadow-popup-dark rounded-md' style={{ width: `${popupWidth}px` }}>
       {childrenContact}
     </div>
   );
@@ -35,8 +35,8 @@ export const PopupTabsHeaderLabel: FC<Popups> = ({
 }: Popups) => {
   return (
     <div
-      className={`popup_tabs-header-label${
-        activeTab === tabName ? ' popup_tabs-header-label-active' : ''
+      className={`popup_tabs-header-label bg-gray-50 dark:bg-dark-700 text-gray-500 dark:text-dark-400 hover:text-primary-500 dark:hover:text-primary-300 transition-colors${
+        activeTab === tabName ? ' active bg-white dark:bg-dark-800 text-primary-600 dark:text-primary-400' : ''
       }`}
       onClick={onClick}
     >
@@ -54,7 +54,7 @@ export const PopupTabsHeader: FC<Popups> = ({
       activeTab
     });
   });
-  return <div className='popup_tabs-header'>{childrenContact}</div>;
+  return <div className='popup_tabs-header bg-gray-50 dark:bg-dark-700 shadow-inner'>{childrenContact}</div>;
 };
 
 export const PopupTabsBody: FC<Popups> = ({ children, activeTab }) => {

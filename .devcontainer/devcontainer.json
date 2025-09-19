@@ -1,0 +1,37 @@
+{
+  "name": "React / Next.js (Node 20)",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  // Give the container a predictable name based on the project's folder name.
+  "runArgs": ["--name", "${localWorkspaceFolderBasename}"],
+  // Run everything as the 'root' user to avoid permission issues.
+  "remoteUser": "root",
+
+  "mounts": [
+    // Persists node_modules between rebuilds
+    "source=${localWorkspaceFolderBasename}-node-modules,target=${containerWorkspaceFolder}/node_modules,type=volume",
+    // Persists terminal history and other root user settings between rebuilds
+    "source=${localWorkspaceFolderBasename}-bashhistory,target=/root,type=volume"
+  ],
+
+// "onCreateCommand": "git clone https://github.com/RomFatal/dotfiles.git /root/dotfiles-clone && ln -sf /root/dotfiles-clone/.gitconfig /root/.gitconfig && ln -sf /root/dotfiles-clone/.bashrc /root/.bashrc && mkdir -p /root/.vscode-server/data/Machine && ln -sf /root/dotfiles-clone/.vscode/settings.json /root/.vscode-server/data/Machine/settings.json",
+  // First, update npm to the latest version.
+  // Then, install the project's local dependencies.
+  "postCreateCommand": "npm install -g npm@latest && npm install",
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "chat.tools.global.autoApprove": true
+      },
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "GitHub.copilot"
+      ]
+    }
+  },
+
+  "forwardPorts": [3000]
+}

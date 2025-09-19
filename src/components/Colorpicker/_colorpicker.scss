@@ -1,8 +1,9 @@
-$white: #fff;
-$box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.24);
+$white: var(--colorpicker-cursor-border);
+$box-shadow: 0 2px 4px 0 var(--colorpicker-shadow);
 
 .colorpicker {
-  background-color: $white;
+  background-color: var(--colorpicker-bg);
+  color: var(--colorpicker-text);
   z-index: 1;
 
   & * {
@@ -38,7 +39,8 @@ $box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.24);
 
   .color-picker {
     &-panel {
-      background-color: #fff;
+      background-color: var(--colorpicker-panel-bg);
+      color: var(--colorpicker-text);
       box-sizing: border-box;
       outline: none;
       z-index: 9;
@@ -492,7 +494,7 @@ $box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.24);
       width: 20px;
       height: 20px;
       cursor: grab;
-      box-shadow: 0 0 0 2px #fff inset;
+      box-shadow: 0 0 0 2px var(--colorpicker-cursor-border) inset;
 
       &-open {
         box-shadow: 0px 0px 3px #999;
@@ -808,7 +810,7 @@ $box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.24);
 
           &.active {
             border-width: 3px;
-            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.6);
+            box-shadow: 0 2px 4px 0 var(--colorpicker-shadow);
           }
         }
       }
@@ -841,10 +843,10 @@ $box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.24);
       .item_qub {
         position: absolute;
         inset: 35%;
-        background: rgb(255, 255, 255);
+        background: var(--colorpicker-cursor-border);
         border-radius: 50%;
         opacity: 1;
-        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.38);
+        box-shadow: 0 1px 2px 0 var(--colorpicker-shadow);
       }
     }
   }

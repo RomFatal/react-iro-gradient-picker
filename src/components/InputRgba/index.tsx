@@ -3,7 +3,7 @@ import tinycolor from 'tinycolor2';
 import './_input_rgba.scss';
 
 import { checkFormat } from '../../utils';
-import { getAlphaValue, inputsData, handlePressEnter } from './helpers';
+import { getAlphaValue, handlePressEnter, inputsData } from './helpers';
 
 interface IChange {
   hex: string;
@@ -90,8 +90,8 @@ const InputRgba: FC<TProps> = ({
   };
 
   return (
-    <div className='input_rgba'>
-      <div className='input_rgba-wrap'>
+    <div className='input_rgba relative'>
+      <div className='input_rgba-wrap flex'>
         {inputsData(inputsProps).map((item, index) => {
           const {
             wrapClass,
@@ -107,12 +107,12 @@ const InputRgba: FC<TProps> = ({
           return (
             <div className={wrapClass} key={index}>
               {labelSymbol && (
-                <label htmlFor='rgba-hex' className='input_rgba-hex-label'>
+                <label htmlFor='rgba-hex' className='input_rgba-hex-label text-gray-500 dark:text-dark-400'>
                   #
                 </label>
               )}
               {name === 'alpha' && (
-                <label htmlFor={idInput} className='input_rgba-alpha-label'>
+                <label htmlFor={idInput} className='input_rgba-alpha-label text-gray-500 dark:text-dark-400'>
                   %
                 </label>
               )}

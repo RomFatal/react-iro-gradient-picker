@@ -1,0 +1,56 @@
+/* Storybook Dark Theme CSS */
+html,
+body {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+/* Storybook Canvas */
+.sb-show-main {
+  background-color: #0f172a !important;
+}
+
+.sb-main-padded {
+  background-color: #0f172a !important;
+}
+
+#storybook-root {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+  min-height: 100vh;
+}
+
+/* Documentation pages */
+.docs-story {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+.sbdocs-content {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+.docs-story div[data-docs-story] {
+  background-color: #1e293b !important;
+  border: 1px solid #475569 !important;
+  border-radius: 8px !important;
+  padding: 1rem !important;
+}
+
+/* Story canvas */
+.sb-show-preparing-story {
+  background-color: #0f172a !important;
+}
+
+.sb-show-main.sb-main-centered {
+  background-color: #0f172a !important;
+}
+
+/* Ensure all story containers use dark theme */
+.story-container,
+.story-content,
+[data-story] {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+}

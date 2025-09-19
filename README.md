@@ -1,10 +1,23 @@
 # React gradient color picker
 
+## ✨ Now with Complete Dark Theme Support! ✨
+
+Simple color(hex, rgb/a and hsla) and gradient(linear and radial) picker for react apps with full dark theme integration.
+
 ### Inspired by [gpickr](https://github.com/Simonwep/gpickr)
 
 [![NPM](https://img.shields.io/npm/v/react-gcolor-picker.svg)](https://www.npmjs.com/package/react-gcolor-picker) [![License](https://img.shields.io/npm/l/react-gcolor-picker.svg)](https://github.com/undind/react-gcolor-picker/blob/main/LICENSE)
 
 **[Demo](https://undind.github.io/react-gcolor-picker/)**
+
+## ✨ Features
+
+- 🌙 **Complete Dark Theme** - Works perfectly across all components (modal, solid, gradient)
+- 🎨 **Gradient & Solid Colors** - Full support for both gradient and solid color picking
+- 🔄 **Theme Toggle** - Easy switching between light and dark themes
+- 💾 **Theme Persistence** - Automatically saves user theme preference
+- 🎯 **Tailwind CSS** - Modern styling with comprehensive theming system
+- 📱 **Responsive Design** - Works great on all screen sizes
 
 ## Install
 

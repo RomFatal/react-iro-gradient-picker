@@ -1,5 +1,8 @@
+import React, { FC, Fragment, useState } from 'react';
+import { ThemeProvider } from '../../context/ThemeContext';
+import '../../styles/tailwind.css';
+import { ThemeToggle } from '../ThemeToggle';
 import './_colorpicker.scss';
-import React, { Fragment, useState, FC } from 'react';
 
 import Gradinet from './Gradient';
 import Solid from './Solid';
@@ -7,9 +10,9 @@ import Solid from './Solid';
 import {
   PopupTabs,
   PopupTabsBody,
+  PopupTabsBodyItem,
   PopupTabsHeader,
-  PopupTabsHeaderLabel,
-  PopupTabsBodyItem
+  PopupTabsHeaderLabel
 } from '../PopupTab';
 import { getIndexActiveTag } from './helper';
 
@@ -60,21 +63,24 @@ const ColorPicker: FC<IPropsMain> = ({
 
   if (solid && gradient) {
     return (
-      <PopupTabs activeTab={activeTab} popupWidth={popupWidth}>
-        <PopupTabsHeader>
-          <PopupTabsHeaderLabel
-            tabName='solid'
-            onClick={() => onChangeTab('solid')}
-          >
-            Solid
-          </PopupTabsHeaderLabel>
-          <PopupTabsHeaderLabel
-            tabName='gradient'
-            onClick={() => onChangeTab('gradient')}
-          >
-            Gradient
-          </PopupTabsHeaderLabel>
-        </PopupTabsHeader>
+      <ThemeProvider>
+        <div className="relative">
+          <ThemeToggle />
+          <PopupTabs activeTab={activeTab} popupWidth={popupWidth}>
+            <PopupTabsHeader>
+              <PopupTabsHeaderLabel
+                tabName='solid'
+                onClick={() => onChangeTab('solid')}
+              >
+                Solid
+              </PopupTabsHeaderLabel>
+              <PopupTabsHeaderLabel
+                tabName='gradient'
+                onClick={() => onChangeTab('gradient')}
+              >
+                Gradient
+              </PopupTabsHeaderLabel>
+            </PopupTabsHeader>
         <PopupTabsBody>
           <PopupTabsBodyItem tabName='solid'>
             <Solid
@@ -108,56 +114,61 @@ const ColorPicker: FC<IPropsMain> = ({
               colorBoardHeight={colorBoardHeight}
             />
           </PopupTabsBodyItem>
-        </PopupTabsBody>
-      </PopupTabs>
+          </PopupTabsBody>
+        </PopupTabs>
+        </div>
+      </ThemeProvider>
     );
   }
 
   return (
-    <>
-      {solid || gradient ? (
-        <PopupTabs popupWidth={popupWidth}>
-          <PopupTabsBody>
-            {solid ? (
-              <Solid
-                onChange={onChangeSolid}
-                value={value}
-                format={format}
-                defaultColors={defaultColors}
-                debounceMS={debounceMS}
-                debounce={debounce}
-                showAlpha={showAlpha}
-                showInputs={showInputs}
-                colorBoardHeight={colorBoardHeight}
-              />
-            ) : (
-              <Fragment />
-            )}
-            {gradient ? (
-              <Gradinet
-                onChange={onChangeGradient}
-                value={value}
-                format={format}
-                defaultColors={defaultColors}
-                debounceMS={debounceMS}
-                debounce={debounce}
-                showAlpha={showAlpha}
-                showInputs={showInputs}
-                showGradientResult={showGradientResult}
-                showGradientStops={showGradientStops}
-                showGradientMode={showGradientMode}
-                showGradientAngle={showGradientAngle}
-                showGradientPosition={showGradientPosition}
-                allowAddGradientStops={allowAddGradientStops}
-                colorBoardHeight={colorBoardHeight}
-              />
-            ) : (
-              <Fragment />
-            )}
-          </PopupTabsBody>
-        </PopupTabs>
-      ) : null}
-    </>
+    <ThemeProvider>
+      <div className='relative'>
+        <ThemeToggle />
+        {solid || gradient ? (
+          <PopupTabs popupWidth={popupWidth}>
+            <PopupTabsBody>
+              {solid ? (
+                <Solid
+                  onChange={onChangeSolid}
+                  value={value}
+                  format={format}
+                  defaultColors={defaultColors}
+                  debounceMS={debounceMS}
+                  debounce={debounce}
+                  showAlpha={showAlpha}
+                  showInputs={showInputs}
+                  colorBoardHeight={colorBoardHeight}
+                />
+              ) : (
+                <Fragment />
+              )}
+              {gradient ? (
+                <Gradinet
+                  onChange={onChangeGradient}
+                  value={value}
+                  format={format}
+                  defaultColors={defaultColors}
+                  debounceMS={debounceMS}
+                  debounce={debounce}
+                  showAlpha={showAlpha}
+                  showInputs={showInputs}
+                  showGradientResult={showGradientResult}
+                  showGradientStops={showGradientStops}
+                  showGradientMode={showGradientMode}
+                  showGradientAngle={showGradientAngle}
+                  showGradientPosition={showGradientPosition}
+                  allowAddGradientStops={allowAddGradientStops}
+                  colorBoardHeight={colorBoardHeight}
+                />
+              ) : (
+                <Fragment />
+              )}
+            </PopupTabsBody>
+          </PopupTabs>
+        ) : null}
+      </div>
+    </ThemeProvider>
   );
 };
 
