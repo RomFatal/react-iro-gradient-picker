@@ -1,8 +1,8 @@
+import React, { FC, useEffect, useState } from 'react';
 import './_picker.scss';
-import React, { useState, useEffect, FC } from 'react';
 
-import ReactGPickerComp from '../src/components/Colorpicker';
-import { IPropsMain } from '../src/components/Colorpicker/types';
+import ReactGPickerComp from '../../../src/components/Colorpicker';
+import { IPropsMain } from '../../../src/components/Colorpicker/types';
 
 const ReactGPicker: FC<IPropsMain> = ({
   value,
@@ -26,11 +26,7 @@ const ReactGPicker: FC<IPropsMain> = ({
 
   return (
     <div className='wrapper' style={{ background: color }}>
-      <span
-        role='textbox'
-        aria-multiline='true'
-        className='color-text'
-      >
+      <span role='textbox' aria-multiline='true' className='color-text'>
         {color}
       </span>
       <div className='centered'>

@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title='Getting Started' />
+<Meta title='Documentation/Getting Started' />
 
 <div style={{
   backgroundColor: '#1e293b',
@@ -11,18 +11,60 @@ import { Meta } from '@storybook/addon-docs/blocks';
   maxWidth: '800px',
   margin: '0 auto'
 }}>
-<h2 id="install" style={{ color: '#38bdf8', borderBottom: '2px solid #475569', paddingBottom: '0.5rem' }}>Install</h2>
-<h4 id="important-this-component-uses-react-hooks-and-works-on-react-version-16.8.0-and-higher" style={{ color: '#f59e0b', margin: '1rem 0' }}>
-  <strong>Important: this component uses React Hooks and works on React version 16.8.0 and higher</strong>
+<h1 style={{ color: '#38bdf8', borderBottom: '2px solid #475569', paddingBottom: '0.5rem', margin: '0 0 2rem 0' }}>🚀 React Iro Gradient Picker</h1>
+
+<p style={{ fontSize: '1.1rem', margin: '1rem 0', color: '#cbd5e1' }}>
+  Enhanced color picker with{' '}
+  <strong style={{ color: '#10b981' }}>complete dark theme support</strong>!
+  Based on react-gcolor-picker but with modern features and comprehensive
+  theming.
+</p>
+
+<h2
+  id='install'
+  style={{
+    color: '#38bdf8',
+    borderBottom: '2px solid #475569',
+    paddingBottom: '0.5rem'
+  }}
+>
+  📦 Installation
+</h2>
+<h4
+  id='important-this-component-uses-react-hooks-and-works-on-react-version-16.8.0-and-higher'
+  style={{ color: '#f59e0b', margin: '1rem 0' }}
+>
+  <strong>
+    Important: this component uses React Hooks and works on React version 16.8.0
+    and higher
+  </strong>
 </h4>
-<pre style={{
-  backgroundColor: '#0f172a',
-  color: '#10b981',
-  padding: '1rem',
-  borderRadius: '6px',
-  border: '1px solid #334155',
-  fontFamily: 'monospace'
-}}><code>npm install --save react-gcolor-picker</code></pre>
+<pre
+  style={{
+    backgroundColor: '#0f172a',
+    color: '#10b981',
+    padding: '1rem',
+    borderRadius: '6px',
+    border: '1px solid #334155',
+    fontFamily: 'monospace'
+  }}
+>
+  <code>npm install --save react-iro-gradient-picker</code>
+</pre>
+
+<p style={{ margin: '1rem 0', color: '#64748b' }}>or with yarn:</p>
+<pre
+  style={{
+    backgroundColor: '#0f172a',
+    color: '#10b981',
+    padding: '1rem',
+    borderRadius: '6px',
+    border: '1px solid #334155',
+    fontFamily: 'monospace'
+  }}
+>
+  <code>yarn add react-iro-gradient-picker</code>
+</pre>
 
 <h2
   id='usage'
@@ -33,7 +75,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
     marginTop: '2rem'
   }}
 >
-  Usage
+  🎨 Basic Usage
 </h2>
 <pre
   style={{
@@ -48,23 +90,110 @@ import { Meta } from '@storybook/addon-docs/blocks';
 >
   <code>
     <span style={{ color: '#c678dd' }}>import</span>{' '}
-    <span style={{ color: '#e06c75' }}>React</span>{' '}
+    <span style={{ color: '#e06c75' }}>React</span>, {'{ '}
+    <span style={{ color: '#e06c75' }}>useState</span> {' }'}{' '}
     <span style={{ color: '#c678dd' }}>from</span>{' '}
     <span style={{ color: '#98c379' }}>'react'</span>;<br />
-    <br />
     <span style={{ color: '#c678dd' }}>import</span>{' '}
     <span style={{ color: '#e06c75' }}>ReactGPicker</span>{' '}
     <span style={{ color: '#c678dd' }}>from</span>{' '}
-    <span style={{ color: '#98c379' }}>'react-gcolor-picker'</span>;
+    <span style={{ color: '#98c379' }}>'react-iro-gradient-picker'</span>;<br />
+    <span style={{ color: '#c678dd' }}>import</span>{' '}
+    {'{ '}<span style={{ color: '#e06c75' }}>ThemeProvider</span>{' }'}{' '}
+    <span style={{ color: '#c678dd' }}>from</span>{' '}
+    <span style={{ color: '#98c379' }}>'react-iro-gradient-picker/context/ThemeContext'</span>;<br />
+    <br />
+    <span style={{ color: '#61dafb' }}>function</span>{' '}
+    <span style={{ color: '#e06c75' }}>App</span>() {'{'}<br />
+    {'  '}<span style={{ color: '#c678dd' }}>const</span> [<span style={{ color: '#e06c75' }}>color</span>, <span style={{ color: '#e06c75' }}>setColor</span>] = <span style={{ color: '#61dafb' }}>useState</span>(<span style={{ color: '#98c379' }}>'#3B82F6'</span>);<br />
+    <br />
+    {'  '}<span style={{ color: '#c678dd' }}>return</span> (<br />
+    {'    '}<span style={{ color: '#61dafb' }}>&lt;ThemeProvider</span> <span style={{ color: '#e06c75' }}>defaultTheme</span>=<span style={{ color: '#98c379' }}>"dark"</span><span style={{ color: '#61dafb' }}>&gt;</span><br />
+    {'      '}<span style={{ color: '#61dafb' }}>&lt;ReactGPicker</span><br />
+    {'        '}<span style={{ color: '#e06c75' }}>solid</span><br />
+    {'        '}<span style={{ color: '#e06c75' }}>value</span>={'{color}'}<br />
+    {'        '}<span style={{ color: '#e06c75' }}>onChange</span>={'{setColor}'}<br />
+    {'      '}<span style={{ color: '#61dafb' }}/&gt;</span><br />
+    {'    '}<span style={{ color: '#61dafb' }}>&lt;/ThemeProvider&gt;</span><br />
+    {'  '});<br />
+    {'}'}<br />
   </code>
+</pre>
+
+<h2
+  style={{
+    color: '#38bdf8',
+    borderBottom: '2px solid #475569',
+    paddingBottom: '0.5rem',
+    marginTop: '2rem'
+  }}
+>
+  ✨ Dark Theme Features
+</h2>
+<div style={{ margin: '1.5rem 0' }}>
+  <p style={{ color: '#cbd5e1', marginBottom: '1rem' }}>
+    This enhanced version includes:
+  </p>
+  <ul style={{ color: '#94a3b8', paddingLeft: '1.5rem' }}>
+    <li style={{ marginBottom: '0.5rem' }}>
+      ✅{' '}
+      <strong style={{ color: '#10b981' }}>Complete dark theme support</strong>{' '}
+      - All components respond to theme changes
+    </li>
+    <li style={{ marginBottom: '0.5rem' }}>
+      ✅ <strong style={{ color: '#10b981' }}>CSS custom properties</strong> -
+      Easy theming system
+    </li>
+    <li style={{ marginBottom: '0.5rem' }}>
+      ✅ <strong style={{ color: '#10b981' }}>Theme persistence</strong> - Saves
+      preference to localStorage
+    </li>
+    <li style={{ marginBottom: '0.5rem' }}>
+      ✅ <strong style={{ color: '#10b981' }}>Smooth transitions</strong> -
+      Elegant theme switching
+    </li>
+    <li style={{ marginBottom: '0.5rem' }}>
+      ✅ <strong style={{ color: '#10b981' }}>Fixed modal/popup styling</strong>{' '}
+      - No more hardcoded colors
+    </li>
+  </ul>
+</div>
+
+<pre style={{
+  backgroundColor: '#0f172a',
+  color: '#e2e8f0',
+  padding: '1rem',
+  borderRadius: '6px',
+  border: '1px solid #334155',
+  fontFamily: 'monospace',
+  marginTop: '1rem'
+}}>
+<code>
+<span style={{ color: '#c678dd' }}>import</span>{' '}
+{'{ '}<span style={{ color: '#e06c75' }}>ThemeToggle</span>{' }'}{' '}
+<span style={{ color: '#c678dd' }}>from</span>{' '}
+<span style={{ color: '#98c379' }}>'react-iro-gradient-picker/components/ThemeToggle'</span>;<br />
+<br />
+<span style={{ color: '#61dafb' }}>&lt;ThemeProvider</span> <span style={{ color: '#e06c75' }}>defaultTheme</span>=<span style={{ color: '#98c379' }}>"dark"</span><span style={{ color: '#61dafb' }}>&gt;</span><br />
+{'  '}<span style={{ color: '#61dafb' }}>&lt;ThemeToggle</span> <span style={{ color: '#61dafb' }}/&gt;</span><br />
+{'  '}<span style={{ color: '#61dafb' }}>&lt;ReactGPicker</span> <span style={{ color: '#e06c75' }}>gradient</span> <span style={{ color: '#e06c75' }}>solid</span> <span style={{ color: '#61dafb' }}/&gt;</span><br />
+<span style={{ color: '#61dafb' }}>&lt;/ThemeProvider&gt;</span>
+</code>
 </pre>
 
 <p style={{ margin: '1.5rem 0' }}>
   <a
-    href='https://github.com/undind/react-gcolor-picker/blob/main/README.md'
+    href='https://github.com/romfatal/react-iro-gradient-picker/blob/main/README.md'
     style={{ color: '#38bdf8', textDecoration: 'none', fontWeight: 'bold' }}
   >
-    📖 README
+    📖 README & Documentation
+  </a>
+  {' | '}
+  <a
+    href='https://github.com/romfatal/react-iro-gradient-picker'
+    style={{ color: '#10b981', textDecoration: 'none', fontWeight: 'bold' }}
+  >
+    🚀 GitHub Repository
   </a>
 </p>
 

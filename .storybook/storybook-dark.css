@@ -1,11 +1,11 @@
-/* Storybook Dark Theme CSS */
+/* Storybook Dark Theme CSS - Optimized for component visibility */
 html,
 body {
   background-color: #0f172a !important;
   color: #f8fafc !important;
 }
 
-/* Storybook Canvas */
+/* Storybook Canvas - keep main background dark */
 .sb-show-main {
   background-color: #0f172a !important;
 }
@@ -31,6 +31,7 @@ body {
   color: #f8fafc !important;
 }
 
+/* Story canvas areas - lighter for component contrast */
 .docs-story div[data-docs-story] {
   background-color: #1e293b !important;
   border: 1px solid #475569 !important;
@@ -47,10 +48,27 @@ body {
   background-color: #0f172a !important;
 }
 
-/* Ensure all story containers use dark theme */
+/* Ensure story containers allow component visibility */
 .story-container,
 .story-content,
 [data-story] {
   background-color: #0f172a !important;
   color: #f8fafc !important;
+}
+
+/* Text elements should be light on dark background */
+h1, h2, h3, h4, h5, h6 {
+  color: #f8fafc !important;
+}
+
+/* Ensure labels and general text are visible */
+label, p, span, div {
+  color: inherit !important;
+}
+
+/* Code elements and pre-formatted text */
+code, pre {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  border-color: #475569 !important;
 }

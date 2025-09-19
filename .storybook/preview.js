@@ -71,8 +71,8 @@ export const decorators = [
         {
           style: {
             padding: '20px',
-            backgroundColor: 'var(--colorpicker-bg)',
-            color: 'var(--colorpicker-text)',
+            backgroundColor: '#0f172a', // Dark background
+            color: '#f8fafc', // Dark text
             minHeight: '100vh'
           },
           className: 'dark' // Ensure dark class is applied
