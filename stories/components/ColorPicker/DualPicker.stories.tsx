@@ -140,7 +140,13 @@ export const InteractiveDemo: Story = {
     );
 
     return (
-      <div style={{ textAlign: 'center' }}>
+      <div style={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        gap: '20px',
+        padding: '20px'
+      }}>
         <ReactGPicker
           {...defaultArgs}
           solid
@@ -151,34 +157,49 @@ export const InteractiveDemo: Story = {
             return value;
           }}
         />
-        <div style={{ marginTop: '20px', fontSize: '14px', opacity: 0.8 }}>
-          <p>Current value:</p>
+        
+        <div style={{ 
+          textAlign: 'center',
+          maxWidth: '400px',
+          width: '100%'
+        }}>
+          <p style={{ 
+            margin: '0 0 8px 0', 
+            fontSize: '14px', 
+            fontWeight: 'bold',
+            color: '#64748b'
+          }}>
+            Current color:
+          </p>
           <code
             style={{
-              background: '#1e293b', // Dark background
-              color: '#f8fafc', // Light text
+              background: '#1e293b',
+              color: '#f8fafc',
               padding: '8px 12px',
-              borderRadius: '4px',
-              border: '1px solid #475569', // Dark border
+              borderRadius: '6px',
+              border: '1px solid #475569',
               fontSize: '12px',
               wordBreak: 'break-all',
               display: 'inline-block',
-              maxWidth: '300px'
+              maxWidth: '100%',
+              fontFamily: 'Monaco, Consolas, monospace'
             }}
           >
             {currentValue}
           </code>
+          
+          <div
+            style={{
+              width: '200px',
+              height: '40px',
+              background: currentValue,
+              borderRadius: '8px',
+              margin: '16px auto 0',
+              border: '2px solid #e2e8f0',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+            }}
+          />
         </div>
-        <div
-          style={{
-            width: '200px',
-            height: '40px',
-            background: currentValue,
-            borderRadius: '8px',
-            margin: '16px auto',
-            border: '2px solid #475569' // Dark border
-          }}
-        />
       </div>
     );
   },
