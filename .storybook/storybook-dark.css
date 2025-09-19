@@ -57,17 +57,26 @@ body {
 }
 
 /* Text elements should be light on dark background */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: #f8fafc !important;
 }
 
 /* Ensure labels and general text are visible */
-label, p, span, div {
+label,
+p,
+span,
+div {
   color: inherit !important;
 }
 
 /* Code elements and pre-formatted text */
-code, pre {
+code,
+pre {
   background-color: #1e293b !important;
   color: #f8fafc !important;
   border-color: #475569 !important;

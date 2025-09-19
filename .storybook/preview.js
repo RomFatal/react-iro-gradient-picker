@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThemeProvider } from '../src/context/ThemeContext';
+import { ThemeProvider } from '../src/components/providers/ThemeContext';
 import '../src/styles/tailwind.css';
 import './storybook-dark.css';
 

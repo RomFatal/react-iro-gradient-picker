@@ -1,4 +1,4 @@
-import type { IPropsMain } from '../../src/components/Colorpicker/types';
+import type { IPropsMain } from '../../src/lib/types';
 
 export interface ColorPreset {
   name: string;

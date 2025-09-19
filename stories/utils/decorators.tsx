@@ -21,7 +21,7 @@ export const colorPickerDecorator = (Story: any) => (
 
 export const documentationDecorator: Decorator = (Story) => (
   <div
-    className="dark"
+    className='dark'
     style={{
       maxWidth: '800px',
       margin: '0 auto',
@@ -38,7 +38,7 @@ export const documentationDecorator: Decorator = (Story) => (
 
 export const examplesDecorator: Decorator = (Story) => (
   <div
-    className="dark"
+    className='dark'
     style={{
       padding: '2rem',
       background: '#1e293b',

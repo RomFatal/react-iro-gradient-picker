@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 import './_picker.scss';
 
-import ReactGPickerComp from '../../../src/components/Colorpicker';
-import { IPropsMain } from '../../../src/components/Colorpicker/types';
+import ReactGPickerComp from '../../../src/components/core/Colorpicker';
+import { IPropsMain } from '../../../src/lib/types/types';
 
 const ReactGPicker: FC<IPropsMain> = ({
   value,
@@ -43,7 +43,7 @@ const ReactGPicker: FC<IPropsMain> = ({
           defaultColors={defaultColors}
           onChange={(value) => {
             onChangeColor(value);
-            onChange(value);
+            onChange?.(value);
           }}
         />
       </div>

@@ -400,7 +400,9 @@ export const CSSGenerator: Story = {
                 position: 'relative'
               }}
             >
-              <code style={{ color: '#f8fafc' }}> {/* Light text */}
+              <code style={{ color: '#f8fafc' }}>
+                {' '}
+                {/* Light text */}
                 background: {cssGradient};
               </code>
               <button

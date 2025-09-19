@@ -69,7 +69,7 @@ export const Installation: Story = {
           }}
         >
           {`import ReactGPicker from 'react-iro-gradient-picker';
-import { ThemeProvider } from 'react-iro-gradient-picker/context/ThemeContext';
+import { ThemeProvider } from 'react-iro-gradient-picker/components/providers/ThemeContext';
 
 function App() {
   const [color, setColor] = useState('#3B82F6');
@@ -109,7 +109,7 @@ function App() {
             whiteSpace: 'pre'
           }}
         >
-          {`import { ThemeToggle } from 'react-iro-gradient-picker/components/ThemeToggle';
+          {`import { ThemeToggle } from 'react-iro-gradient-picker/components/ui/ThemeToggle';
 
 <ThemeProvider defaultTheme="dark">
   <ThemeToggle />
