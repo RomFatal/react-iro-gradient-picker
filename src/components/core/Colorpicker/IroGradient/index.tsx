@@ -1,3 +1,4 @@
+import iro from '@jaames/iro';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import tinyColor from 'tinycolor2';
 
@@ -131,10 +132,37 @@ const IroGradient: FC<IPropsComp> = ({
     onChangeActiveColor(newColor);
   };
 
+  // Create layout array conditionally based on showAlpha
+  const layoutConfig = [
+    {
+      component: (iro as any).ui.Wheel,
+      options: {}
+    },
+    {
+      component: (iro as any).ui.Slider,
+      options: {
+        sliderType: 'value'
+      }
+    }
+  ];
+
+  if (showAlpha) {
+    layoutConfig.push({
+      component: (iro as any).ui.Slider,
+      options: {
+        sliderType: 'alpha'
+      }
+    });
+  }
+
+  // Use hex8 format when alpha is enabled for proper alpha support
   const iroColorValue = showAlpha
-    ? `${activeColor.hex}${Math.round((activeColor.alpha / 100) * 255)
-        .toString(16)
-        .padStart(2, '0')}`
+    ? tinyColor({
+        r: parseInt(activeColor.hex.slice(1, 3), 16),
+        g: parseInt(activeColor.hex.slice(3, 5), 16),
+        b: parseInt(activeColor.hex.slice(5, 7), 16),
+        a: activeColor.alpha / 100
+      }).toHex8String()
     : activeColor.hex;
 
   return (
@@ -153,24 +181,7 @@ const IroGradient: FC<IPropsComp> = ({
           <IroColorPicker
             width={Math.min(267, colorBoardHeight + 20)}
             color={iroColorValue}
-            layout={[
-              {
-                component: (window as any).iro?.ui?.Wheel || 'wheel',
-                options: {}
-              },
-              {
-                component: (window as any).iro?.ui?.Slider || 'slider',
-                options: {
-                  sliderType: 'value'
-                }
-              },
-              {
-                component: (window as any).iro?.ui?.Slider || 'slider',
-                options: {
-                  sliderType: 'alpha'
-                }
-              }
-            ]}
+            layout={layoutConfig}
             onColorChange={handleIroColorChange}
           />
         </div>
