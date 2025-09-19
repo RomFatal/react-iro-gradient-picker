@@ -1,20 +1,20 @@
-import React, { FC, useEffect, useState, useCallback } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import tinyColor from 'tinycolor2';
 
 import { InputRgba } from '../../../forms';
-import GradientPanel from '../GradientPanel';
-import DefaultColorsPanel from '../DefaultColorPanel';
 import IroColorPicker from '../../IroColorPicker';
+import DefaultColorsPanel from '../DefaultColorPanel';
+import GradientPanel from '../GradientPanel';
 
+import { useDebounce } from '../../../../hooks';
 import {
-  parseGradient,
   getGradient,
+  parseGradient,
   rgbaToArray,
   rgbaToHex
 } from '../../../../utils';
-import { useDebounce } from '../../../../hooks';
 
-import { IPropsComp, TPropsChange, IActiveColor } from '../../../../lib/types';
+import { IActiveColor, IPropsComp, TPropsChange } from '../../../../lib/types';
 
 const IroGradient: FC<IPropsComp> = ({
   value = 'linear-gradient(90deg, #ffffff 0%, #000000 100%)',
@@ -138,7 +138,7 @@ const IroGradient: FC<IPropsComp> = ({
 
   return (
     <div className='colorpicker'>
-      <div style={{ height: colorBoardHeight + 60 }}>
+      <div style={{ height: colorBoardHeight + 200 }}>
         <IroColorPicker
           width={Math.min(267, colorBoardHeight + 20)}
           color={iroColorValue}
@@ -146,6 +146,12 @@ const IroGradient: FC<IPropsComp> = ({
             {
               component: (window as any).iro?.ui?.Wheel || 'wheel',
               options: {}
+            },
+            {
+              component: (window as any).iro?.ui?.Slider || 'slider',
+              options: {
+                sliderType: 'value'
+              }
             },
             {
               component: (window as any).iro?.ui?.Slider || 'slider',

@@ -1,10 +1,10 @@
+import iro from '@jaames/iro';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import tinycolor from 'tinycolor2';
-import iro from '@jaames/iro';
 
 import { InputRgba } from '../../../forms';
-import DefaultColorsPanel from '../DefaultColorPanel';
 import IroColorPicker from '../../IroColorPicker';
+import DefaultColorsPanel from '../DefaultColorPanel';
 
 import { useDebounce } from '../../../../hooks';
 import { checkFormat, getHexAlpha } from '../../../../utils';
@@ -77,7 +77,7 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
 
   return (
     <div ref={node} className='colorpicker'>
-      <div style={{ height: colorBoardHeight + 60 }}>
+      <div style={{ height: colorBoardHeight + 200 }}>
         <IroColorPicker
           width={Math.min(267, colorBoardHeight + 20)}
           color={iroColorValue}
@@ -85,6 +85,12 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
             {
               component: (iro as any).ui.Wheel,
               options: {}
+            },
+            {
+              component: (iro as any).ui.Slider,
+              options: {
+                sliderType: 'value'
+              }
             },
             {
               component: (iro as any).ui.Slider,

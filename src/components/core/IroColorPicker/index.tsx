@@ -1,10 +1,10 @@
-import React, {
-  useEffect,
-  useRef,
-  useImperativeHandle,
-  forwardRef
-} from 'react';
 import iro from '@jaames/iro';
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef
+} from 'react';
 
 interface IroColorPickerProps {
   width?: number;

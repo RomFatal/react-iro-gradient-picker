@@ -4,8 +4,8 @@ import { ThemeProvider } from '../../providers/ThemeContext';
 import { ThemeToggle } from '../../ui/ThemeToggle';
 import './_colorpicker.scss';
 
-import IroSolid from './IroSolid';
 import IroGradient from './IroGradient';
+import IroSolid from './IroSolid';
 
 import {
   PopupTabs,
