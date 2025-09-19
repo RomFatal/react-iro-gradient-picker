@@ -4,8 +4,8 @@ import { ThemeProvider } from '../../providers/ThemeContext';
 import { ThemeToggle } from '../../ui/ThemeToggle';
 import './_colorpicker.scss';
 
-import Gradinet from './Gradient';
-import Solid from './Solid';
+import IroSolid from './IroSolid';
+import IroGradient from './IroGradient';
 
 import {
   PopupTabs,
@@ -83,7 +83,7 @@ const ColorPicker: FC<IPropsMain> = ({
             </PopupTabsHeader>
             <PopupTabsBody>
               <PopupTabsBodyItem tabName='solid'>
-                <Solid
+                <IroSolid
                   onChange={onChangeSolid}
                   value={value}
                   format={format}
@@ -96,7 +96,7 @@ const ColorPicker: FC<IPropsMain> = ({
                 />
               </PopupTabsBodyItem>
               <PopupTabsBodyItem tabName='gradient'>
-                <Gradinet
+                <IroGradient
                   onChange={onChangeGradient}
                   value={value}
                   format={format}
@@ -129,7 +129,7 @@ const ColorPicker: FC<IPropsMain> = ({
           <PopupTabs popupWidth={popupWidth}>
             <PopupTabsBody>
               {solid ? (
-                <Solid
+                <IroSolid
                   onChange={onChangeSolid}
                   value={value}
                   format={format}
@@ -144,7 +144,7 @@ const ColorPicker: FC<IPropsMain> = ({
                 <Fragment />
               )}
               {gradient ? (
-                <Gradinet
+                <IroGradient
                   onChange={onChangeGradient}
                   value={value}
                   format={format}
