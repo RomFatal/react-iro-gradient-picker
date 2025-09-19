@@ -1,14 +1,15 @@
-# React gradient color picker
+<!-- markdownlint-disable -->
+# React Iro Gradient Picker
 
-## ✨ Now with Complete Dark Theme Support! ✨
+## ✨ Modern React Color Picker with Complete Dark Theme Support! ✨
 
-Simple color(hex, rgb/a and hsla) and gradient(linear and radial) picker for react apps with full dark theme integration.
+A beautiful, modern React gradient and solid color picker with full dark theme integration, built with Tailwind CSS and TypeScript.
 
-### Inspired by [gpickr](https://github.com/Simonwep/gpickr)
+### Inspired by [gpickr](https://github.com/Simonwep/gpickr) and enhanced with modern features
 
-[![NPM](https://img.shields.io/npm/v/react-gcolor-picker.svg)](https://www.npmjs.com/package/react-gcolor-picker) [![License](https://img.shields.io/npm/l/react-gcolor-picker.svg)](https://github.com/undind/react-gcolor-picker/blob/main/LICENSE)
+[![NPM](https://img.shields.io/npm/v/react-iro-gradient-picker.svg)](https://www.npmjs.com/package/react-iro-gradient-picker) [![License](https://img.shields.io/npm/l/react-iro-gradient-picker.svg)](https://github.com/romfatal/react-iro-gradient-picker/blob/main/LICENSE)
 
-**[Demo](https://undind.github.io/react-gcolor-picker/)**
+**[Demo](https://romfatal.github.io/react-iro-gradient-picker/)**
 
 ## ✨ Features
 
@@ -26,31 +27,58 @@ Simple color(hex, rgb/a and hsla) and gradient(linear and radial) picker for rea
 ---
 
 ```bash
-npm install --save react-gcolor-picker
+npm install --save react-iro-gradient-picker
 ```
 
 OR
 
 ```bash
-yarn add react-gcolor-picker
+yarn add react-iro-gradient-picker
 ```
 
 ## Usage
 
 ```tsx
 import React from 'react';
-
-import ReactGPicker from 'react-gcolor-picker';
+import ReactIroGradientPicker from 'react-iro-gradient-picker';
 
 function App() {
   const onChange = (value) => {
     console.log(value);
   };
 
-  return <ReactGPicker value='red' onChange={onChange} />;
+  return <ReactIroGradientPicker value='red' onChange={onChange} />;
 }
 
 export default App;
+```
+
+## 🌟 What Makes This Special
+
+This is an enhanced version of the original react-gcolor-picker with major improvements:
+
+### 🌙 Complete Dark Theme Integration
+
+- **Fixed all components** - Modal, solid picker, gradient picker, and inputs now work perfectly in dark mode
+- **CSS Custom Properties** - Dynamic theming that responds to theme changes
+- **Tailwind CSS Integration** - Modern, maintainable styling system
+- **Theme Toggle Component** - Easy switching between light/dark themes
+- **Persistent Preferences** - Automatically saves user's theme choice
+
+### 🎯 Enhanced Storybook Documentation
+
+- **Dark-themed Storybook** - Professional development environment
+- **Comprehensive Documentation** - Updated guides and examples
+- **Live Examples** - See all components working in both themes
+
+### 🚀 Modern Development Stack
+
+- **TypeScript Support** - Full type safety and better development experience
+- **Updated Dependencies** - Latest versions of all packages
+- **Better Build Process** - Optimized for modern React applications
+
+export default App;
+
 ```
 
 ## Props
@@ -84,18 +112,23 @@ For example:
 ### Wrong
 
 ```
+
 linear-gradient(180deg, #000000,#ff0000)
+
 ```
 
 ### Correct
 
 ```
+
 linear-gradient(180deg, #000000 0%,#ff0000 100%)
+
 ```
 
 If you are using a radial gradient a list of possible directions for it:
 
 ```
+
 circle at left top
 circle at center top
 circle at right top
@@ -105,11 +138,13 @@ circle at right
 circle at left bottom
 circle at center bottom
 circle at right bottom
+
 ```
 
 ## Default color list
 
 ```
+
 '#FF6900',
 '#FCB900',
 '#7BDCB5',
@@ -134,6 +169,7 @@ circle at right bottom
 'linear-gradient(90deg, rgb(120, 115, 245) 0%, rgb(236, 119, 171) 100%)',
 'linear-gradient(45deg, #2e266f 0.00%, #9664dd38 100.00%)',
 'radial-gradient(circle at center, yellow 0%, #009966 50%, purple 100%)'
+
 ```
 
 ## FAQ
@@ -142,6 +178,21 @@ circle at right bottom
 
 **A:** Yes, you only need to drag them outside(bottom) the Gradient component area or double click on the element you want to remove.
 
+## Credits & Attribution
+
+This project is based on the excellent [react-gcolor-picker](https://github.com/undind/react-gcolor-picker) by [undind](https://github.com/undind), enhanced with:
+
+- Complete dark theme integration
+- Modern Tailwind CSS styling
+- Improved TypeScript support
+- Enhanced Storybook documentation
+- Better accessibility features
+
+Special thanks to the original author for creating such a solid foundation! 🙏
+
 ## License
 
-MIT © [undind](https://github.com/undind)
+MIT © [romfatal](https://github.com/romfatal)
+
+Original project: MIT © [undind](https://github.com/undind)
+```
