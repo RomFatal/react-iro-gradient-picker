@@ -13,6 +13,7 @@ import {
   rgbaToArray,
   rgbaToHex
 } from '../../../../utils';
+import { cn } from '../../../../utils/cn';
 
 import { IActiveColor, IPropsComp, TPropsChange } from '../../../../lib/types';
 
@@ -137,87 +138,110 @@ const IroGradient: FC<IPropsComp> = ({
     : activeColor.hex;
 
   return (
-    <div className='colorpicker'>
-      <div style={{ height: colorBoardHeight + 200 }}>
-        <IroColorPicker
-          width={Math.min(267, colorBoardHeight + 20)}
-          color={iroColorValue}
-          layout={[
-            {
-              component: (window as any).iro?.ui?.Wheel || 'wheel',
-              options: {}
-            },
-            {
-              component: (window as any).iro?.ui?.Slider || 'slider',
-              options: {
-                sliderType: 'value'
+    <div
+      className={cn(
+        'w-full p-6 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700',
+        'space-y-6 transition-all duration-200 hover:shadow-xl'
+      )}
+    >
+      {/* Color Picker Container */}
+      <div className='relative'>
+        <div
+          className='flex justify-center items-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-700 dark:to-slate-800 rounded-lg p-4'
+          style={{ height: colorBoardHeight + 200 }}
+        >
+          <IroColorPicker
+            width={Math.min(267, colorBoardHeight + 20)}
+            color={iroColorValue}
+            layout={[
+              {
+                component: (window as any).iro?.ui?.Wheel || 'wheel',
+                options: {}
+              },
+              {
+                component: (window as any).iro?.ui?.Slider || 'slider',
+                options: {
+                  sliderType: 'value'
+                }
+              },
+              {
+                component: (window as any).iro?.ui?.Slider || 'slider',
+                options: {
+                  sliderType: 'alpha'
+                }
               }
-            },
-            {
-              component: (window as any).iro?.ui?.Slider || 'slider',
-              options: {
-                sliderType: 'alpha'
-              }
+            ]}
+            onColorChange={handleIroColorChange}
+          />
+        </div>
+      </div>
+
+      {/* Input Controls */}
+      {showInputs && (
+        <div className='bg-slate-50 dark:bg-slate-700/50 rounded-lg p-4 border border-slate-200 dark:border-slate-600'>
+          <InputRgba
+            hex={activeColor.hex}
+            alpha={activeColor.alpha}
+            showAlpha={showAlpha}
+            onChange={(value: { hex: string; alpha: number }) =>
+              setActiveColor((prev) => ({
+                ...prev,
+                hex: value.hex,
+                alpha: value.alpha
+              }))
             }
-          ]}
-          onColorChange={handleIroColorChange}
+            onSubmitChange={onSubmitChange}
+          />
+        </div>
+      )}
+
+      {/* Gradient Controls */}
+      <div className='bg-slate-50 dark:bg-slate-700/50 rounded-lg p-4 border border-slate-200 dark:border-slate-600'>
+        <GradientPanel
+          color={color}
+          activeColor={activeColor}
+          setActiveColor={setActiveColor}
+          setColor={updateGradient}
+          setInit={setInit}
+          format={format}
+          showAlpha={showAlpha}
+          showGradientResult={showGradientResult}
+          showGradientStops={showGradientStops}
+          showGradientMode={showGradientMode}
+          showGradientAngle={showGradientAngle}
+          showGradientPosition={showGradientPosition}
+          allowAddGradientStops={allowAddGradientStops}
         />
       </div>
-      {showInputs && (
-        <InputRgba
-          hex={activeColor.hex}
-          alpha={activeColor.alpha}
-          showAlpha={showAlpha}
-          onChange={(value: { hex: string; alpha: number }) =>
-            setActiveColor((prev) => ({
-              ...prev,
-              hex: value.hex,
-              alpha: value.alpha
-            }))
-          }
-          onSubmitChange={onSubmitChange}
+
+      {/* Color Palette */}
+      <div className='border-t border-slate-200 dark:border-slate-600 pt-4'>
+        <DefaultColorsPanel
+          defaultColors={defaultColors}
+          setColor={(newColor) => {
+            setColor(newColor);
+            if (newColor?.stops) {
+              const lastStop = rgbaToArray(
+                newColor.stops[newColor.stops.length - 1][0]
+              );
+              const activeStop = rgbaToHex([
+                lastStop[0],
+                lastStop[1],
+                lastStop[2]
+              ]);
+              setActiveColor({
+                hex: activeStop,
+                alpha: Math.round(lastStop[3] * 100),
+                loc: newColor.stops[newColor.stops.length - 1][1],
+                index: newColor.stops.length - 1
+              });
+            }
+          }}
+          setInit={() => {}}
+          setActiveColor={setActiveColor}
+          colorType='gradient'
         />
-      )}
-      <GradientPanel
-        color={color}
-        activeColor={activeColor}
-        setActiveColor={setActiveColor}
-        setColor={updateGradient}
-        setInit={setInit}
-        format={format}
-        showAlpha={showAlpha}
-        showGradientResult={showGradientResult}
-        showGradientStops={showGradientStops}
-        showGradientMode={showGradientMode}
-        showGradientAngle={showGradientAngle}
-        showGradientPosition={showGradientPosition}
-        allowAddGradientStops={allowAddGradientStops}
-      />
-      <DefaultColorsPanel
-        defaultColors={defaultColors}
-        setColor={(newColor) => {
-          setColor(newColor);
-          if (newColor?.stops) {
-            const lastStop = rgbaToArray(
-              newColor.stops[newColor.stops.length - 1][0]
-            );
-            const activeStop = rgbaToHex([
-              lastStop[0],
-              lastStop[1],
-              lastStop[2]
-            ]);
-            setActiveColor({
-              hex: activeStop,
-              alpha: Math.round(lastStop[3] * 100),
-              loc: newColor.stops[newColor.stops.length - 1][1],
-              index: newColor.stops.length - 1
-            });
-          }
-        }}
-        setInit={() => {}}
-        setActiveColor={setActiveColor}
-        colorType='gradient'
-      />
+      </div>
     </div>
   );
 };

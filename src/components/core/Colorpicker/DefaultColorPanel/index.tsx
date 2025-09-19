@@ -7,6 +7,7 @@ import {
   rgbaToArray,
   rgbaToHex
 } from '../../../../utils';
+import { cn } from '../../../../utils/cn';
 import { checkValidColorsArray } from '../../Colorpicker/helper';
 
 import { IActiveColor } from '../../../../lib/types';
@@ -80,56 +81,72 @@ const DefaultColorPanel: FC<IProps> = ({
   }
 
   return (
-    <div className='default-color-panel'>
-      {formatedDefColors.map((item: string | IColor, index: number) => {
-        switch (colorType) {
-          case 'gradient':
-            if (typeof item !== 'string') {
-              const { gradient } = item;
+    <div className='w-full'>
+      <h3 className='text-sm font-medium text-slate-700 dark:text-slate-300 mb-3'>
+        Color Presets
+      </h3>
+      <div className='grid grid-cols-8 gap-2'>
+        {formatedDefColors.map((item: string | IColor, index: number) => {
+          switch (colorType) {
+            case 'gradient':
+              if (typeof item !== 'string') {
+                const { gradient } = item;
 
-              return (
-                <div
-                  onClick={() => onChooseColor(item, index)}
-                  key={item.gradient + index}
-                  className={`default-color-panel_item${
-                    active === index ? ' default-color-panel_item-active' : ''
-                  }`}
-                  style={{
-                    background: gradient
-                  }}
-                >
-                  <div className='item_qub'></div>
-                </div>
-              );
-            } else {
+                return (
+                  <button
+                    type='button'
+                    onClick={() => onChooseColor(item, index)}
+                    key={item.gradient + index}
+                    className={cn(
+                      'aspect-square w-full h-10 rounded-lg border-2 transition-all duration-200',
+                      'hover:scale-110 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50',
+                      'relative overflow-hidden group',
+                      active === index
+                        ? 'border-blue-500 dark:border-blue-400 shadow-lg scale-105'
+                        : 'border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-500'
+                    )}
+                    style={{ background: gradient }}
+                  >
+                    <div className='absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-200'></div>
+                  </button>
+                );
+              } else {
+                return null;
+              }
+
+            case 'solid':
+              if (typeof item === 'string') {
+                return (
+                  <button
+                    type='button'
+                    onClick={() => onChooseColor(item, index)}
+                    key={item + index}
+                    className={cn(
+                      'aspect-square w-full h-10 rounded-lg border-2 transition-all duration-200',
+                      'hover:scale-110 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50',
+                      'relative overflow-hidden group',
+                      active === index
+                        ? 'border-blue-500 dark:border-blue-400 shadow-lg scale-105'
+                        : 'border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-500'
+                    )}
+                    style={{
+                      background: item,
+                      boxShadow:
+                        active === index ? `${item} 0px 0px 12px` : 'none'
+                    }}
+                  >
+                    <div className='absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-200'></div>
+                  </button>
+                );
+              } else {
+                return null;
+              }
+
+            default:
               return null;
-            }
-
-          case 'solid':
-            if (typeof item === 'string') {
-              return (
-                <div
-                  onClick={() => onChooseColor(item, index)}
-                  key={item + index}
-                  className={`default-color-panel_item${
-                    active === index ? ' default-color-panel_item-active' : ''
-                  }`}
-                  style={{
-                    background: item,
-                    boxShadow: active === index ? `${item} 0px 0px 4px` : 'none'
-                  }}
-                >
-                  <div className='item_qub'></div>
-                </div>
-              );
-            } else {
-              return null;
-            }
-
-          default:
-            return null;
-        }
-      })}
+          }
+        })}
+      </div>
     </div>
   );
 };

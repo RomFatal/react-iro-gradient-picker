@@ -1,4 +1,4 @@
-import { KeyboardEvent, ChangeEvent } from 'react';
+import { ChangeEvent, KeyboardEvent } from 'react';
 
 interface IInput {
   alphaValue: number;
@@ -49,22 +49,6 @@ export const inputsData = (props: IInput) => {
     name: 'hex'
   };
 
-  const inputAlpha = {
-    wrapClass: 'input_rgba-alpha',
-    labelSymbol: false,
-    idInput: `rgba-alpha${Math.random() * 10000}`,
-    valueInput: props.alphaValue,
-    labelText: 'Alpha',
-    labelArea: 'alpha',
-    labelClass: 'input_rgba-label',
-    onChangeInput: (e: ChangeEvent<HTMLInputElement>) =>
-      props.onChangeAlpha(onlyDigits(e.target.value)),
-    name: 'alpha'
-  };
-
-  if (props.showAlpha === false) {
-    return [inputHex];
-  }
-
-  return [inputHex, inputAlpha];
+  // Always return only hex input (no alpha input)
+  return [inputHex];
 };

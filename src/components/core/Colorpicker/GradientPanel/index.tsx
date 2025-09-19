@@ -12,6 +12,7 @@ import React, {
 import Markers from './Markers';
 
 import { getGradient } from '../../../../utils';
+import { cn } from '../../../../utils/cn';
 import { arraysEqual, shallowEqual } from '../helper';
 
 import { RADIALS_POS } from '../../../../constants';
@@ -279,71 +280,104 @@ const GradientPanel: FC<IPropsPanel> = ({
   }, [modifier]);
 
   return (
-    <div className='gradient-interaction'>
+    <div className='w-full space-y-4'>
       {showGradientResult && (
-        <div
-          className='gradient-result'
-          onMouseDown={showGradientAngle ? onMouseDown : undefined}
-          onTouchStart={showGradientAngle ? onTouchStart : undefined}
-          style={{ background: gradient }}
-        >
-          {showGradientMode && (
-            <div
-              data-mode={type}
-              className='gradient-mode'
-              onClick={() => onClickMode()}
-            />
-          )}
-          {showGradientAngle && (
-            <div
-              className='gradient-angle'
-              ref={angleNode}
-              style={{ visibility: type === 'linear' ? 'visible' : 'hidden' }}
-            >
+        <div className='relative'>
+          <h3 className='text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'>
+            Gradient Preview
+          </h3>
+          <div
+            className={cn(
+              'relative h-16 rounded-lg border-2 border-slate-200 dark:border-slate-600',
+              'overflow-hidden cursor-pointer group transition-all duration-200',
+              'hover:border-slate-300 dark:hover:border-slate-500 hover:shadow-md'
+            )}
+            onMouseDown={showGradientAngle ? onMouseDown : undefined}
+            onTouchStart={showGradientAngle ? onTouchStart : undefined}
+            style={{ background: gradient }}
+          >
+            {showGradientMode && (
+              <button
+                type='button'
+                data-mode={type}
+                className={cn(
+                  'absolute top-2 right-2 w-8 h-8 rounded-full',
+                  'bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm',
+                  'border border-slate-300 dark:border-slate-600',
+                  'hover:bg-white dark:hover:bg-slate-800 transition-all duration-200',
+                  'flex items-center justify-center text-xs font-medium',
+                  'focus:outline-none focus:ring-2 focus:ring-blue-500/50'
+                )}
+                onClick={() => onClickMode()}
+              >
+                {type === 'linear' ? 'L' : 'R'}
+              </button>
+            )}
+            {showGradientAngle && (
               <div
-                style={{
-                  transform: `rotate(${
-                    typeof modifier === 'number'
-                      ? modifier - 90 + 'deg'
-                      : modifier
-                  })`
-                }}
-              ></div>
-            </div>
-          )}
-          {showGradientPosition && (
-            <div
-              className='gradient-pos'
-              style={{
-                opacity: type === 'radial' ? '1' : '0',
-                visibility: type === 'radial' ? 'visible' : 'hidden'
-              }}
-            >
-              {radialsPosition.map((item) => {
-                return (
-                  <div
-                    key={item.pos}
-                    data-pos={item.pos}
-                    className={item.active ? 'gradient-active' : ''}
-                    onClick={(e) => setActiveRadialPosition(e)}
-                  />
-                );
-              })}
-            </div>
-          )}
+                className={cn(
+                  'absolute top-2 left-2 w-6 h-6 pointer-events-none',
+                  type === 'linear' ? 'opacity-100' : 'opacity-0'
+                )}
+                ref={angleNode}
+              >
+                <div
+                  className='w-full h-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-full border border-slate-300 dark:border-slate-600'
+                  style={{
+                    transform: `rotate(${
+                      typeof modifier === 'number'
+                        ? modifier - 90 + 'deg'
+                        : modifier
+                    })`
+                  }}
+                ></div>
+              </div>
+            )}
+            {showGradientPosition && (
+              <div
+                className={cn(
+                  'absolute top-2 left-1/2 -translate-x-1/2 flex gap-1',
+                  type === 'radial' ? 'opacity-100' : 'opacity-0',
+                  'transition-opacity duration-200'
+                )}
+              >
+                {radialsPosition.map((item) => {
+                  return (
+                    <button
+                      key={item.pos}
+                      type='button'
+                      data-pos={item.pos}
+                      className={cn(
+                        'w-2 h-2 rounded-full border transition-all duration-200',
+                        item.active
+                          ? 'bg-white border-slate-400 scale-125'
+                          : 'bg-white/60 border-slate-300 hover:bg-white/80'
+                      )}
+                      onClick={(e) => setActiveRadialPosition(e)}
+                    />
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
       )}
       {showGradientStops && (
-        <Markers
-          color={color}
-          setColor={setColor}
-          activeColor={activeColor}
-          setActiveColor={setActiveColor}
-          setInit={setInit}
-          format={format}
-          showAlpha={showAlpha}
-          allowAddGradientStops={allowAddGradientStops}
-        />
+        <div>
+          <h3 className='text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'>
+            Gradient Stops
+          </h3>
+          <Markers
+            color={color}
+            setColor={setColor}
+            activeColor={activeColor}
+            setActiveColor={setActiveColor}
+            setInit={setInit}
+            format={format}
+            showAlpha={showAlpha}
+            allowAddGradientStops={allowAddGradientStops}
+          />
+        </div>
       )}
     </div>
   );

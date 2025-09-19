@@ -13,7 +13,7 @@ export const defaultArgs: Partial<IPropsMain> = {
   format: 'hex',
   debounceMS: 300,
   debounce: true,
-  showAlpha: false,
+  showAlpha: true,
   colorBoardHeight: 120,
   popupWidth: 267,
   onChange: (value: string) => {

@@ -101,6 +101,10 @@
   "dependencies": {
     "@jaames/iro": "^5.5.2",
     "@types/tinycolor2": "^1.4.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.544.0",
+    "tailwind-merge": "^3.3.1",
     "tinycolor2": "^1.4.2"
   },
   "eslintConfig": {
