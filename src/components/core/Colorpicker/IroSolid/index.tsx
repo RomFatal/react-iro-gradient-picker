@@ -38,7 +38,7 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
 
       const rgba = tinycolor(color.hex);
       rgba.setAlpha(color.alpha / 100);
-      
+
       if (tinycolor(rgba).toRgbString() === tinycolor(value).toRgbString()) {
         return;
       }
@@ -57,7 +57,7 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
 
   useEffect(() => {
     setColor(getHexAlpha(value));
-    
+
     // Update iro color picker when value changes externally
     if (colorPickerRef.current && !init) {
       const newIroColor = showAlpha
@@ -117,9 +117,6 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
         sliderType: 'alpha'
       }
     });
-    console.log('✅ Alpha slider added to layout!', { layoutLength: layoutConfig.length });
-  } else {
-    console.log('❌ showAlpha is false, no alpha slider added');
   }
 
   // Use hex8 format when alpha is enabled for proper alpha support

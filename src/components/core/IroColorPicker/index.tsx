@@ -73,6 +73,7 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
   ) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const colorPickerRef = useRef<any>(null);
+    const isUpdatingColor = useRef<boolean>(false);
 
     useImperativeHandle(ref, () => ({
       colorPicker: colorPickerRef.current
@@ -118,7 +119,11 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
 
       // Set up event listeners
       if (onColorChange) {
-        colorPickerRef.current.on('color:change', onColorChange);
+        colorPickerRef.current.on('color:change', (color: any) => {
+          if (!isUpdatingColor.current) {
+            onColorChange(color);
+          }
+        });
       }
       if (onInputChange) {
         colorPickerRef.current.on('input:change', onInputChange);
@@ -164,8 +169,34 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
 
     // Update color when prop changes
     useEffect(() => {
-      if (colorPickerRef.current && !colors) {
-        colorPickerRef.current.color.hexString = color;
+      if (colorPickerRef.current && !colors && color) {
+        try {
+          isUpdatingColor.current = true;
+
+          // Handle both hex and hex8 (with alpha) formats
+          if (color.length === 9 && color.startsWith('#')) {
+            // hex8 format (with alpha)
+            const hex = color.slice(0, 7);
+            const alpha = parseInt(color.slice(7, 9), 16) / 255;
+            colorPickerRef.current.color.set({
+              hexString: hex,
+              alpha: alpha
+            });
+          } else {
+            // Regular hex format
+            colorPickerRef.current.color.set({
+              hexString: color
+            });
+          }
+
+          // Reset flag after a small delay to allow the change to propagate
+          setTimeout(() => {
+            isUpdatingColor.current = false;
+          }, 10);
+        } catch (error) {
+          console.warn('Error updating iro color picker:', error);
+          isUpdatingColor.current = false;
+        }
       }
     }, [color, colors]);
 

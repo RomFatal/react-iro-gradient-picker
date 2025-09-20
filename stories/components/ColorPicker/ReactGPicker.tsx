@@ -25,7 +25,10 @@ const ReactGPicker: FC<IPropsMain> = ({
   }, [value]);
 
   return (
-    <div className='wrapper' style={{ background: color, height: 'auto', minHeight: 'auto' }}>
+    <div
+      className='wrapper'
+      style={{ background: color, height: 'auto', minHeight: 'auto' }}
+    >
       <div className='centered'>
         <ReactGPickerComp
           value={color}

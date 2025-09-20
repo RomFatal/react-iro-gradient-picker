@@ -16,6 +16,13 @@ export const defaultArgs: Partial<IPropsMain> = {
   showAlpha: true,
   colorBoardHeight: 120,
   popupWidth: 267,
+  showInputs: true,
+  showGradientResult: true,
+  showGradientStops: true,
+  showGradientMode: true,
+  showGradientAngle: true,
+  showGradientPosition: true,
+  allowAddGradientStops: true,
   onChange: (value: string) => {
     console.log('Color changed:', value);
     return value;

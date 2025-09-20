@@ -140,13 +140,15 @@ export const InteractiveDemo: Story = {
     );
 
     return (
-      <div style={{ 
-        display: 'flex', 
-        flexDirection: 'column', 
-        alignItems: 'center', 
-        gap: '20px',
-        padding: '20px'
-      }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '20px',
+          padding: '20px'
+        }}
+      >
         <ReactGPicker
           {...defaultArgs}
           solid
@@ -157,18 +159,22 @@ export const InteractiveDemo: Story = {
             return value;
           }}
         />
-        
-        <div style={{ 
-          textAlign: 'center',
-          maxWidth: '400px',
-          width: '100%'
-        }}>
-          <p style={{ 
-            margin: '0 0 8px 0', 
-            fontSize: '14px', 
-            fontWeight: 'bold',
-            color: '#64748b'
-          }}>
+
+        <div
+          style={{
+            textAlign: 'center',
+            maxWidth: '400px',
+            width: '100%'
+          }}
+        >
+          <p
+            style={{
+              margin: '0 0 8px 0',
+              fontSize: '14px',
+              fontWeight: 'bold',
+              color: '#64748b'
+            }}
+          >
             Current color:
           </p>
           <code
@@ -187,7 +193,7 @@ export const InteractiveDemo: Story = {
           >
             {currentValue}
           </code>
-          
+
           <div
             style={{
               width: '200px',

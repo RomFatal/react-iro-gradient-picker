@@ -74,7 +74,7 @@ const IroGradient: FC<IPropsComp> = ({
       if (Array.isArray(newColor)) {
         // Handle the case where it's called with stops array
         const newStops = newColor;
-        setColor({
+        const newColorState = {
           ...color,
           stops: newStops,
           gradient: `${getGradient(
@@ -84,36 +84,86 @@ const IroGradient: FC<IPropsComp> = ({
             format,
             showAlpha
           )}`
-        });
+        };
+        setColor(newColorState);
+        return newColorState; // Return the new state for immediate use
       } else {
         // Handle the case where it's called with full color object
         setColor(newColor);
+        return newColor;
       }
     },
     [color, format, showAlpha]
   );
 
   const onChangeActiveColor = ({ hex, alpha }: TPropsChange) => {
-    const newActiveColor = {
-      ...activeColor,
-      hex,
-      alpha
-    };
-    setActiveColor(newActiveColor);
+    // Use setActiveColor callback to get the LATEST activeColor state
+    setActiveColor((latestActiveColor) => {
+      // Use setColor callback to get the most current state
+      setColor((currentColorState) => {
+        // FIXED: Find the active stop by location using LATEST activeColor
+        const activeStopIndex = currentColorState.stops.findIndex(
+          (stop) =>
+            Math.abs((stop[1] as number) - (latestActiveColor.loc as number)) <
+            0.01
+        );
 
-    // Update the gradient with the new active color
-    const newStops = [...color.stops];
-    const rgba = tinyColor(hex);
-    rgba.setAlpha(alpha / 100);
-    newStops[activeColor.index as number] = [
-      rgba.toRgbString(),
-      activeColor.loc
-    ];
+        // Safety check: ensure we have a valid index
+        if (
+          activeStopIndex === -1 ||
+          activeStopIndex >= currentColorState.stops.length
+        ) {
+          console.warn(
+            'Could not find stop at location:',
+            latestActiveColor.loc,
+            'in stops:',
+            currentColorState.stops
+          );
+          return currentColorState; // Return unchanged state
+        }
 
-    updateGradient(newStops);
+        const currentStop = currentColorState.stops[activeStopIndex];
+        const currentPosition = currentStop[1];
+
+        // Update the gradient with the new active color
+        const newStops = [...currentColorState.stops];
+        const rgba = tinyColor(hex);
+        rgba.setAlpha(alpha / 100);
+
+        // Update the correct stop
+        newStops[activeStopIndex] = [
+          rgba.toRgbString(),
+          currentPosition,
+          activeStopIndex // Use the found index
+        ];
+
+        const newColorState = {
+          ...currentColorState,
+          stops: newStops,
+          gradient: `${getGradient(
+            currentColorState.type,
+            newStops,
+            currentColorState.modifier,
+            format,
+            showAlpha
+          )}`
+        };
+
+        return newColorState;
+      });
+
+      // Return updated activeColor with new hex and alpha
+      const updatedActiveColor = {
+        ...latestActiveColor,
+        hex,
+        alpha
+      };
+
+      return updatedActiveColor;
+    });
   };
 
-  const [init, setInit] = useState(false);
+  const setInit = () => {}; // Stub function for gradient panel compatibility
 
   const onSubmitChange = (rgba: string) => {
     const rgbaArr = rgbaToArray(rgba);
@@ -198,7 +248,8 @@ const IroGradient: FC<IPropsComp> = ({
               setActiveColor((prev) => ({
                 ...prev,
                 hex: value.hex,
-                alpha: value.alpha
+                alpha: value.alpha,
+                index: prev.index // Preserve the index!
               }))
             }
             onSubmitChange={onSubmitChange}

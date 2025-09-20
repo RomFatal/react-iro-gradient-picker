@@ -27,6 +27,7 @@ const Markers: FC<IPropsPanel> = ({
 
   const [needDeleteActive, setNeedDeleteActive] = useState<boolean>(false);
   const [hideStop, setHideStop] = useState<boolean>(false);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const { stops, type, modifier } = color;
 
@@ -59,11 +60,24 @@ const Markers: FC<IPropsPanel> = ({
         stops: newStops
       });
 
-      setActiveColor({
-        ...activeColor,
+      const newStopIndex = newStops.find((item) => item[1] === loc)?.[2];
+      const newStopColor = newStops.find((item) => item[1] === loc)?.[0];
+      const newStopRgba = rgbaToArray(newStopColor || rgba.toRgbString());
+      const newStopHex = rgbaToHex([
+        newStopRgba[0],
+        newStopRgba[1],
+        newStopRgba[2]
+      ]);
+      const newStopAlpha = Math.round(newStopRgba[3] * 100);
+
+      const newActiveColor = {
+        hex: newStopHex,
+        alpha: newStopAlpha,
         loc: loc,
-        index: newStops.find((item) => item[1] === loc)[2]
-      });
+        index: newStopIndex
+      };
+
+      setActiveColor(newActiveColor);
     }
   };
 
@@ -91,6 +105,7 @@ const Markers: FC<IPropsPanel> = ({
     if (e.button !== 0) return;
 
     const newColor = tinycolor(color[0]);
+
     setActiveColor({
       hex: '#' + newColor.toHex(),
       alpha: newColor.getAlpha() * 100,
@@ -100,6 +115,8 @@ const Markers: FC<IPropsPanel> = ({
 
     const x = e.clientX;
     const y = e.clientY;
+
+    // Don't set isDragging immediately - wait for actual mouse movement
 
     pointMoveTo({
       x,
@@ -116,6 +133,10 @@ const Markers: FC<IPropsPanel> = ({
 
     const rect = node?.current?.getBoundingClientRect();
     const rootDistance = y - rect.y;
+
+    // Now we know user is actually dragging
+    setIsDragging(true);
+
     if (rootDistance > 80 && stops.length > 2) {
       setHideStop(true);
       return;
@@ -144,6 +165,7 @@ const Markers: FC<IPropsPanel> = ({
       y
     });
 
+    setIsDragging(false); // Mark as not dragging
     removeListeners();
   };
 
@@ -171,6 +193,8 @@ const Markers: FC<IPropsPanel> = ({
     const x = e.targetTouches[0].clientX;
     const y = e.targetTouches[0].clientY;
 
+    // Don't set isDragging immediately for touch either
+
     pointMoveTo({ x, y });
 
     window.addEventListener('touchmove', onTouchMove, { passive: false });
@@ -187,6 +211,10 @@ const Markers: FC<IPropsPanel> = ({
 
     const rect = node?.current?.getBoundingClientRect();
     const rootDistance = y - rect.y;
+
+    // Now we know user is actually dragging
+    setIsDragging(true);
+
     if (rootDistance > 80 && stops.length > 2) {
       setHideStop(true);
       return;
@@ -201,6 +229,7 @@ const Markers: FC<IPropsPanel> = ({
   };
 
   const onTouchEnd = () => {
+    setIsDragging(false); // Mark as not dragging
     removeTouchListeners();
   };
 
@@ -252,20 +281,33 @@ const Markers: FC<IPropsPanel> = ({
       return deleteColorStop();
     }
 
-    const newStops = stops.map((item: [string, number, number]) => {
-      if (activeColor.index === item[2]) {
-        return [item[0], activeColor.loc, item[2]];
-      }
-      return item;
-    });
+    // Only update positions when actually dragging, not when just changing colors
+    if (isDragging) {
+      // Check if the position actually changed
+      const currentStop = stops.find((item) => item[2] === activeColor.index);
+      if (currentStop && currentStop[1] !== activeColor.loc) {
+        const newStops = stops.map((item: [string, number, number]) => {
+          if (activeColor.index === item[2]) {
+            return [item[0], activeColor.loc, item[2]];
+          }
+          return item;
+        });
 
-    setColor({
-      ...color,
-      gradient: `${getGradient(type, newStops, modifier, format, showAlpha)}`,
-      stops: newStops
-    });
+        setColor({
+          ...color,
+          gradient: `${getGradient(
+            type,
+            newStops,
+            modifier,
+            format,
+            showAlpha
+          )}`,
+          stops: newStops
+        });
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeColor.loc, needDeleteActive]);
+  }, [activeColor.loc, needDeleteActive, isDragging]);
 
   useEffect(() => {
     return () => {
