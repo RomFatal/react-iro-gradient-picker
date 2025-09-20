@@ -112,7 +112,7 @@ const InputRgba: FC<TProps> = ({
                 {labelSymbol && (
                   <label
                     htmlFor='rgba-hex'
-                    className='absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 text-sm font-medium z-10'
+                    className='absolute left-3 top-3 text-sm font-medium z-10 colorpicker-text leading-none'
                   >
                     #
                   </label>
@@ -120,7 +120,7 @@ const InputRgba: FC<TProps> = ({
                 {name === 'alpha' && (
                   <label
                     htmlFor={idInput}
-                    className='absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 text-sm font-medium z-10'
+                    className='absolute right-3 top-2.5 text-sm font-medium z-10 colorpicker-text leading-none'
                   >
                     %
                   </label>
@@ -134,17 +134,20 @@ const InputRgba: FC<TProps> = ({
                   onBlur={onHandleSubmit}
                   onKeyPress={(e) => handlePressEnter(e, onHandleSubmit)}
                   className={cn(
-                    'w-full px-3 py-2.5 text-sm font-mono',
-                    'bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg',
-                    'text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500',
-                    'focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20',
-                    'transition-all duration-200',
-                    'hover:border-slate-400 dark:hover:border-slate-500',
+                    'w-full px-3 py-2.5 text-sm font-mono rounded-lg',
+                    'focus:ring-2 focus:ring-blue-500/20 transition-all duration-200',
                     labelSymbol && 'pl-7',
                     name === 'alpha' && 'pr-7'
                   )}
+                  style={{
+                    backgroundColor: 'var(--colorpicker-input-bg)',
+                    borderColor: 'var(--colorpicker-input-border)',
+                    color: 'var(--colorpicker-text)',
+                    borderWidth: '1px',
+                    borderStyle: 'solid'
+                  }}
                 />
-                <div className='mt-1 text-xs font-medium text-slate-600 dark:text-slate-400 text-center'>
+                <div className='mt-1 text-xs font-medium text-center colorpicker-text'>
                   {labelText}
                 </div>
               </div>

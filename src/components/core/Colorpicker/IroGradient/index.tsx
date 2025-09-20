@@ -14,7 +14,6 @@ import {
   rgbaToArray,
   rgbaToHex
 } from '../../../../utils';
-import { cn } from '../../../../utils/cn';
 
 import { IActiveColor, IPropsComp, TPropsChange } from '../../../../lib/types';
 
@@ -217,16 +216,25 @@ const IroGradient: FC<IPropsComp> = ({
 
   return (
     <div
-      className={cn(
-        'w-full p-6 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700',
-        'space-y-6 transition-all duration-200 hover:shadow-xl'
-      )}
+      className='w-full p-6 rounded-xl shadow-lg space-y-6 transition-all duration-200 hover:shadow-xl'
+      style={{
+        backgroundColor: 'var(--colorpicker-panel-bg)',
+        borderColor: 'var(--colorpicker-border)',
+        borderWidth: '1px',
+        borderStyle: 'solid'
+      }}
     >
       {/* Color Picker Container */}
       <div className='relative'>
         <div
-          className='flex justify-center items-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-700 dark:to-slate-800 rounded-lg p-4'
-          style={{ height: colorBoardHeight + 200 }}
+          className='flex justify-center items-center rounded-lg p-4'
+          style={{
+            height: colorBoardHeight + 200,
+            backgroundColor: 'var(--colorpicker-input-bg)',
+            borderColor: 'var(--colorpicker-border)',
+            borderWidth: '1px',
+            borderStyle: 'solid'
+          }}
         >
           <IroColorPicker
             width={Math.min(267, colorBoardHeight + 20)}
@@ -239,7 +247,15 @@ const IroGradient: FC<IPropsComp> = ({
 
       {/* Input Controls */}
       {showInputs && (
-        <div className='bg-slate-50 dark:bg-slate-700/50 rounded-lg p-4 border border-slate-200 dark:border-slate-600'>
+        <div
+          className='rounded-lg p-4'
+          style={{
+            backgroundColor: 'var(--colorpicker-input-bg)',
+            borderColor: 'var(--colorpicker-border)',
+            borderWidth: '1px',
+            borderStyle: 'solid'
+          }}
+        >
           <InputRgba
             hex={activeColor.hex}
             alpha={activeColor.alpha}
@@ -258,7 +274,15 @@ const IroGradient: FC<IPropsComp> = ({
       )}
 
       {/* Gradient Controls */}
-      <div className='bg-slate-50 dark:bg-slate-700/50 rounded-lg p-4 border border-slate-200 dark:border-slate-600'>
+      <div
+        className='rounded-lg p-4'
+        style={{
+          backgroundColor: 'var(--colorpicker-input-bg)',
+          borderColor: 'var(--colorpicker-border)',
+          borderWidth: '1px',
+          borderStyle: 'solid'
+        }}
+      >
         <GradientPanel
           color={color}
           activeColor={activeColor}

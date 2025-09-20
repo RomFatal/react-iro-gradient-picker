@@ -82,7 +82,7 @@ const DefaultColorPanel: FC<IProps> = ({
 
   return (
     <div className='w-full'>
-      <h3 className='text-sm font-medium text-slate-700 dark:text-slate-300 mb-3'>
+      <h3 className='text-sm font-medium mb-3 colorpicker-text'>
         Color Presets
       </h3>
       <div className='grid grid-cols-8 gap-2'>

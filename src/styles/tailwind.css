@@ -33,10 +33,10 @@
 :root {
   /* Light theme colors */
   --colorpicker-bg: #ffffff;
-  --colorpicker-text: #1f2937;
+  --colorpicker-text: #374151; /* Changed to gray-700 for better readability */
   --colorpicker-border: #e5e7eb;
   --colorpicker-panel-bg: #ffffff;
-  --colorpicker-input-bg: #f9fafb;
+  --colorpicker-input-bg: #ffffff; /* Pure white for light theme inputs */
   --colorpicker-input-border: #d1d5db;
   --colorpicker-shadow: rgba(0, 0, 0, 0.1);
   --colorpicker-cursor-border: #ffffff;
@@ -128,5 +128,84 @@ html.dark {
 
   .theme-toggle-icon {
     @apply w-5 h-5 text-gray-600 dark:text-dark-300;
+  }
+
+  /* Iro.js color picker theme styles */
+  .IroColorPicker {
+    @apply bg-transparent;
+  }
+
+  /* Target all SVG backgrounds in iro color picker */
+  .IroColorPicker svg,
+  .IroColorPicker svg > rect:first-child {
+    fill: white !important;
+    stroke: theme(colors.gray.200) !important;
+    stroke-width: 1px !important;
+  }
+
+  html.dark .IroColorPicker svg,
+  html.dark .IroColorPicker svg > rect:first-child {
+    fill: theme(colors.dark.700) !important;
+    stroke: theme(colors.dark.500) !important;
+    stroke-width: 1px !important;
+  }
+
+  /* Style wheel component background */
+  .IroWheel svg > rect:first-child {
+    fill: transparent !important;
+    stroke: none !important;
+  }
+
+  /* Style slider component backgrounds */
+  .IroSlider svg > rect:first-child {
+    fill: white !important;
+    stroke: theme(colors.gray.200) !important;
+    stroke-width: 1px !important;
+  }
+
+  html.dark .IroSlider svg > rect:first-child {
+    fill: theme(colors.dark.700) !important;
+    stroke: theme(colors.dark.500) !important;
+    stroke-width: 1px !important;
+  }
+
+  /* Style box component (if used) backgrounds */
+  .IroBox svg > rect:first-child {
+    fill: white !important;
+    stroke: theme(colors.gray.200) !important;
+    stroke-width: 1px !important;
+  }
+
+  html.dark .IroBox svg > rect:first-child {
+    fill: theme(colors.dark.700) !important;
+    stroke: theme(colors.dark.500) !important;
+    stroke-width: 1px !important;
+  }
+
+  /* Force custom property text colors to override Tailwind classes */
+  [style*='--colorpicker-text'] {
+    color: var(--colorpicker-text) !important;
+  }
+
+  /* Specific class for theme-aware text */
+  .colorpicker-text,
+  div.colorpicker-text {
+    color: var(--colorpicker-text) !important;
+  }
+
+  /* Input styling with custom properties */
+  input[style*='--colorpicker-input-bg'] {
+    background-color: var(--colorpicker-input-bg) !important;
+    color: var(--colorpicker-text) !important;
+    border-color: var(--colorpicker-input-border) !important;
+  }
+
+  input[style*='--colorpicker-input-bg']:focus {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+  }
+
+  input[style*='--colorpicker-input-bg']:hover {
+    border-color: var(--colorpicker-border) !important;
   }
 }

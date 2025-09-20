@@ -5,6 +5,7 @@ import React, {
   useImperativeHandle,
   useRef
 } from 'react';
+import { useTheme } from '../../providers/ThemeContext';
 
 interface IroColorPickerProps {
   width?: number;
@@ -71,6 +72,7 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
     },
     ref
   ) => {
+    const { theme } = useTheme();
     const containerRef = useRef<HTMLDivElement>(null);
     const colorPickerRef = useRef<any>(null);
     const isUpdatingColor = useRef<boolean>(false);
@@ -82,6 +84,10 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
     useEffect(() => {
       if (!containerRef.current || colorPickerRef.current) return;
 
+      // Set theme-appropriate border color and background
+      const themeBorderColor = theme === 'light' ? '#ffffff' : '#334155';
+      const themeBorderWidth = theme === 'light' ? 1 : 0;
+
       const options: any = {
         width,
         color: colors ? undefined : color,
@@ -92,8 +98,8 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
         layoutDirection,
         padding,
         margin,
-        borderWidth,
-        borderColor,
+        borderWidth: themeBorderWidth,
+        borderColor: themeBorderColor,
         handleRadius,
         activeHandleRadius: activeHandleRadius || handleRadius,
         handleSvg,
@@ -116,6 +122,35 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
         containerRef.current,
         options
       );
+
+      // Apply theme styles to iro.js elements after creation
+      const applyThemeStyles = () => {
+        if (!containerRef.current) return;
+
+        const svgElements = containerRef.current.querySelectorAll('svg');
+        svgElements.forEach((svg) => {
+          // Remove default background
+          svg.style.backgroundColor = 'transparent';
+
+          // Style background rectangles
+          const backgroundRects = svg.querySelectorAll('rect:first-child');
+          backgroundRects.forEach((rect) => {
+            if (theme === 'light') {
+              rect.setAttribute('fill', 'white');
+              rect.setAttribute('stroke', '#e5e7eb');
+              rect.setAttribute('stroke-width', '1');
+            } else {
+              rect.setAttribute('fill', '#374151');
+              rect.setAttribute('stroke', '#6b7280');
+              rect.setAttribute('stroke-width', '1');
+            }
+          });
+        });
+      };
+
+      // Apply styles immediately and after a short delay
+      applyThemeStyles();
+      setTimeout(applyThemeStyles, 100);
 
       // Set up event listeners
       if (onColorChange) {
@@ -165,7 +200,7 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
         }
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [theme]); // Add theme dependency to recreate picker on theme change
 
     // Update color when prop changes
     useEffect(() => {
