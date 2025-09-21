@@ -216,7 +216,7 @@ const IroGradient: FC<IPropsComp> = ({
 
   return (
     <div
-      className='w-full p-6 rounded-xl shadow-lg space-y-6 transition-all duration-200 hover:shadow-xl'
+      className='w-full p-2 rounded-xl shadow-lg space-y-2 transition-all duration-200 hover:shadow-xl'
       style={{
         backgroundColor: 'var(--colorpicker-panel-bg)',
         borderColor: 'var(--colorpicker-border)',
@@ -233,6 +233,7 @@ const IroGradient: FC<IPropsComp> = ({
           }}
         >
           <IroColorPicker
+            width={200}
             color={iroColorValue}
             layout={layoutConfig}
             onColorChange={handleIroColorChange}
