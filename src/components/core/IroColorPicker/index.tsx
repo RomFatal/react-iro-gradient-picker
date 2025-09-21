@@ -1,9 +1,11 @@
 import iro from '@jaames/iro';
 import React, {
   forwardRef,
+  useCallback,
   useEffect,
   useImperativeHandle,
-  useRef
+  useRef,
+  useState
 } from 'react';
 import { useTheme } from '../../providers/ThemeContext';
 
@@ -43,7 +45,7 @@ export interface IroColorPickerRef {
 const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
   (
     {
-      width = 280,
+      width,
       color = '#ffffff',
       colors,
       display = 'block',
@@ -76,12 +78,42 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
     const containerRef = useRef<HTMLDivElement>(null);
     const colorPickerRef = useRef<any>(null);
     const isUpdatingColor = useRef<boolean>(false);
+    const [containerWidth, setContainerWidth] = useState<number>(width || 200);
+
+    // Set up ResizeObserver to make the color picker responsive
+    useEffect(() => {
+      if (!containerRef.current || width) return; // Don't observe if width is fixed
+
+      const resizeObserver = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          const { width: observedWidth } = entry.contentRect;
+          if (observedWidth > 0) {
+            // Use 35% of available width to make it much more compact
+            const calculatedWidth = Math.floor(observedWidth * 0.35);
+            setContainerWidth(Math.max(160, Math.min(calculatedWidth, 200)));
+          }
+        }
+      });
+
+      resizeObserver.observe(containerRef.current);
+
+      return () => {
+        resizeObserver.disconnect();
+      };
+    }, [width, padding, margin]);
 
     useImperativeHandle(ref, () => ({
       colorPicker: colorPickerRef.current
     }));
 
     useEffect(() => {
+      if (!containerRef.current || colorPickerRef.current) {
+        // Clear existing picker to force recreation
+        if (colorPickerRef.current) {
+          colorPickerRef.current = null;
+        }
+      }
+
       if (!containerRef.current || colorPickerRef.current) return;
 
       // Set theme-appropriate border color and background
@@ -89,7 +121,7 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
       const themeBorderWidth = theme === 'light' ? 1 : 0;
 
       const options: any = {
-        width,
+        width: width || containerWidth,
         color: colors ? undefined : color,
         colors: colors || undefined,
         display,
@@ -200,7 +232,7 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
         }
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [theme]); // Add theme dependency to recreate picker on theme change
+    }, [theme, containerWidth]); // Add containerWidth dependency to recreate picker on size change
 
     // Update color when prop changes
     useEffect(() => {
@@ -246,7 +278,18 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
       }
     }, [colors]);
 
-    return <div ref={containerRef} style={{ display }} />;
+    return (
+      <div
+        ref={containerRef}
+        style={{
+          display: 'flex',
+          width: '100%',
+          maxWidth: '100%',
+          overflow: 'hidden',
+          justifyContent: 'center'
+        }}
+      />
+    );
   }
 );
 

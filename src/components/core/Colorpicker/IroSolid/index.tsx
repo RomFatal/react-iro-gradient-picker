@@ -131,7 +131,7 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
   return (
     <div
       ref={node}
-      className='w-full p-6 rounded-xl shadow-lg space-y-6 transition-all duration-200 hover:shadow-xl'
+      className='w-full p-2 rounded-xl shadow-lg space-y-6 transition-all duration-200 hover:shadow-xl'
       style={{
         backgroundColor: 'var(--colorpicker-panel-bg)',
         borderColor: 'var(--colorpicker-border)',
@@ -142,7 +142,7 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
       {/* Color Picker Container */}
       <div className='relative'>
         <div
-          className='flex justify-center items-center rounded-lg p-4'
+          className='flex justify-center items-center rounded-lg'
           style={{
             height: colorBoardHeight + 200,
             backgroundColor: 'var(--colorpicker-input-bg)',
@@ -153,7 +153,7 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
         >
           <IroColorPicker
             ref={colorPickerRef}
-            width={Math.min(267, colorBoardHeight + 20)}
+            width={200}
             color={iroColorValue}
             layout={layoutConfig}
             onColorChange={handleColorChange}

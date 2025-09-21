@@ -227,7 +227,7 @@ const IroGradient: FC<IPropsComp> = ({
       {/* Color Picker Container */}
       <div className='relative'>
         <div
-          className='flex justify-center items-center rounded-lg p-4'
+          className='flex justify-center items-center rounded-lg'
           style={{
             height: colorBoardHeight + 200,
             backgroundColor: 'var(--colorpicker-input-bg)',
@@ -237,7 +237,6 @@ const IroGradient: FC<IPropsComp> = ({
           }}
         >
           <IroColorPicker
-            width={Math.min(267, colorBoardHeight + 20)}
             color={iroColorValue}
             layout={layoutConfig}
             onColorChange={handleIroColorChange}
