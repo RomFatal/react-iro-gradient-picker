@@ -147,9 +147,6 @@ const InputRgba: FC<TProps> = ({
                     borderStyle: 'solid'
                   }}
                 />
-                <div className='mt-1 text-xs font-medium text-center colorpicker-text'>
-                  {labelText}
-                </div>
               </div>
             </div>
           );

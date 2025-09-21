@@ -83,9 +83,9 @@ const DefaultColorPanel: FC<IProps> = ({
   return (
     <div className='w-full'>
       <h3 className='text-sm font-medium mb-3 colorpicker-text'>
-        Color Presets
+        Popular Colors
       </h3>
-      <div className='grid grid-cols-8 gap-2'>
+      <div className='grid grid-cols-5 gap-2'>
         {formatedDefColors.map((item: string | IColor, index: number) => {
           switch (colorType) {
             case 'gradient':
@@ -98,7 +98,7 @@ const DefaultColorPanel: FC<IProps> = ({
                     onClick={() => onChooseColor(item, index)}
                     key={item.gradient + index}
                     className={cn(
-                      'aspect-square w-full h-10 rounded-lg border-2 transition-all duration-200',
+                      'aspect-square w-10 h-10 rounded-md border-2 transition-all duration-200',
                       'hover:scale-110 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50',
                       'relative overflow-hidden group',
                       active === index
@@ -122,7 +122,7 @@ const DefaultColorPanel: FC<IProps> = ({
                     onClick={() => onChooseColor(item, index)}
                     key={item + index}
                     className={cn(
-                      'aspect-square w-full h-10 rounded-lg border-2 transition-all duration-200',
+                      'aspect-square w-10 h-10 rounded-md border-2 transition-all duration-200',
                       'hover:scale-110 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50',
                       'relative overflow-hidden group',
                       active === index

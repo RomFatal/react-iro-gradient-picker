@@ -227,13 +227,9 @@ const IroGradient: FC<IPropsComp> = ({
       {/* Color Picker Container */}
       <div className='relative'>
         <div
-          className='flex justify-center items-center rounded-lg'
+          className='flex justify-center items-center rounded-lg colorpicker-glass'
           style={{
-            height: colorBoardHeight + 200,
-            backgroundColor: 'var(--colorpicker-input-bg)',
-            borderColor: 'var(--colorpicker-border)',
-            borderWidth: '1px',
-            borderStyle: 'solid'
+            height: colorBoardHeight + 200
           }}
         >
           <IroColorPicker
@@ -246,15 +242,7 @@ const IroGradient: FC<IPropsComp> = ({
 
       {/* Input Controls */}
       {showInputs && (
-        <div
-          className='rounded-lg p-4'
-          style={{
-            backgroundColor: 'var(--colorpicker-input-bg)',
-            borderColor: 'var(--colorpicker-border)',
-            borderWidth: '1px',
-            borderStyle: 'solid'
-          }}
-        >
+        <div className='rounded-lg colorpicker-glass'>
           <InputRgba
             hex={activeColor.hex}
             alpha={activeColor.alpha}
@@ -273,15 +261,7 @@ const IroGradient: FC<IPropsComp> = ({
       )}
 
       {/* Gradient Controls */}
-      <div
-        className='rounded-lg p-4'
-        style={{
-          backgroundColor: 'var(--colorpicker-input-bg)',
-          borderColor: 'var(--colorpicker-border)',
-          borderWidth: '1px',
-          borderStyle: 'solid'
-        }}
-      >
+      <div className='rounded-lg colorpicker-glass'>
         <GradientPanel
           color={color}
           activeColor={activeColor}

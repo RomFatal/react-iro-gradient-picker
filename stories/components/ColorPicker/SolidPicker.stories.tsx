@@ -147,7 +147,7 @@ export const ColorPresets: Story = {
     docs: {
       description: {
         story:
-          'Various solid color presets demonstrating different color values and alpha settings.'
+          'Various solid Popular Colors demonstrating different color values and alpha settings.'
       }
     }
   }

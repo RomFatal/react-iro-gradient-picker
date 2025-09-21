@@ -1,193 +1,284 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Modern color palette with improved contrast and visual hierarchy */
 @theme {
-  --color-primary-50: #f0f9ff;
-  --color-primary-100: #e0f2fe;
-  --color-primary-200: #bae6fd;
-  --color-primary-300: #7dd3fc;
-  --color-primary-400: #38bdf8;
-  --color-primary-500: #0ea5e9;
-  --color-primary-600: #0284c7;
-  --color-primary-700: #0369a1;
-  --color-primary-800: #075985;
-  --color-primary-900: #0c4a6e;
+  /* Light Theme - Clean and Professional */
+  --color-background: #fafbfc;
+  --color-foreground: #1a1d23;
+  --color-grayText: #6b7280;
+  --color-card: #ffffff;
+  --color-card-foreground: #1a1d23;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #1a1d23;
+  --color-primary: #5b4cfd;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f3f4f6;
+  --color-secondary-foreground: #374151;
+  --color-muted: #f9fafb;
+  --color-muted-foreground: #6b7280;
+  --color-accent: #8b5cf6;
+  --color-accent-foreground: #ffffff;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  --color-success: #10b981;
+  --color-success-foreground: #ffffff;
+  --color-warning: #f59e0b;
+  --color-warning-foreground: #ffffff;
+  --color-border: #e5e7eb;
+  --color-input: #f3f4f6;
+  --color-ring: #5b4cfd;
+  --color-divide: #e5e7eb;
 
-  --color-dark-50: #f8fafc;
-  --color-dark-100: #f1f5f9;
-  --color-dark-200: #e2e8f0;
-  --color-dark-300: #cbd5e1;
-  --color-dark-400: #94a3b8;
-  --color-dark-500: #64748b;
-  --color-dark-600: #475569;
-  --color-dark-700: #334155;
-  --color-dark-800: #1e293b;
-  --color-dark-900: #0f172a;
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --gradient-success: linear-gradient(135deg, #13b981 0%, #06b6d4 100%);
 
-  --shadow-color-picker: 0 2px 4px 0 rgba(0, 0, 0, 0.24);
-  --shadow-color-picker-dark: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-  --shadow-popup: 0 8px 24px 0 rgba(0, 0, 0, 0.12);
-  --shadow-popup-dark: 0 8px 24px 0 rgba(0, 0, 0, 0.3);
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  --shadow-glow: 0 0 20px rgba(91, 76, 253, 0.3);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Border Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
 }
 
-/* CSS Custom Properties for theme-aware colors */
-:root {
-  /* Light theme colors */
-  --colorpicker-bg: #ffffff;
-  --colorpicker-text: #374151; /* Changed to gray-700 for better readability */
-  --colorpicker-border: #e5e7eb;
-  --colorpicker-panel-bg: #ffffff;
-  --colorpicker-input-bg: #ffffff; /* Pure white for light theme inputs */
-  --colorpicker-input-border: #d1d5db;
-  --colorpicker-shadow: rgba(0, 0, 0, 0.1);
-  --colorpicker-cursor-border: #ffffff;
-  --colorpicker-modal-bg: #ffffff;
-  --colorpicker-modal-overlay: rgba(0, 0, 0, 0.5);
+@layer theme {
+  :root,
+  :host {
+    /* Color picker specific variables - Light theme */
+    --colorpicker-bg: #ffffff;
+    --colorpicker-text: #1a1d23;
+    --colorpicker-border: #e5e7eb;
+    --colorpicker-panel-bg: rgba(255, 255, 255, 0.8);
+    --colorpicker-input-bg: #f3f4f6;
+    --colorpicker-input-border: #e5e7eb;
+    --colorpicker-shadow: var(--shadow-md);
+    --colorpicker-cursor-border: #ffffff;
+    --colorpicker-modal-bg: #ffffff;
+    --colorpicker-modal-overlay: rgba(0, 0, 0, 0.5);
+
+    @variant dark {
+      /* Dark Theme - Modern Glass Design */
+      --color-background: #000000;
+      --color-foreground: #f7f8f9;
+      --colorpicker-text: #ffffff;
+      --color-grayText: #000000;
+      --color-card: #1a1a1c;
+      --color-card-foreground: #f7f8f9;
+      --color-popover: #1a1a1c;
+      --color-popover-foreground: #f7f8f9;
+      --color-primary: #7c3aed;
+      --color-primary-foreground: #ffffff;
+      --color-secondary: #27272a;
+      --color-secondary-foreground: #e4e4e7;
+      --color-muted: #27272a;
+      --color-muted-foreground: #a1a1aa;
+      --color-accent: #a78bfa;
+      --color-accent-foreground: #ffffff;
+      --color-destructive: #dc2626;
+      --color-destructive-foreground: #ffffff;
+      --color-success: #059669;
+      --color-success-foreground: #ffffff;
+      --color-warning: #d97706;
+      --color-warning-foreground: #ffffff;
+      --color-border: #27272a;
+      --color-input: #27272a;
+      --color-ring: #7c3aed;
+      --color-divide: #3f3f46;
+
+      /* Dark mode gradients */
+      --gradient-primary: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+      --gradient-accent: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
+      --gradient-success: linear-gradient(135deg, #059669 0%, #0891b2 100%);
+
+      /* Dark mode shadows */
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.5);
+      --shadow-glow: 0 0 30px rgba(124, 58, 237, 0.4);
+
+      /* Color picker specific variables - Dark glass theme */
+      --colorpicker-bg: rgba(26, 26, 28, 0.8);
+      --colorpicker-input-bg: #f7f8f9;
+      --colorpicker-border: rgba(39, 39, 42, 0.8);
+      --colorpicker-panel-bg: rgba(0, 0, 0);
+      --colorpicker-input-bg: rgba(39, 39, 42, 0.8);
+      --colorpicker-input-border: rgba(39, 39, 42, 0.8);
+      --colorpicker-shadow: var(--shadow-lg);
+      --colorpicker-cursor-border: #f7f8f9;
+      --colorpicker-modal-bg: rgba(26, 26, 28, 0.9);
+      --colorpicker-modal-overlay: rgba(0, 0, 0, 0.8);
+    }
+  }
 }
 
-html.dark {
-  /* Dark theme colors */
-  --colorpicker-bg: #1e293b;
-  --colorpicker-text: #f8fafc;
-  --colorpicker-border: #475569;
-  --colorpicker-panel-bg: #1e293b;
-  --colorpicker-input-bg: #334155;
-  --colorpicker-input-border: #475569;
-  --colorpicker-shadow: rgba(0, 0, 0, 0.3);
-  --colorpicker-cursor-border: #f8fafc;
-  --colorpicker-modal-bg: #1e293b;
-  --colorpicker-modal-overlay: rgba(0, 0, 0, 0.7);
-}
-
-/* Base styles for dark theme */
+/* Global styles and utilities */
 @layer base {
-  html.dark {
-    background-color: theme(colors.dark.900);
-    color: theme(colors.dark.50);
+  * {
+    @apply border-border;
   }
 
-  html:not(.dark) {
-    background-color: #ffffff;
-    color: #111827;
-  }
-}
-
-/* Custom component styles */
-@layer components {
-  /* Color picker base styles */
-  .colorpicker {
-    @apply bg-white dark:bg-dark-800 shadow-color-picker dark:shadow-color-picker-dark;
-  }
-
-  .colorpicker * {
-    @apply box-border m-0 p-0;
+  html,
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
   }
 
-  .color-picker-panel {
-    @apply bg-white dark:bg-dark-800 rounded border-0 outline-none z-[9] pb-5;
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  #root {
+    width: 100%;
+    min-height: 100vh;
   }
 
-  /* Input styles */
-  .input_rgba-hex-label,
-  .input_rgba-alpha-label {
-    @apply text-gray-500 dark:text-dark-400;
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
   }
 
-  /* Popup tab styles */
-  .popup_tabs {
-    @apply relative bg-white dark:bg-dark-800 shadow-popup dark:shadow-popup-dark rounded-md;
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
   }
 
-  .popup_tabs-header {
-    @apply w-full h-12 shadow-inner bg-gray-50 dark:bg-dark-700 flex rounded-md rounded-b-none overflow-hidden;
-    box-shadow: inset 0 2px 6px 0 rgba(0, 0, 0, 0.04);
+  ::-webkit-scrollbar-track {
+    @apply bg-muted rounded-lg;
   }
 
-  .popup_tabs-header-label {
-    @apply w-full h-12 text-sm font-bold leading-6 tracking-wide text-center text-gray-500 dark:text-dark-400 flex items-center justify-center cursor-pointer transition-colors;
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/30 rounded-lg;
+    transition: background-color var(--transition-fast);
   }
 
-  .popup_tabs-header-label.active {
-    @apply text-primary-600 dark:text-primary-400 bg-white dark:bg-dark-800;
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/50;
   }
 
-  .popup_tabs-header-label:hover {
-    @apply text-primary-500 dark:text-primary-300;
-  }
-}
-
-/* Theme toggle button styles */
-@layer components {
-  .theme-toggle {
-    @apply fixed top-4 right-4 z-50 p-2 rounded-full bg-white dark:bg-dark-800 shadow-lg border border-gray-200 dark:border-dark-700 hover:bg-gray-50 dark:hover:bg-dark-700 transition-colors;
+  /* Focus styles */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
   }
 
-  .theme-toggle-icon {
-    @apply w-5 h-5 text-gray-600 dark:text-dark-300;
+  /* Selection styles */
+  ::selection {
+    @apply bg-primary/20 text-primary-foreground;
   }
 
-  /* Iro.js color picker theme styles */
-  .IroColorPicker {
-    @apply bg-transparent;
+  /* Dark glass morphism effect for color picker containers */
+  html.dark .IroSlider svg,
+  html.dark .IroWheel svg,
+  html.dark .IroBox svg {
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
   }
 
-  /* Target all SVG backgrounds in iro color picker */
-  .IroColorPicker svg,
-  .IroColorPicker svg > rect:first-child {
-    fill: white !important;
-    stroke: theme(colors.gray.200) !important;
-    stroke-width: 1px !important;
-  }
-
-  html.dark .IroColorPicker svg,
-  html.dark .IroColorPicker svg > rect:first-child {
-    fill: theme(colors.dark.700) !important;
-    stroke: theme(colors.dark.500) !important;
-    stroke-width: 1px !important;
-  }
-
-  /* Style wheel component background */
-  .IroWheel svg > rect:first-child {
-    fill: transparent !important;
-    stroke: none !important;
-  }
-
-  /* Style slider component backgrounds */
-  .IroSlider svg > rect:first-child {
-    fill: white !important;
-    stroke: theme(colors.gray.200) !important;
-    stroke-width: 1px !important;
-  }
-
-  html.dark .IroSlider svg > rect:first-child {
-    fill: theme(colors.dark.700) !important;
-    stroke: theme(colors.dark.500) !important;
-    stroke-width: 1px !important;
-  }
-
-  /* Style box component (if used) backgrounds */
-  .IroBox svg > rect:first-child {
-    fill: white !important;
-    stroke: theme(colors.gray.200) !important;
-    stroke-width: 1px !important;
-  }
-
+  /* Style iro.js SVG elements for glass theme */
+  html.dark .IroSlider svg > rect:first-child,
+  html.dark .IroWheel svg > rect:first-child,
   html.dark .IroBox svg > rect:first-child {
-    fill: theme(colors.dark.700) !important;
-    stroke: theme(colors.dark.500) !important;
+    fill: rgba(26, 26, 28, 0.8) !important;
+    stroke: rgba(124, 58, 237, 0.3) !important;
+    stroke-width: 1px !important;
+    backdrop-filter: blur(16px);
+  }
+
+  /* Light theme iro.js styling */
+  html:not(.dark) .IroSlider svg > rect:first-child,
+  html:not(.dark) .IroWheel svg > rect:first-child,
+  html:not(.dark) .IroBox svg > rect:first-child {
+    fill: rgba(255, 255, 255, 0.8) !important;
+    stroke: rgba(229, 231, 235, 0.8) !important;
     stroke-width: 1px !important;
   }
+}
 
-  /* Force custom property text colors to override Tailwind classes */
-  [style*='--colorpicker-text'] {
-    color: var(--colorpicker-text) !important;
+/* Animation utilities */
+@layer utilities {
+  .glass-morphism {
+    @apply backdrop-blur-xl border;
+    background-color: rgba(var(--color-card), 0.8);
   }
 
-  /* Specific class for theme-aware text */
+  .colorpicker-glass {
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: var(--colorpicker-panel-bg);
+    box-shadow: var(--colorpicker-shadow);
+  }
+}
+
+/* Keyframe animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Component-specific styles */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:-translate-y-0.5 hover:shadow-lg;
+  }
+
+  .card-interactive {
+    @apply bg-card rounded-xl shadow-md border border-border/50 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg;
+  }
+
+  .input-field {
+    @apply flex h-10 w-full rounded-md border border-input bg-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  /* Color picker specific component styles */
   .colorpicker-text,
   div.colorpicker-text {
     color: var(--colorpicker-text) !important;
@@ -198,11 +289,13 @@ html.dark {
     background-color: var(--colorpicker-input-bg) !important;
     color: var(--colorpicker-text) !important;
     border-color: var(--colorpicker-input-border) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
   input[style*='--colorpicker-input-bg']:focus {
-    border-color: #3b82f6 !important;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2) !important;
   }
 
   input[style*='--colorpicker-input-bg']:hover {

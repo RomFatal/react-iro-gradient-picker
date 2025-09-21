@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import './_popup_tabs.scss';
 
 interface Popups {
   children?: any;
@@ -21,7 +20,10 @@ export const PopupTabs: FC<Popups> = ({
   });
 
   return (
-    <div className='popup_tabs bg-white dark:bg-dark-800 shadow-popup dark:shadow-popup-dark rounded-md' style={{ width: `${popupWidth}px` }}>
+    <div
+      className='relative rounded-md colorpicker-glass'
+      style={{ width: `${popupWidth}px` }}
+    >
       {childrenContact}
     </div>
   );
@@ -35,8 +37,10 @@ export const PopupTabsHeaderLabel: FC<Popups> = ({
 }: Popups) => {
   return (
     <div
-      className={`popup_tabs-header-label bg-gray-50 dark:bg-dark-700 text-gray-500 dark:text-dark-400 hover:text-primary-500 dark:hover:text-primary-300 transition-colors${
-        activeTab === tabName ? ' active bg-white dark:bg-dark-800 text-primary-600 dark:text-primary-400' : ''
+      className={`w-full h-12 text-sm font-bold leading-6 tracking-wider text-center uppercase flex items-center justify-center cursor-pointer transition-colors  ${
+        activeTab === tabName
+          ? ' cursor-default opacity-100 '
+          : 'hover:text-primary hover:opacity-80 bg-[var(--colorpicker-input-bg)] text-[var(--color-muted-foreground)]'
       }`}
       onClick={onClick}
     >
@@ -54,7 +58,11 @@ export const PopupTabsHeader: FC<Popups> = ({
       activeTab
     });
   });
-  return <div className='popup_tabs-header bg-gray-50 dark:bg-dark-700 shadow-inner'>{childrenContact}</div>;
+  return (
+    <div className='w-full h-12 flex rounded-md rounded-b-none overflow-hidden colorpicker-glass shadow-inner'>
+      {childrenContact}
+    </div>
+  );
 };
 
 export const PopupTabsBody: FC<Popups> = ({ children, activeTab }) => {
@@ -64,7 +72,7 @@ export const PopupTabsBody: FC<Popups> = ({ children, activeTab }) => {
     });
   });
 
-  return <div className='popup_tabs-body'>{childrenContact}</div>;
+  return <div className='p-4'>{childrenContact}</div>;
 };
 
 export const PopupTabsBodyItem: FC<Popups> = ({
@@ -73,7 +81,7 @@ export const PopupTabsBodyItem: FC<Popups> = ({
   tabName
 }: Popups) => {
   if (activeTab === tabName) {
-    return <div className='popup_tabs-body-item'>{children}</div>;
+    return <div>{children}</div>;
   }
 
   return null;

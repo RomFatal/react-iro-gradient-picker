@@ -131,7 +131,7 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
   return (
     <div
       ref={node}
-      className='w-full p-2 rounded-xl shadow-lg space-y-6 transition-all duration-200 hover:shadow-xl'
+      className='w-full p-2 rounded-xl shadow-lg space-y-2 transition-all duration-200 hover:shadow-xl'
       style={{
         backgroundColor: 'var(--colorpicker-panel-bg)',
         borderColor: 'var(--colorpicker-border)',
@@ -142,13 +142,9 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
       {/* Color Picker Container */}
       <div className='relative'>
         <div
-          className='flex justify-center items-center rounded-lg'
+          className='flex justify-center items-center rounded-lg colorpicker-glass'
           style={{
-            height: colorBoardHeight + 200,
-            backgroundColor: 'var(--colorpicker-input-bg)',
-            borderColor: 'var(--colorpicker-border)',
-            borderWidth: '1px',
-            borderStyle: 'solid'
+            height: colorBoardHeight + 200
           }}
         >
           <IroColorPicker
@@ -160,18 +156,18 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
           />
         </div>
       </div>
-
+      {/* Color Palette */}
+      <div className='border-t pt-4 colorpicker-glass rounded-lg'>
+        <DefaultColorsPanel
+          defaultColors={defaultColors}
+          setColor={setColor}
+          setInit={setInit}
+          colorType='solid'
+        />
+      </div>
       {/* Input Controls */}
       {showInputs && (
-        <div
-          className='rounded-lg p-4'
-          style={{
-            backgroundColor: 'var(--colorpicker-input-bg)',
-            borderColor: 'var(--colorpicker-border)',
-            borderWidth: '1px',
-            borderStyle: 'solid'
-          }}
-        >
+        <div className='rounded-lg  colorpicker-glass'>
           <InputRgba
             hex={color.hex}
             alpha={color.alpha}
@@ -182,16 +178,6 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
           />
         </div>
       )}
-
-      {/* Color Palette */}
-      <div className='border-t border-slate-200 dark:border-slate-600 pt-4'>
-        <DefaultColorsPanel
-          defaultColors={defaultColors}
-          setColor={setColor}
-          setInit={setInit}
-          colorType='solid'
-        />
-      </div>
     </div>
   );
 };
