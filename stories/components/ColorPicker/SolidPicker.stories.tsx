@@ -6,15 +6,15 @@ import {
   solidPickerPresets,
   type ColorPreset
 } from '../../utils/storyData';
-import ReactGPicker from './ReactGPicker';
+import ColorPickerDemo from './ColorPickerDemo';
 
 /**
  * Solid Color Picker component with dark theme support.
  * Perfect for selecting solid colors with alpha transparency.
  */
-const meta: Meta<typeof ReactGPicker> = {
+const meta: Meta<typeof ColorPickerDemo> = {
   title: 'Components/Color Picker/Solid Picker',
-  component: ReactGPicker,
+  component: ColorPickerDemo,
   parameters: {
     layout: 'centered',
     docs: {
@@ -118,11 +118,7 @@ export const ColorPresets: Story = {
     <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
       {solidPickerPresets.map((preset: ColorPreset, index: number) => (
         <div key={index} style={{ textAlign: 'center' }}>
-          <ReactGPicker
-            {...defaultArgs}
-            solid
-            value={preset.value}
-          />
+          <ColorPickerDemo {...defaultArgs} solid value={preset.value} />
           <p style={{ margin: '8px 0 0', fontSize: '12px', opacity: 0.7 }}>
             {preset.name}
           </p>

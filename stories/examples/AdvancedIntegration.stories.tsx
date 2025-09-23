@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-import ReactGPicker from '../components/ColorPicker/ReactGPicker';
+import ColorPickerDemo from '../components/ColorPicker/ColorPickerDemo';
 import { examplesDecorator } from '../utils/decorators';
 import {
   defaultArgs,
@@ -11,9 +11,9 @@ import {
 /**
  * Advanced Integration Examples - Real-world usage scenarios
  */
-const meta: Meta<typeof ReactGPicker> = {
+const meta: Meta<typeof ColorPickerDemo> = {
   title: 'Examples/Advanced Integration',
-  component: ReactGPicker,
+  component: ColorPickerDemo,
   parameters: {
     layout: 'fullscreen',
     docs: {
@@ -116,7 +116,7 @@ export const DesignToolInterface: Story = {
               >
                 Primary Color
               </label>
-              <ReactGPicker
+              <ColorPickerDemo
                 {...defaultArgs}
                 solid
                 value={primaryColor}
@@ -140,7 +140,7 @@ export const DesignToolInterface: Story = {
               >
                 Secondary Color
               </label>
-              <ReactGPicker
+              <ColorPickerDemo
                 {...defaultArgs}
                 solid
                 value={secondaryColor}
@@ -164,7 +164,7 @@ export const DesignToolInterface: Story = {
               >
                 Background Gradient
               </label>
-              <ReactGPicker
+              <ColorPickerDemo
                 {...defaultArgs}
                 gradient
                 solid={false}
@@ -189,7 +189,7 @@ export const DesignToolInterface: Story = {
               >
                 Text Color
               </label>
-              <ReactGPicker
+              <ColorPickerDemo
                 {...defaultArgs}
                 solid
                 value={textColor}
@@ -347,7 +347,7 @@ export const CSSGenerator: Story = {
             >
               Design Your Gradient
             </h3>
-            <ReactGPicker
+            <ColorPickerDemo
               {...defaultArgs}
               gradient
               solid={false}

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-import ReactGPicker from '../components/ColorPicker/ReactGPicker';
+import ColorPickerDemo from '../components/ColorPicker/ColorPickerDemo';
 import { examplesDecorator } from '../utils/decorators';
 import {
   darkThemePresets,
@@ -12,9 +12,9 @@ import {
 /**
  * Dark Theme Examples - Showcasing the enhanced dark theme capabilities
  */
-const meta: Meta<typeof ReactGPicker> = {
+const meta: Meta<typeof ColorPickerDemo> = {
   title: 'Examples/Dark Theme Showcase',
-  component: ReactGPicker,
+  component: ColorPickerDemo,
   parameters: {
     layout: 'fullscreen',
     docs: {
@@ -48,140 +48,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Side-by-side comparison of light and dark themes
- */
-export const ThemeComparison: Story = {
-  render: () => (
-    <div style={{ padding: '2rem' }}>
-      <h2
-        style={{
-          textAlign: 'center',
-          marginBottom: '2rem',
-          color: 'var(--colorpicker-text, #1f2937)'
-        }}
-      >
-        🌙 Dark Theme vs ☀️ Light Theme
-      </h2>
-
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '2rem',
-          maxWidth: '1200px',
-          margin: '0 auto'
-        }}
-      >
-        {/* Light Theme Section */}
-        <div
-          style={{
-            background: '#ffffff',
-            color: '#1f2937',
-            padding: '2rem',
-            borderRadius: '12px',
-            border: '1px solid #e2e8f0',
-            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-          }}
-        >
-          <h3
-            style={{
-              textAlign: 'center',
-              marginBottom: '1.5rem',
-              color: '#374151'
-            }}
-          >
-            ☀️ Light Theme
-          </h3>
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '1rem',
-              justifyContent: 'center'
-            }}
-          >
-            {lightThemePresets.map((preset: ColorPreset, index: number) => (
-              <div key={index} style={{ textAlign: 'center' }}>
-                <ReactGPicker
-                  {...defaultArgs}
-                  solid
-                  value={preset.value}
-                  colorBoardHeight={80}
-                  popupWidth={200}
-                />
-                <p
-                  style={{ margin: '8px 0 0', fontSize: '12px', opacity: 0.7 }}
-                >
-                  {preset.name}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Dark Theme Section */}
-        <div
-          style={{
-            background: '#1e293b',
-            color: '#f8fafc',
-            padding: '2rem',
-            borderRadius: '12px',
-            border: '1px solid #475569',
-            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.3)'
-          }}
-        >
-          <h3
-            style={{
-              textAlign: 'center',
-              marginBottom: '1.5rem',
-              color: '#e2e8f0'
-            }}
-          >
-            🌙 Dark Theme
-          </h3>
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '1rem',
-              justifyContent: 'center'
-            }}
-          >
-            {darkThemePresets.map((preset: ColorPreset, index: number) => (
-              <div key={index} style={{ textAlign: 'center' }}>
-                <ReactGPicker
-                  {...defaultArgs}
-                  solid
-                  value={preset.value}
-                  colorBoardHeight={80}
-                  popupWidth={200}
-                />
-                <p
-                  style={{ margin: '8px 0 0', fontSize: '12px', opacity: 0.7 }}
-                >
-                  {preset.name}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  ),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Side-by-side comparison showing how the color picker adapts to both light and dark themes.'
-      }
-    }
-  }
-};
-
-/**
  * Interactive demo with theme switching
  */
-export const InteractiveThemeDemo: Story = {
+export const InteractiveTheme: Story = {
   render: () => {
     const [isDark, setIsDark] = React.useState(true);
     const [currentColor, setCurrentColor] = React.useState('#38bdf8');
@@ -236,7 +105,7 @@ export const InteractiveThemeDemo: Story = {
           }}
         >
           <div style={{ textAlign: 'center' }}>
-            <ReactGPicker
+            <ColorPickerDemo
               {...defaultArgs}
               solid
               gradient

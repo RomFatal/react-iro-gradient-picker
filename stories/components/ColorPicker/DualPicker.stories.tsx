@@ -2,15 +2,11 @@ import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { colorPickerDecorator } from '../../utils/decorators';
 import { defaultArgs } from '../../utils/storyData';
-import ReactGPicker from './ReactGPicker';
+import ColorPickerDemo from './ColorPickerDemo';
 
-/**
- * Dual Color Picker component - Both solid and gradient modes.
- * Perfect for applications that need both solid and gradient color selection.
- */
-const meta: Meta<typeof ReactGPicker> = {
-  title: 'Components/Color Picker/Dual Picker',
-  component: ReactGPicker,
+const meta: Meta<typeof ColorPickerDemo> = {
+  title: 'Components/Color Picker/DualPicker',
+  component: ColorPickerDemo,
   parameters: {
     layout: 'centered',
     docs: {
@@ -149,7 +145,7 @@ export const InteractiveDemo: Story = {
           padding: '20px'
         }}
       >
-        <ReactGPicker
+        <ColorPickerDemo
           {...defaultArgs}
           solid
           gradient

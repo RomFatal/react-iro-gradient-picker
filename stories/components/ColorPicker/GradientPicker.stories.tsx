@@ -6,15 +6,15 @@ import {
   gradientPickerPresets,
   type ColorPreset
 } from '../../utils/storyData';
-import ReactGPicker from './ReactGPicker';
+import ColorPickerDemo from './ColorPickerDemo';
 
 /**
  * Gradient Color Picker component with dark theme support.
  * Perfect for creating beautiful gradient backgrounds.
  */
-const meta: Meta<typeof ReactGPicker> = {
+const meta: Meta<typeof ColorPickerDemo> = {
   title: 'Components/Color Picker/Gradient Picker',
-  component: ReactGPicker,
+  component: ColorPickerDemo,
   parameters: {
     layout: 'centered',
     docs: {
@@ -135,7 +135,7 @@ export const GradientPresets: Story = {
     <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
       {gradientPickerPresets.map((preset: ColorPreset, index: number) => (
         <div key={index} style={{ textAlign: 'center' }}>
-          <ReactGPicker
+          <ColorPickerDemo
             {...defaultArgs}
             gradient
             solid={false}
