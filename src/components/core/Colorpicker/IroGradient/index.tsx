@@ -46,7 +46,35 @@ const IroGradient: FC<IPropsComp> = ({
   const activeAlpha = Math.round(lastStop[3] * 100);
 
   const iroPickerRef = useRef<any>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const isUpdatingFromGradientStop = useRef<boolean>(false);
+  const [pickerWidth, setPickerWidth] = useState<number>(200);
+  // Responsive width for IroColorPicker - match solid picker logic
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const resizeObserver = new window.ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const containerWidth = entry.contentRect.width;
+        // Use the same logic as solid picker for consistency
+        const padding = 40; // Total padding and margins
+        const available = containerWidth - padding;
+
+        let calculatedWidth;
+        // Simple responsive calculation - same as solid picker
+        if (available <= 200) {
+          calculatedWidth = Math.max(150, available - 10); // Very small containers
+        } else if (available <= 320) {
+          calculatedWidth = Math.min(available * 0.85, 250); // Medium containers
+        } else {
+          calculatedWidth = Math.min(available * 0.8, 280); // Large containers
+        }
+
+        setPickerWidth(Math.floor(calculatedWidth));
+      }
+    });
+    resizeObserver.observe(containerRef.current);
+    return () => resizeObserver.disconnect();
+  }, []);
 
   const [color, setColor] = useState({
     gradient: value,
@@ -406,7 +434,7 @@ const IroGradient: FC<IPropsComp> = ({
 
   return (
     <div
-      className='w-full p-2 rounded-xl shadow-lg space-y-2 transition-all duration-200 hover:shadow-xl'
+      className='w-full rounded-xl shadow-lg space-y-2 transition-all duration-200 hover:shadow-xl'
       style={{
         backgroundColor: 'var(--colorpicker-panel-bg)',
         borderColor: 'var(--colorpicker-border)',
@@ -415,16 +443,16 @@ const IroGradient: FC<IPropsComp> = ({
       }}
     >
       {/* Color Picker Container */}
-      <div className='relative'>
+      <div className='relative' ref={containerRef}>
         <div
-          className='flex justify-center items-center rounded-lg colorpicker-glass'
+          className='flex justify-center items-center rounded-lg'
           style={{
-            height: colorBoardHeight + 200
+            height: colorBoardHeight + pickerWidth
           }}
         >
           <IroColorPicker
             ref={iroPickerRef}
-            width={200}
+            width={pickerWidth}
             color={iroColorValue}
             layout={layoutConfig}
             onColorChange={handleIroColorChange}

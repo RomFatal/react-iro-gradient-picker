@@ -19,13 +19,101 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
   debounce = true,
   showAlpha = true,
   showInputs = true,
-  colorBoardHeight = 120,
   defaultColors
 }) => {
   const node = useRef<HTMLDivElement | null>(null);
   const iroPickerRef = useRef<any>(null);
   const [init, setInit] = useState<boolean>(true);
   const [color, setColor] = useState(getHexAlpha(value));
+  const [pickerWidth, setPickerWidth] = useState<number>(200);
+  const pickerWidthRef = useRef<number>(200);
+
+  // Update ref when state changes
+  useEffect(() => {
+    pickerWidthRef.current = pickerWidth;
+    console.log('📊 Picker width state changed to:', pickerWidth);
+  }, [pickerWidth]);
+
+  // Calculate responsive width based on container
+  const getResponsiveWidth = (containerWidth: number) => {
+    const padding = 40; // Total padding and margins
+    const available = containerWidth - padding;
+
+    // Simple responsive calculation
+    if (available <= 200) {
+      return Math.max(150, available - 10); // Very small containers - fixed logic
+    } else if (available <= 320) {
+      return Math.min(available * 0.85, 250); // Medium containers
+    } else {
+      return Math.min(available * 0.8, 280); // Large containers
+    }
+  };
+
+  // Handle container resize
+  useEffect(() => {
+    if (!node.current) return;
+
+    const updateSize = () => {
+      if (node.current) {
+        const rect = node.current.getBoundingClientRect();
+        if (rect.width > 0) {
+          const newWidth = Math.floor(getResponsiveWidth(rect.width));
+          if (Math.abs(newWidth - pickerWidthRef.current) > 5) {
+            // Only update if significant change
+            console.log('� Size update:', { container: rect.width, newWidth });
+            setPickerWidth(newWidth);
+          }
+        }
+      }
+    };
+
+    // Initial size calculation
+    updateSize();
+
+    // Set up ResizeObserver
+    const resizeObserver = new ResizeObserver(() => {
+      updateSize();
+    });
+
+    resizeObserver.observe(node.current);
+
+    // Window resize backup
+    window.addEventListener('resize', updateSize);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateSize);
+    };
+  }, []); // Empty dependency array is now safe
+
+  // Debug helper for testing - create it once and update functions
+  useEffect(() => {
+    if (!(window as any).debugPicker) {
+      (window as any).debugPicker = {};
+    }
+
+    const debug = (window as any).debugPicker;
+    debug.getCurrentWidth = () => {
+      console.log('Current picker width:', pickerWidth);
+      return pickerWidth;
+    };
+    debug.getContainerWidth = () => {
+      const width = node.current?.getBoundingClientRect().width;
+      console.log('Current container width:', width);
+      return width;
+    };
+    debug.forceResize = () => {
+      if (node.current) {
+        const rect = node.current.getBoundingClientRect();
+        const newWidth = Math.floor(getResponsiveWidth(rect.width));
+        console.log('🔧 Force resize:', { container: rect.width, newWidth });
+        setPickerWidth(newWidth);
+      }
+    };
+    debug.getPickerRef = () => iroPickerRef.current;
+
+    // Don't cleanup on unmount so user can access it
+  }, [pickerWidth]);
 
   const debounceColor = useDebounce(color, debounceMS);
 
@@ -180,29 +268,44 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
   return (
     <div
       ref={node}
-      className='w-full p-2 rounded-xl shadow-lg space-y-2 transition-all duration-200 hover:shadow-xl'
+      className='w-full p-2 rounded-xl shadow-lg space-y-2 transition-all duration-200 hover:shadow-xl overflow-hidden'
       style={{
         backgroundColor: 'var(--colorpicker-panel-bg)',
         borderColor: 'var(--colorpicker-border)',
         borderWidth: '1px',
-        borderStyle: 'solid'
+        borderStyle: 'solid',
+        maxWidth: '100%',
+        minWidth: 0,
+        boxSizing: 'border-box'
       }}
     >
       {/* Color Picker Container */}
-      <div className='relative'>
+      <div className='relative overflow-hidden'>
         <div
-          className='flex justify-center items-center rounded-lg colorpicker-glass'
+          className='flex justify-center items-center rounded-lg colorpicker-glass w-full overflow-hidden'
           style={{
-            height: colorBoardHeight + 200
+            height: Math.max(pickerWidth + 80, 220), // Better height calculation
+            width: '100%',
+            minWidth: 0,
+            maxWidth: '100%',
+            boxSizing: 'border-box'
           }}
         >
-          <IroColorPicker
-            ref={iroPickerRef}
-            width={200}
-            color={iroColorValue}
-            layout={layoutConfig}
-            onColorChange={handleColorChange}
-          />
+          <div
+            style={{
+              width: pickerWidth,
+              height: 'fit-content',
+              maxWidth: '90%'
+            }}
+          >
+            <IroColorPicker
+              ref={iroPickerRef}
+              width={pickerWidth}
+              color={iroColorValue}
+              layout={layoutConfig}
+              onColorChange={handleColorChange}
+            />
+          </div>
         </div>
       </div>
       {/* Color Palette */}

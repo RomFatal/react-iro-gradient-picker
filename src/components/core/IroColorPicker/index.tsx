@@ -1,6 +1,7 @@
 import iro from '@jaames/iro';
 import React, {
   forwardRef,
+  useCallback,
   useEffect,
   useImperativeHandle,
   useRef,
@@ -78,16 +79,28 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
     const [containerWidth, setContainerWidth] = useState<number>(width || 200);
 
     // Set up ResizeObserver to make the color picker responsive
+    // Only when width prop is NOT provided (parent doesn't control width)
     useEffect(() => {
-      if (!containerRef.current || width) return; // Don't observe if width is fixed
+      if (width || !containerRef.current) return; // Don't observe if width is controlled by parent
 
       const resizeObserver = new ResizeObserver((entries) => {
         for (const entry of entries) {
           const { width: observedWidth } = entry.contentRect;
           if (observedWidth > 0) {
-            // Use 35% of available width to make it much more compact
-            const calculatedWidth = Math.floor(observedWidth * 0.35);
-            setContainerWidth(Math.max(160, Math.min(calculatedWidth, 200)));
+            // More aggressive sizing for compact spaces
+            // Account for padding and margins more carefully
+            const availableWidth = observedWidth - padding * 2 - margin * 2;
+
+            // Use different percentages based on available space
+            let percentage = 0.8; // Default
+            if (availableWidth < 300) {
+              percentage = 0.9; // Use more space in compact mode
+            } else if (availableWidth < 200) {
+              percentage = 0.95; // Nearly full width for very small containers
+            }
+
+            const calculatedWidth = Math.floor(availableWidth * percentage);
+            setContainerWidth(Math.max(120, Math.min(calculatedWidth, 250)));
           }
         }
       });
@@ -97,13 +110,196 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
       return () => {
         resizeObserver.disconnect();
       };
-    }, [width, padding, margin]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [padding, margin]); // Remove width from dependencies to prevent recreation
 
     useImperativeHandle(ref, () => ({
       colorPicker: colorPickerRef.current
     }));
 
+    // Create a shared picker creation function
+    const createColorPicker = useCallback(
+      (pickerWidth: number) => {
+        if (!containerRef.current || colorPickerRef.current) return;
+
+        // Capture the container reference for cleanup
+        const currentContainer = containerRef.current;
+
+        console.log(
+          '🔧 IroColorPicker recreating picker - width prop:',
+          width,
+          'containerWidth:',
+          containerWidth
+        );
+
+        // IMPORTANT: Clear any existing DOM content first
+        if (currentContainer) {
+          currentContainer.innerHTML = '';
+        }
+
+        // Set theme-appropriate border color and background
+        const themeBorderColor = theme === 'light' ? '#ffffff' : '#334155';
+        const themeBorderWidth = theme === 'light' ? 1 : 0;
+
+        const options: any = {
+          width: pickerWidth,
+          color: colors ? undefined : color,
+          colors: colors || undefined,
+          display,
+          id,
+          layout,
+          layoutDirection,
+          padding,
+          margin,
+          borderWidth: themeBorderWidth,
+          borderColor: themeBorderColor,
+          handleRadius,
+          activeHandleRadius: activeHandleRadius || handleRadius,
+          handleSvg,
+          handleProps,
+          wheelLightness,
+          wheelAngle,
+          wheelDirection,
+          sliderSize,
+          boxHeight
+        };
+
+        // Remove undefined values
+        Object.keys(options).forEach((key) => {
+          if (options[key] === undefined) {
+            delete options[key];
+          }
+        });
+
+        colorPickerRef.current = new (iro as any).ColorPicker(
+          containerRef.current,
+          options
+        );
+
+        // Apply theme styles to iro.js elements after creation
+        const applyThemeStyles = () => {
+          if (!containerRef.current) return;
+
+          const svgElements = containerRef.current.querySelectorAll('svg');
+          svgElements.forEach((svg) => {
+            // Remove default background
+            svg.style.backgroundColor = 'transparent';
+
+            // Style background rectangles
+            const backgroundRects = svg.querySelectorAll('rect:first-child');
+            backgroundRects.forEach((rect) => {
+              if (theme === 'light') {
+                rect.setAttribute('fill', 'white');
+                rect.setAttribute('stroke', '#e5e7eb');
+                rect.setAttribute('stroke-width', '1');
+              } else {
+                rect.setAttribute('fill', '#374151');
+                rect.setAttribute('stroke', '#6b7280');
+                rect.setAttribute('stroke-width', '1');
+              }
+            });
+          });
+        };
+
+        // Apply styles immediately and after a short delay
+        applyThemeStyles();
+        setTimeout(applyThemeStyles, 100);
+
+        // Set up event listeners
+        if (onColorChange) {
+          colorPickerRef.current.on('color:change', (color: any) => {
+            if (!isUpdatingColor.current) {
+              onColorChange(color);
+            }
+          });
+        }
+        if (onInputChange) {
+          colorPickerRef.current.on('input:change', onInputChange);
+        }
+        if (onInputStart) {
+          colorPickerRef.current.on('input:start', onInputStart);
+        }
+        if (onInputMove) {
+          colorPickerRef.current.on('input:move', onInputMove);
+        }
+        if (onInputEnd) {
+          colorPickerRef.current.on('input:end', onInputEnd);
+        }
+        if (onMount) {
+          colorPickerRef.current.on('mount', onMount);
+        }
+
+        return currentContainer;
+      },
+      [
+        theme,
+        colors,
+        color,
+        display,
+        id,
+        layout,
+        layoutDirection,
+        padding,
+        margin,
+        handleRadius,
+        activeHandleRadius,
+        handleSvg,
+        handleProps,
+        wheelLightness,
+        wheelAngle,
+        wheelDirection,
+        sliderSize,
+        boxHeight,
+        onColorChange,
+        onInputChange,
+        onInputStart,
+        onInputMove,
+        onInputEnd,
+        onMount,
+        width,
+        containerWidth
+      ]
+    );
+
+    // Cleanup function
+    const cleanup = useCallback(() => {
+      if (colorPickerRef.current) {
+        // Clean up event listeners
+        if (onColorChange) {
+          colorPickerRef.current.off('color:change', onColorChange);
+        }
+        if (onInputChange) {
+          colorPickerRef.current.off('input:change', onInputChange);
+        }
+        if (onInputStart) {
+          colorPickerRef.current.off('input:start', onInputStart);
+        }
+        if (onInputMove) {
+          colorPickerRef.current.off('input:move', onInputMove);
+        }
+        if (onInputEnd) {
+          colorPickerRef.current.off('input:end', onInputEnd);
+        }
+        if (onMount) {
+          colorPickerRef.current.off('mount', onMount);
+        }
+
+        // Set to null to ensure clean recreation
+        colorPickerRef.current = null;
+      }
+    }, [
+      onColorChange,
+      onInputChange,
+      onInputStart,
+      onInputMove,
+      onInputEnd,
+      onMount
+    ]);
+
+    // useEffect for when width prop is provided by parent
     useEffect(() => {
+      if (!width) return;
+
       if (!containerRef.current || colorPickerRef.current) {
         // Clear existing picker to force recreation
         if (colorPickerRef.current) {
@@ -111,125 +307,38 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
         }
       }
 
-      if (!containerRef.current || colorPickerRef.current) return;
-
-      // Set theme-appropriate border color and background
-      const themeBorderColor = theme === 'light' ? '#ffffff' : '#334155';
-      const themeBorderWidth = theme === 'light' ? 1 : 0;
-
-      const options: any = {
-        width: width || containerWidth,
-        color: colors ? undefined : color,
-        colors: colors || undefined,
-        display,
-        id,
-        layout,
-        layoutDirection,
-        padding,
-        margin,
-        borderWidth: themeBorderWidth,
-        borderColor: themeBorderColor,
-        handleRadius,
-        activeHandleRadius: activeHandleRadius || handleRadius,
-        handleSvg,
-        handleProps,
-        wheelLightness,
-        wheelAngle,
-        wheelDirection,
-        sliderSize,
-        boxHeight
-      };
-
-      // Remove undefined values
-      Object.keys(options).forEach((key) => {
-        if (options[key] === undefined) {
-          delete options[key];
-        }
-      });
-
-      colorPickerRef.current = new (iro as any).ColorPicker(
-        containerRef.current,
-        options
-      );
-
-      // Apply theme styles to iro.js elements after creation
-      const applyThemeStyles = () => {
-        if (!containerRef.current) return;
-
-        const svgElements = containerRef.current.querySelectorAll('svg');
-        svgElements.forEach((svg) => {
-          // Remove default background
-          svg.style.backgroundColor = 'transparent';
-
-          // Style background rectangles
-          const backgroundRects = svg.querySelectorAll('rect:first-child');
-          backgroundRects.forEach((rect) => {
-            if (theme === 'light') {
-              rect.setAttribute('fill', 'white');
-              rect.setAttribute('stroke', '#e5e7eb');
-              rect.setAttribute('stroke-width', '1');
-            } else {
-              rect.setAttribute('fill', '#374151');
-              rect.setAttribute('stroke', '#6b7280');
-              rect.setAttribute('stroke-width', '1');
-            }
-          });
-        });
-      };
-
-      // Apply styles immediately and after a short delay
-      applyThemeStyles();
-      setTimeout(applyThemeStyles, 100);
-
-      // Set up event listeners
-      if (onColorChange) {
-        colorPickerRef.current.on('color:change', (color: any) => {
-          if (!isUpdatingColor.current) {
-            onColorChange(color);
-          }
-        });
-      }
-      if (onInputChange) {
-        colorPickerRef.current.on('input:change', onInputChange);
-      }
-      if (onInputStart) {
-        colorPickerRef.current.on('input:start', onInputStart);
-      }
-      if (onInputMove) {
-        colorPickerRef.current.on('input:move', onInputMove);
-      }
-      if (onInputEnd) {
-        colorPickerRef.current.on('input:end', onInputEnd);
-      }
-      if (onMount) {
-        colorPickerRef.current.on('mount', onMount);
-      }
+      const currentContainer = createColorPicker(width);
 
       return () => {
-        if (colorPickerRef.current) {
-          // Clean up event listeners
-          if (onColorChange) {
-            colorPickerRef.current.off('color:change', onColorChange);
-          }
-          if (onInputChange) {
-            colorPickerRef.current.off('input:change', onInputChange);
-          }
-          if (onInputStart) {
-            colorPickerRef.current.off('input:start', onInputStart);
-          }
-          if (onInputMove) {
-            colorPickerRef.current.off('input:move', onInputMove);
-          }
-          if (onInputEnd) {
-            colorPickerRef.current.off('input:end', onInputEnd);
-          }
-          if (onMount) {
-            colorPickerRef.current.off('mount', onMount);
-          }
+        cleanup();
+        // IMPORTANT: Clear DOM content to prevent visual artifacts
+        if (currentContainer) {
+          currentContainer.innerHTML = '';
         }
       };
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [theme, containerWidth]); // Add containerWidth dependency to recreate picker on size change
+    }, [width, theme, createColorPicker, cleanup]);
+
+    // useEffect for when containerWidth is used (internal ResizeObserver)
+    useEffect(() => {
+      if (width) return; // Don't run if width prop is provided
+
+      if (!containerRef.current || colorPickerRef.current) {
+        // Clear existing picker to force recreation
+        if (colorPickerRef.current) {
+          colorPickerRef.current = null;
+        }
+      }
+
+      const currentContainer = createColorPicker(containerWidth);
+
+      return () => {
+        cleanup();
+        // IMPORTANT: Clear DOM content to prevent visual artifacts
+        if (currentContainer) {
+          currentContainer.innerHTML = '';
+        }
+      };
+    }, [containerWidth, theme, createColorPicker, cleanup, width]);
 
     // Update color when prop changes
     useEffect(() => {
@@ -282,10 +391,13 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
           display: 'flex',
           width: '100%',
           maxWidth: '100%',
+          minWidth: 0,
           overflow: 'hidden',
           justifyContent: 'center'
         }}
-      />
+      >
+        {/* Iro.js will render the picker here */}
+      </div>
     );
   }
 );
