@@ -77,20 +77,8 @@ export const Default: Story = {
     ...defaultArgs,
     solid: true,
     gradient: false,
-    value: '#3B82F6'
-  }
-};
-
-/**
- * Solid picker with alpha transparency enabled
- */
-export const WithAlpha: Story = {
-  args: {
-    ...defaultArgs,
-    solid: true,
-    gradient: false,
-    value: 'rgba(59, 130, 246, 0.7)',
-    showAlpha: true
+    value: '#3B82F6',
+    popupWidth: 300
   }
 };
 
@@ -118,7 +106,7 @@ export const Large: Story = {
     gradient: false,
     value: '#F59E0B',
     colorBoardHeight: 160,
-    popupWidth: 320
+    popupWidth: 400
   }
 };
 
@@ -134,7 +122,6 @@ export const ColorPresets: Story = {
             {...defaultArgs}
             solid
             value={preset.value}
-            showAlpha={preset.showAlpha}
           />
           <p style={{ margin: '8px 0 0', fontSize: '12px', opacity: 0.7 }}>
             {preset.name}

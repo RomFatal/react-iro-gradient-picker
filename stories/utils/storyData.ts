@@ -13,9 +13,8 @@ export const defaultArgs: Partial<IPropsMain> = {
   format: 'hex',
   debounceMS: 300,
   debounce: true,
-  showAlpha: true,
   colorBoardHeight: 120,
-  popupWidth: 267,
+  popupWidth: 300,
   showInputs: true,
   showGradientResult: true,
   showGradientStops: true,
@@ -52,11 +51,6 @@ export const solidPickerPresets: ColorPreset[] = [
   {
     name: 'Purple with Alpha',
     value: 'rgba(139, 92, 246, 0.8)',
-    showAlpha: true
-  },
-  {
-    name: 'Teal with Alpha',
-    value: 'rgba(20, 184, 166, 0.6)',
     showAlpha: true
   }
 ];

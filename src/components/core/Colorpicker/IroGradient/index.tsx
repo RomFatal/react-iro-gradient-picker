@@ -1,5 +1,5 @@
 import iro from '@jaames/iro';
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import tinyColor from 'tinycolor2';
 
 import { InputRgba } from '../../../forms';
@@ -45,6 +45,9 @@ const IroGradient: FC<IPropsComp> = ({
   const activeStop = rgbaToHex([lastStop[0], lastStop[1], lastStop[2]]);
   const activeAlpha = Math.round(lastStop[3] * 100);
 
+  const iroPickerRef = useRef<any>(null);
+  const isUpdatingFromGradientStop = useRef<boolean>(false);
+
   const [color, setColor] = useState({
     gradient: value,
     type,
@@ -61,12 +64,172 @@ const IroGradient: FC<IPropsComp> = ({
 
   const debounceColor = useDebounce(color, debounceMS);
 
+  // Update iro picker color
+  const updateIroPickerColor = useCallback(
+    (colorData: { hex: string; alpha: number }, retryCount = 0) => {
+      const maxRetries = 5;
+
+      const updateColor = () => {
+        // Check if picker is properly initialized
+        if (
+          iroPickerRef.current?.colorPicker &&
+          iroPickerRef.current.colorPicker.color
+        ) {
+          const iroColor = showAlpha
+            ? {
+                r: parseInt(colorData.hex.slice(1, 3), 16),
+                g: parseInt(colorData.hex.slice(3, 5), 16),
+                b: parseInt(colorData.hex.slice(5, 7), 16),
+                a: colorData.alpha / 100
+              }
+            : colorData.hex;
+
+          try {
+            // Set flag to prevent circular updates
+            isUpdatingFromGradientStop.current = true;
+
+            console.log(
+              '🎨 Updating iro picker in gradient mode (attempt:',
+              retryCount + 1,
+              '):',
+              {
+                hex: colorData.hex,
+                alpha: colorData.alpha,
+                iroColor,
+                pickerReady: !!iroPickerRef.current?.colorPicker?.color
+              }
+            );
+
+            iroPickerRef.current.colorPicker.color.set(iroColor);
+
+            // Reset flag after a short delay
+            setTimeout(() => {
+              isUpdatingFromGradientStop.current = false;
+            }, 100);
+
+            console.log('✅ Successfully updated iro picker');
+          } catch (error) {
+            isUpdatingFromGradientStop.current = false;
+            console.warn('❌ Error updating iro color picker:', error);
+
+            // Retry with exponential backoff
+            if (retryCount < maxRetries) {
+              const delay = 100 * Math.pow(2, retryCount); // 100ms, 200ms, 400ms, etc.
+              console.log(
+                `🔄 Retrying in ${delay}ms (attempt ${retryCount + 2}/${
+                  maxRetries + 1
+                })`
+              );
+              setTimeout(() => {
+                updateIroPickerColor(colorData, retryCount + 1);
+              }, delay);
+            } else {
+              console.error(
+                '💥 Max retries reached, giving up on iro picker update'
+              );
+            }
+          }
+        } else {
+          console.log('⏳ Iro picker not ready, retrying...', {
+            hasRef: !!iroPickerRef.current,
+            hasColorPicker: !!iroPickerRef.current?.colorPicker,
+            hasColor: !!iroPickerRef.current?.colorPicker?.color,
+            attempt: retryCount + 1
+          });
+
+          // If picker is not ready, retry with increasing delays
+          if (retryCount < maxRetries) {
+            const delay = 50 + retryCount * 100; // 50ms, 150ms, 250ms, etc.
+            setTimeout(() => {
+              updateIroPickerColor(colorData, retryCount + 1);
+            }, delay);
+          } else {
+            console.error('💥 Iro picker never became ready, giving up');
+          }
+        }
+      };
+
+      updateColor();
+    },
+    [showAlpha]
+  );
+
   useEffect(() => {
     if (debounce && debounceColor) {
       onChange?.(debounceColor.gradient);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounceColor]);
+
+  // Initialize iro picker with current activeColor when component mounts or picker becomes ready
+  useEffect(() => {
+    const initializeIroPicker = () => {
+      if (iroPickerRef.current?.colorPicker?.color && activeColor.hex) {
+        console.log(
+          '🚀 Initializing iro picker with activeColor:',
+          activeColor
+        );
+        // Wait a bit for the picker to be fully ready, then update
+        setTimeout(() => {
+          updateIroPickerColor({
+            hex: activeColor.hex,
+            alpha: activeColor.alpha
+          });
+        }, 200);
+      }
+    };
+
+    // Try immediately
+    initializeIroPicker();
+
+    // Also try after a delay in case picker wasn't ready
+    const timeoutId = setTimeout(initializeIroPicker, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [activeColor, updateIroPickerColor]); // Initialize when activeColor or updateFunction changes
+
+  // Custom setActiveColor that also updates iro picker
+  const handleSetActiveColor = useCallback(
+    (newActiveColor: any) => {
+      console.log(
+        '🎯 Gradient stop clicked, setting active color:',
+        newActiveColor
+      );
+      setActiveColor(newActiveColor);
+
+      // Force immediate update of iro picker with longer delay for first-time reliability
+      setTimeout(() => {
+        updateIroPickerColor({
+          hex: newActiveColor.hex,
+          alpha: newActiveColor.alpha
+        });
+      }, 50); // Increased from 5ms to 50ms for better first-time success
+    },
+    [updateIroPickerColor]
+  );
+
+  // Update iro picker when activeColor changes (e.g., clicking gradient stops)
+  useEffect(() => {
+    console.log('🔄 ActiveColor changed in gradient:', {
+      hex: activeColor.hex,
+      alpha: activeColor.alpha,
+      index: activeColor.index,
+      loc: activeColor.loc
+    });
+
+    // Add a small delay to ensure the activeColor state has fully updated
+    const timeoutId = setTimeout(() => {
+      updateIroPickerColor({ hex: activeColor.hex, alpha: activeColor.alpha });
+    }, 10);
+
+    return () => clearTimeout(timeoutId);
+  }, [
+    activeColor.hex,
+    activeColor.alpha,
+    activeColor.index,
+    activeColor.loc,
+    updateIroPickerColor
+  ]);
 
   const updateGradient = useCallback(
     (newColor: any) => {
@@ -172,7 +335,34 @@ const IroGradient: FC<IPropsComp> = ({
     onChangeActiveColor({ hex, alpha });
   };
 
+  // Update iro picker when color is selected from default colors panel
+  const handleColorFromPanel = (newColor: any) => {
+    setColor(newColor);
+    if (newColor?.stops) {
+      const lastStop = rgbaToArray(
+        newColor.stops[newColor.stops.length - 1][0]
+      );
+      const activeStop = rgbaToHex([lastStop[0], lastStop[1], lastStop[2]]);
+      const newActiveColor = {
+        hex: activeStop,
+        alpha: Math.round(lastStop[3] * 100),
+        loc: newColor.stops[newColor.stops.length - 1][1],
+        index: newColor.stops.length - 1
+      };
+
+      setActiveColor(newActiveColor);
+
+      // Update the iro color picker
+      updateIroPickerColor(newActiveColor);
+    }
+  };
+
   const handleIroColorChange = (iroColor: any) => {
+    // Don't process if we're currently updating from gradient stop
+    if (isUpdatingFromGradientStop.current) {
+      return;
+    }
+
     const newColor: TPropsChange = {
       hex: iroColor.hexString,
       alpha: Math.round(iroColor.alpha * 100)
@@ -233,6 +423,7 @@ const IroGradient: FC<IPropsComp> = ({
           }}
         >
           <IroColorPicker
+            ref={iroPickerRef}
             width={200}
             color={iroColorValue}
             layout={layoutConfig}
@@ -266,7 +457,7 @@ const IroGradient: FC<IPropsComp> = ({
         <GradientPanel
           color={color}
           activeColor={activeColor}
-          setActiveColor={setActiveColor}
+          setActiveColor={handleSetActiveColor}
           setColor={updateGradient}
           setInit={setInit}
           format={format}
@@ -284,27 +475,9 @@ const IroGradient: FC<IPropsComp> = ({
       <div className='border-t border-slate-200 dark:border-slate-600 pt-4'>
         <DefaultColorsPanel
           defaultColors={defaultColors}
-          setColor={(newColor) => {
-            setColor(newColor);
-            if (newColor?.stops) {
-              const lastStop = rgbaToArray(
-                newColor.stops[newColor.stops.length - 1][0]
-              );
-              const activeStop = rgbaToHex([
-                lastStop[0],
-                lastStop[1],
-                lastStop[2]
-              ]);
-              setActiveColor({
-                hex: activeStop,
-                alpha: Math.round(lastStop[3] * 100),
-                loc: newColor.stops[newColor.stops.length - 1][1],
-                index: newColor.stops.length - 1
-              });
-            }
-          }}
+          setColor={handleColorFromPanel}
           setInit={() => {}}
-          setActiveColor={setActiveColor}
+          setActiveColor={handleSetActiveColor}
           colorType='gradient'
         />
       </div>

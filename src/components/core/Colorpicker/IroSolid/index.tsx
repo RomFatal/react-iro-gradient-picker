@@ -23,7 +23,7 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
   defaultColors
 }) => {
   const node = useRef<HTMLDivElement | null>(null);
-  const colorPickerRef = useRef<any>(null);
+  const iroPickerRef = useRef<any>(null);
   const [init, setInit] = useState<boolean>(true);
   const [color, setColor] = useState(getHexAlpha(value));
 
@@ -58,7 +58,7 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
     setColor(getHexAlpha(value));
 
     // Update iro color picker when value changes externally
-    if (colorPickerRef.current && !init) {
+    if (iroPickerRef.current?.colorPicker) {
       const newIroColor = showAlpha
         ? {
             r: parseInt(getHexAlpha(value).hex.slice(1, 3), 16),
@@ -67,9 +67,14 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
             a: getHexAlpha(value).alpha / 100
           }
         : getHexAlpha(value).hex;
-      colorPickerRef.current.color = newIroColor;
+
+      try {
+        iroPickerRef.current.colorPicker.color.set(newIroColor);
+      } catch (error) {
+        console.warn('Error updating iro color picker from props:', error);
+      }
     }
-  }, [value, showAlpha, init]);
+  }, [value, showAlpha]);
 
   const handleColorChange = (iroColor: any) => {
     console.log('🎨 Alpha slider changed!', {
@@ -93,6 +98,50 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
 
   const handleInputSubmit = (colorString: string) => {
     onChange?.(colorString);
+  };
+
+  // Update iro picker when color is selected from default colors panel
+  const handleColorFromPanel = (newColor: { hex: string; alpha: number }) => {
+    setInit(false);
+    setColor(newColor);
+
+    // Update the iro color picker with a small delay to ensure it's ready
+    const updateIroColor = () => {
+      if (iroPickerRef.current?.colorPicker) {
+        const iroColor = showAlpha
+          ? {
+              r: parseInt(newColor.hex.slice(1, 3), 16),
+              g: parseInt(newColor.hex.slice(3, 5), 16),
+              b: parseInt(newColor.hex.slice(5, 7), 16),
+              a: newColor.alpha / 100
+            }
+          : newColor.hex;
+
+        try {
+          iroPickerRef.current.colorPicker.color.set(iroColor);
+        } catch (error) {
+          console.warn('Error updating iro color picker:', error);
+          // Retry after a short delay
+          setTimeout(() => {
+            try {
+              if (iroPickerRef.current?.colorPicker) {
+                iroPickerRef.current.colorPicker.color.set(iroColor);
+              }
+            } catch (retryError) {
+              console.warn(
+                'Retry failed for iro color picker update:',
+                retryError
+              );
+            }
+          }, 100);
+        }
+      } else {
+        // If picker is not ready, try again after a short delay
+        setTimeout(updateIroColor, 50);
+      }
+    };
+
+    updateIroColor();
   };
 
   // Create layout array conditionally based on showAlpha
@@ -148,7 +197,7 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
           }}
         >
           <IroColorPicker
-            ref={colorPickerRef}
+            ref={iroPickerRef}
             width={200}
             color={iroColorValue}
             layout={layoutConfig}
@@ -160,7 +209,7 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
       <div className='border-t pt-4 colorpicker-glass rounded-lg'>
         <DefaultColorsPanel
           defaultColors={defaultColors}
-          setColor={setColor}
+          setColor={handleColorFromPanel}
           setInit={setInit}
           colorType='solid'
         />
