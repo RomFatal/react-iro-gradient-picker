@@ -432,26 +432,6 @@ const IroGradient: FC<IPropsComp> = ({
         </div>
       </div>
 
-      {/* Input Controls */}
-      {showInputs && (
-        <div className='rounded-lg colorpicker-glass'>
-          <InputRgba
-            hex={activeColor.hex}
-            alpha={activeColor.alpha}
-            showAlpha={showAlpha}
-            onChange={(value: { hex: string; alpha: number }) =>
-              setActiveColor((prev) => ({
-                ...prev,
-                hex: value.hex,
-                alpha: value.alpha,
-                index: prev.index // Preserve the index!
-              }))
-            }
-            onSubmitChange={onSubmitChange}
-          />
-        </div>
-      )}
-
       {/* Gradient Controls */}
       <div className='rounded-lg colorpicker-glass'>
         <GradientPanel
@@ -472,7 +452,7 @@ const IroGradient: FC<IPropsComp> = ({
       </div>
 
       {/* Color Palette */}
-      <div className='border-t border-slate-200 dark:border-slate-600 pt-4'>
+      <div className='pt-4'>
         <DefaultColorsPanel
           defaultColors={defaultColors}
           setColor={handleColorFromPanel}
@@ -481,6 +461,26 @@ const IroGradient: FC<IPropsComp> = ({
           colorType='gradient'
         />
       </div>
+
+      {/* Input Controls */}
+      {showInputs && (
+        <div className='rounded-lg colorpicker-glass'>
+          <InputRgba
+            hex={activeColor.hex}
+            alpha={activeColor.alpha}
+            showAlpha={showAlpha}
+            onChange={(value: { hex: string; alpha: number }) =>
+              setActiveColor((prev) => ({
+                ...prev,
+                hex: value.hex,
+                alpha: value.alpha,
+                index: prev.index // Preserve the index!
+              }))
+            }
+            onSubmitChange={onSubmitChange}
+          />
+        </div>
+      )}
     </div>
   );
 };

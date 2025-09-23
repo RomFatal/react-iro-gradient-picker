@@ -1,7 +1,6 @@
 import iro from '@jaames/iro';
 import React, {
   forwardRef,
-  useCallback,
   useEffect,
   useImperativeHandle,
   useRef,
@@ -54,8 +53,6 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
       layoutDirection = 'vertical',
       padding = 6,
       margin = 12,
-      borderWidth = 0,
-      borderColor = '#ffffff',
       handleRadius = 8,
       activeHandleRadius,
       handleSvg,

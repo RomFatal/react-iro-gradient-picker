@@ -98,7 +98,6 @@ const InputRgba: FC<TProps> = ({
             labelSymbol,
             idInput,
             valueInput,
-            labelText,
             labelArea,
             onChangeInput,
             name
@@ -109,34 +108,18 @@ const InputRgba: FC<TProps> = ({
               className={cn('flex-1 min-w-0', 'relative group', wrapClass)}
             >
               <div className='relative'>
-                {labelSymbol && (
-                  <label
-                    htmlFor='rgba-hex'
-                    className='absolute left-3 top-3 text-sm font-medium z-10 colorpicker-text leading-none'
-                  >
-                    #
-                  </label>
-                )}
-                {name === 'alpha' && (
-                  <label
-                    htmlFor={idInput}
-                    className='absolute right-3 top-2.5 text-sm font-medium z-10 colorpicker-text leading-none'
-                  >
-                    %
-                  </label>
-                )}
                 <input
                   type='text'
                   id={idInput}
-                  value={valueInput}
+                  value={`#${valueInput}`}
                   aria-label={labelArea}
                   onChange={(e) => onChangeInput(e)}
                   onBlur={onHandleSubmit}
                   onKeyPress={(e) => handlePressEnter(e, onHandleSubmit)}
                   className={cn(
-                    'w-full px-3 py-2.5 text-sm font-mono rounded-lg',
+                    'w-full py-2.5 text-md font-mono rounded-lg',
                     'focus:ring-2 focus:ring-blue-500/20 transition-all duration-200',
-                    labelSymbol && 'pl-7',
+                    labelSymbol && 'pl-4',
                     name === 'alpha' && 'pr-7'
                   )}
                   style={{

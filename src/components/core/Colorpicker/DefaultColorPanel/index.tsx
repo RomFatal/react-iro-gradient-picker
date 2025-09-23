@@ -82,10 +82,8 @@ const DefaultColorPanel: FC<IProps> = ({
 
   return (
     <div className='w-full'>
-      <h3 className='text-sm font-medium mb-3 colorpicker-text'>
-        Popular Colors
-      </h3>
-      <div className='grid grid-cols-5 gap-2'>
+      <h3 className='text-sm font-medium colorpicker-text'>Popular Colors</h3>
+      <div className='grid grid-cols-5 gap-4 py-4'>
         {formatedDefColors.map((item: string | IColor, index: number) => {
           switch (colorType) {
             case 'gradient':
