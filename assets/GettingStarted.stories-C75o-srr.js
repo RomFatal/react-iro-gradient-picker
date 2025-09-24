@@ -1,4 +1,4 @@
-import{R as e}from"./iframe-c3j6boqu.js";import{d as o}from"./decorators-Dq74Dn_A.js";import"./preload-helper-PPVm8Dsz.js";const l={title:"Documentation/Getting Started",parameters:{layout:"fullscreen",docs:{description:{component:"Complete guide to getting started with React Iro Gradient Picker"}}},decorators:[o],tags:["autodocs"]},t={render:()=>e.createElement("div",{style:{maxWidth:"800px",margin:"0 auto",padding:"2rem"}},e.createElement("h1",{style:{color:"#38bdf8",marginBottom:"2rem"}},"🚀 Getting Started with React Iro Gradient Picker"),e.createElement("div",{style:{marginBottom:"3rem"}},e.createElement("h2",null,"📦 Installation"),e.createElement("p",{style:{color:"#cbd5e1",marginBottom:"1rem"}},"Install React Iro Gradient Picker using your preferred package manager:"),e.createElement("div",{style:{background:"#1e293b",color:"#f8fafc",padding:"1rem",borderRadius:"8px",fontFamily:'Monaco, "Cascadia Code", monospace',fontSize:"14px",margin:"1rem 0"}},e.createElement("div",null,"npm install react-iro-gradient-picker"),e.createElement("div",{style:{opacity:.6,marginTop:"8px"}},"# or"),e.createElement("div",null,"yarn add react-iro-gradient-picker"),e.createElement("div",{style:{opacity:.6,marginTop:"8px"}},"# or"),e.createElement("div",null,"pnpm add react-iro-gradient-picker")),e.createElement("div",{style:{background:"#0f172a",border:"1px solid #334155",borderRadius:"8px",padding:"1rem",marginTop:"1rem"}},e.createElement("p",{style:{margin:"0 0 8px",color:"#38bdf8",fontWeight:"600"}},"📊 Package Info:"),e.createElement("ul",{style:{margin:0,paddingLeft:"1.5rem",color:"#cbd5e1"}},e.createElement("li",null,"Version: 1.0.0"),e.createElement("li",null,"Repository:"," ",e.createElement("a",{href:"https://github.com/romfatal/react-iro-gradient-picker",style:{color:"#38bdf8"}},"romfatal/react-iro-gradient-picker")),e.createElement("li",null,"License: MIT"),e.createElement("li",null,"TypeScript support included")))),e.createElement("div",{style:{marginBottom:"3rem"}},e.createElement("h2",null,"🎨 Basic Usage"),e.createElement("p",{style:{color:"#cbd5e1",marginBottom:"1rem"}},"Quick start with solid color picker:"),e.createElement("div",{style:{background:"#1e293b",color:"#f8fafc",padding:"1rem",borderRadius:"8px",fontFamily:'Monaco, "Cascadia Code", monospace',fontSize:"14px",margin:"1rem 0",whiteSpace:"pre"}},`import React, { useState } from 'react';
+import{R as e}from"./iframe-C9OrcDRr.js";import{d as o}from"./decorators-ComOuJTN.js";import"./preload-helper-PPVm8Dsz.js";const n={title:"Documentation/Getting Started",parameters:{layout:"fullscreen",docs:{description:{component:"Complete guide to getting started with React Iro Gradient Picker"}}},decorators:[o],tags:["autodocs"]},t={render:()=>e.createElement("div",{style:{maxWidth:"800px",margin:"0 auto",padding:"2rem"}},e.createElement("h1",{style:{color:"#38bdf8",marginBottom:"2rem"}},"🚀 Getting Started with React Iro Gradient Picker"),e.createElement("div",{style:{marginBottom:"3rem"}},e.createElement("h2",null,"📦 Installation"),e.createElement("p",{style:{color:"#cbd5e1",marginBottom:"1rem"}},"Install React Iro Gradient Picker using your preferred package manager:"),e.createElement("div",{style:{background:"#1e293b",color:"#f8fafc",padding:"1rem",borderRadius:"8px",fontFamily:'Monaco, "Cascadia Code", monospace',fontSize:"14px",margin:"1rem 0"}},e.createElement("div",null,"npm install react-iro-gradient-picker"),e.createElement("div",{style:{opacity:.6,marginTop:"8px"}},"# or"),e.createElement("div",null,"yarn add react-iro-gradient-picker"),e.createElement("div",{style:{opacity:.6,marginTop:"8px"}},"# or"),e.createElement("div",null,"pnpm add react-iro-gradient-picker")),e.createElement("div",{style:{background:"#0f172a",border:"1px solid #334155",borderRadius:"8px",padding:"1rem",marginTop:"1rem"}},e.createElement("p",{style:{margin:"0 0 8px",color:"#38bdf8",fontWeight:"600"}},"📊 Package Info:"),e.createElement("ul",{style:{margin:0,paddingLeft:"1.5rem",color:"#cbd5e1"}},e.createElement("li",null,"Version: 1.0.0"),e.createElement("li",null,"Repository:"," ",e.createElement("a",{href:"https://github.com/romfatal/react-iro-gradient-picker",style:{color:"#38bdf8"}},"romfatal/react-iro-gradient-picker")),e.createElement("li",null,"License: MIT"),e.createElement("li",null,"TypeScript support included")))),e.createElement("div",{style:{marginBottom:"3rem"}},e.createElement("h2",null,"🎨 Basic Usage"),e.createElement("p",{style:{color:"#cbd5e1",marginBottom:"1rem"}},"Quick start with solid color picker:"),e.createElement("div",{style:{background:"#1e293b",color:"#f8fafc",padding:"1rem",borderRadius:"8px",fontFamily:'Monaco, "Cascadia Code", monospace',fontSize:"14px",margin:"1rem 0",whiteSpace:"pre"}},`import React, { useState } from 'react';
 import ColorPicker from 'react-iro-gradient-picker';
 import { ThemeProvider } from 'react-iro-gradient-picker/components/providers/ThemeContext';
 
@@ -42,7 +42,63 @@ function GradientExample() {
   showAlpha={true}
   showInputs={true}
   defaultActiveTab="solid"
-/>`)),e.createElement("div",{style:{marginBottom:"3rem"}},e.createElement("h2",null,"🌙 Complete Dark Theme Integration"),e.createElement("p",{style:{color:"#cbd5e1",marginBottom:"1rem"}},"React Iro Gradient Picker provides comprehensive dark theme support with automatic persistence and smooth transitions:"),e.createElement("ul",{style:{color:"#cbd5e1",paddingLeft:"1.5rem",marginBottom:"2rem"}},e.createElement("li",null,"✅ All components automatically respond to theme changes"),e.createElement("li",null,"✅ CSS custom properties for easy customization"),e.createElement("li",null,"✅ Theme persistence with localStorage"),e.createElement("li",null,"✅ Smooth transitions between light and dark modes"),e.createElement("li",null,"✅ Storybook integration with theme decorators"),e.createElement("li",null,"✅ TypeScript support for theme providers")),e.createElement("h3",{style:{color:"#38bdf8",marginTop:"2rem",marginBottom:"1rem"}},"Basic Theme Setup"),e.createElement("div",{style:{background:"#1e293b",color:"#f8fafc",padding:"1rem",borderRadius:"8px",fontFamily:'Monaco, "Cascadia Code", monospace',fontSize:"14px",margin:"1rem 0",whiteSpace:"pre"}},`import { ThemeProvider } from 'react-iro-gradient-picker/components/providers/ThemeContext';
+/>`)),e.createElement("div",{style:{marginBottom:"3rem"}},e.createElement("h2",null,"🔄 Reset Functionality"),e.createElement("p",{style:{color:"#cbd5e1",marginBottom:"1rem"}},"New reset button functionality allows users to easily restore colors to their initial state:"),e.createElement("ul",{style:{color:"#cbd5e1",paddingLeft:"1.5rem",marginBottom:"2rem"}},e.createElement("li",null,"✅ Built-in reset button in the picker interface"),e.createElement("li",null,"✅ Custom callbacks for handling reset events"),e.createElement("li",null,"✅ Easy state management and tracking"),e.createElement("li",null,"✅ Works with both solid and gradient modes")),e.createElement("h3",{style:{color:"#38bdf8",marginTop:"2rem",marginBottom:"1rem"}},"Basic Reset Example"),e.createElement("div",{style:{background:"#1e293b",color:"#f8fafc",padding:"1rem",borderRadius:"8px",fontFamily:'Monaco, "Cascadia Code", monospace',fontSize:"14px",margin:"1rem 0",whiteSpace:"pre"}},`import React, { useState } from 'react';
+import ColorPicker from 'react-iro-gradient-picker';
+
+function ResetExample() {
+  const [color, setColor] = useState('#3B82F6');
+  const originalColor = '#3B82F6';
+
+  const handleReset = () => {
+    setColor(originalColor);
+    console.log('Color reset to original value!');
+  };
+
+  return (
+    <ColorPicker
+      solid
+      value={color}
+      onChange={setColor}
+      showReset
+      onReset={handleReset}
+    />
+  );
+}`),e.createElement("h3",{style:{color:"#38bdf8",marginTop:"2rem",marginBottom:"1rem"}},"Advanced Reset with History Tracking"),e.createElement("div",{style:{background:"#1e293b",color:"#f8fafc",padding:"1rem",borderRadius:"8px",fontFamily:'Monaco, "Cascadia Code", monospace',fontSize:"14px",margin:"1rem 0",whiteSpace:"pre"}},`function AdvancedResetExample() {
+  const [gradient, setGradient] = useState(
+    'linear-gradient(45deg, #FF6B35 0%, #3A86FF 100%)'
+  );
+  const [resetHistory, setResetHistory] = useState([]);
+
+  const handleReset = () => {
+    const timestamp = new Date().toLocaleTimeString();
+    setResetHistory(prev => [
+      ...prev,
+      \`Reset at \${timestamp}\`
+    ]);
+    setGradient('linear-gradient(45deg, #FF6B35 0%, #3A86FF 100%)');
+  };
+
+  return (
+    <div>
+      <ColorPicker
+        gradient
+        value={gradient}
+        onChange={setGradient}
+        showReset
+        onReset={handleReset}
+      />
+
+      <div style={{ marginTop: '20px' }}>
+        <h4>Reset History:</h4>
+        <ul>
+          {resetHistory.map((entry, index) => (
+            <li key={index}>{entry}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}`)),e.createElement("div",{style:{marginBottom:"3rem"}},e.createElement("h2",null,"🌙 Complete Dark Theme Integration"),e.createElement("p",{style:{color:"#cbd5e1",marginBottom:"1rem"}},"React Iro Gradient Picker provides comprehensive dark theme support with automatic persistence and smooth transitions:"),e.createElement("ul",{style:{color:"#cbd5e1",paddingLeft:"1.5rem",marginBottom:"2rem"}},e.createElement("li",null,"✅ All components automatically respond to theme changes"),e.createElement("li",null,"✅ CSS custom properties for easy customization"),e.createElement("li",null,"✅ Theme persistence with localStorage"),e.createElement("li",null,"✅ Smooth transitions between light and dark modes"),e.createElement("li",null,"✅ Storybook integration with theme decorators"),e.createElement("li",null,"✅ TypeScript support for theme providers")),e.createElement("h3",{style:{color:"#38bdf8",marginTop:"2rem",marginBottom:"1rem"}},"Basic Theme Setup"),e.createElement("div",{style:{background:"#1e293b",color:"#f8fafc",padding:"1rem",borderRadius:"8px",fontFamily:'Monaco, "Cascadia Code", monospace',fontSize:"14px",margin:"1rem 0",whiteSpace:"pre"}},`import { ThemeProvider } from 'react-iro-gradient-picker/components/providers/ThemeContext';
 import { ThemeToggle } from 'react-iro-gradient-picker/components/ui/ThemeToggle';
 
 function App() {
@@ -91,7 +147,7 @@ function CustomComponent() {
   --text-secondary: #cbd5e1;
   --border-color: #334155;
   --accent-color: #38bdf8;
-}`),e.createElement("div",{style:{background:"#0f172a",border:"1px solid #334155",borderRadius:"8px",padding:"1rem",marginTop:"2rem"}},e.createElement("p",{style:{margin:"0 0 8px",color:"#38bdf8",fontWeight:"600"}},"💡 Pro Tip:"),e.createElement("p",{style:{margin:0,color:"#cbd5e1"}},"The ThemeProvider automatically detects the user's system preference and persists theme changes to localStorage. No additional configuration is needed for a complete theme experience!"))),e.createElement("div",{style:{marginBottom:"3rem"}},e.createElement("h2",null,"🎛️ Complete Props Reference"),e.createElement("div",{style:{background:"#1e293b",border:"1px solid #475569",borderRadius:"8px",padding:"1rem",margin:"1rem 0",overflowX:"auto"}},e.createElement("table",{style:{width:"100%",borderCollapse:"collapse",minWidth:"600px"}},e.createElement("thead",null,e.createElement("tr",{style:{borderBottom:"2px solid #475569"}},e.createElement("th",{style:{textAlign:"left",padding:"12px 8px",color:"#38bdf8",fontWeight:"600"}},"Prop"),e.createElement("th",{style:{textAlign:"left",padding:"12px 8px",color:"#38bdf8",fontWeight:"600"}},"Type"),e.createElement("th",{style:{textAlign:"left",padding:"12px 8px",color:"#38bdf8",fontWeight:"600"}},"Default"),e.createElement("th",{style:{textAlign:"left",padding:"12px 8px",color:"#38bdf8",fontWeight:"600"}},"Description"))),e.createElement("tbody",null,e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"solid"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"false"),e.createElement("td",{style:{padding:"8px"}},"Enable solid color picker tab")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"gradient"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"false"),e.createElement("td",{style:{padding:"8px"}},"Enable gradient picker tab")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"value"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"string"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"required"),e.createElement("td",{style:{padding:"8px"}},"Current color/gradient value (hex, rgb, hsl, or CSS gradient)")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"onChange"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"function"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"-"),e.createElement("td",{style:{padding:"8px"}},"Callback function when value changes: (value: string) => void")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"showAlpha"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"true"),e.createElement("td",{style:{padding:"8px"}},"Show alpha transparency controls")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"showInputs"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"true"),e.createElement("td",{style:{padding:"8px"}},"Show color input fields (RGB, HSL, HEX)")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"format"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"'rgb' | 'hsl' | 'hex'"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"-"),e.createElement("td",{style:{padding:"8px"}},"Preferred color format for output")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"debounce"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"true"),e.createElement("td",{style:{padding:"8px"}},"Enable debounced onChange events")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"debounceMS"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"number"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"100"),e.createElement("td",{style:{padding:"8px"}},"Debounce delay in milliseconds")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"popupWidth"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"number"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"280"),e.createElement("td",{style:{padding:"8px"}},"Width of the color picker popup")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"colorBoardHeight"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"number"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"200"),e.createElement("td",{style:{padding:"8px"}},"Height of the color selection board")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"defaultActiveTab"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"string"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"-"),e.createElement("td",{style:{padding:"8px"}},'Default active tab ("solid" or "gradient")')),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"onChangeTabs"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"function"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"-"),e.createElement("td",{style:{padding:"8px"}},"Callback when active tab changes: (tab: string) => void")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"defaultColors"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"string[]"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"-"),e.createElement("td",{style:{padding:"8px"}},"Array of preset colors to display"))))),e.createElement("h3",{style:{color:"#38bdf8",marginTop:"2rem",marginBottom:"1rem"}},"🎨 Gradient-Specific Props"),e.createElement("div",{style:{background:"#1e293b",border:"1px solid #475569",borderRadius:"8px",padding:"1rem",margin:"1rem 0",overflowX:"auto"}},e.createElement("table",{style:{width:"100%",borderCollapse:"collapse",minWidth:"600px"}},e.createElement("thead",null,e.createElement("tr",{style:{borderBottom:"2px solid #475569"}},e.createElement("th",{style:{textAlign:"left",padding:"12px 8px",color:"#38bdf8",fontWeight:"600"}},"Prop"),e.createElement("th",{style:{textAlign:"left",padding:"12px 8px",color:"#38bdf8",fontWeight:"600"}},"Type"),e.createElement("th",{style:{textAlign:"left",padding:"12px 8px",color:"#38bdf8",fontWeight:"600"}},"Default"),e.createElement("th",{style:{textAlign:"left",padding:"12px 8px",color:"#38bdf8",fontWeight:"600"}},"Description"))),e.createElement("tbody",null,e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"showGradientResult"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"true"),e.createElement("td",{style:{padding:"8px"}},"Show gradient preview result")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"showGradientStops"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"true"),e.createElement("td",{style:{padding:"8px"}},"Show gradient color stops controls")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"showGradientAngle"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"true"),e.createElement("td",{style:{padding:"8px"}},"Show gradient angle control")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"showGradientMode"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"true"),e.createElement("td",{style:{padding:"8px"}},"Show gradient mode selector (linear/radial)")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"showGradientPosition"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"false"),e.createElement("td",{style:{padding:"8px"}},"Show gradient position controls")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"allowAddGradientStops"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"true"),e.createElement("td",{style:{padding:"8px"}},"Allow adding/removing gradient stops")))))),e.createElement("div",{style:{marginBottom:"3rem"}},e.createElement("h2",null,"🚀 Advanced Usage Examples"),e.createElement("h3",{style:{color:"#38bdf8",marginTop:"2rem",marginBottom:"1rem"}},"Custom Debounce Settings"),e.createElement("div",{style:{background:"#1e293b",color:"#f8fafc",padding:"1rem",borderRadius:"8px",fontFamily:'Monaco, "Cascadia Code", monospace',fontSize:"14px",margin:"1rem 0",whiteSpace:"pre"}},`// Disable debouncing for real-time updates
+}`),e.createElement("div",{style:{background:"#0f172a",border:"1px solid #334155",borderRadius:"8px",padding:"1rem",marginTop:"2rem"}},e.createElement("p",{style:{margin:"0 0 8px",color:"#38bdf8",fontWeight:"600"}},"💡 Pro Tip:"),e.createElement("p",{style:{margin:0,color:"#cbd5e1"}},"The ThemeProvider automatically detects the user's system preference and persists theme changes to localStorage. No additional configuration is needed for a complete theme experience!"))),e.createElement("div",{style:{marginBottom:"3rem"}},e.createElement("h2",null,"🎛️ Complete Props Reference"),e.createElement("div",{style:{background:"#1e293b",border:"1px solid #475569",borderRadius:"8px",padding:"1rem",margin:"1rem 0",overflowX:"auto"}},e.createElement("table",{style:{width:"100%",borderCollapse:"collapse",minWidth:"600px"}},e.createElement("thead",null,e.createElement("tr",{style:{borderBottom:"2px solid #475569"}},e.createElement("th",{style:{textAlign:"left",padding:"12px 8px",color:"#38bdf8",fontWeight:"600"}},"Prop"),e.createElement("th",{style:{textAlign:"left",padding:"12px 8px",color:"#38bdf8",fontWeight:"600"}},"Type"),e.createElement("th",{style:{textAlign:"left",padding:"12px 8px",color:"#38bdf8",fontWeight:"600"}},"Default"),e.createElement("th",{style:{textAlign:"left",padding:"12px 8px",color:"#38bdf8",fontWeight:"600"}},"Description"))),e.createElement("tbody",null,e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"solid"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"false"),e.createElement("td",{style:{padding:"8px"}},"Enable solid color picker tab")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"gradient"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"false"),e.createElement("td",{style:{padding:"8px"}},"Enable gradient picker tab")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"value"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"string"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"required"),e.createElement("td",{style:{padding:"8px"}},"Current color/gradient value (hex, rgb, hsl, or CSS gradient)")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"onChange"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"function"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"-"),e.createElement("td",{style:{padding:"8px"}},"Callback function when value changes: (value: string) => void")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"showAlpha"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"true"),e.createElement("td",{style:{padding:"8px"}},"Show alpha transparency controls")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"showInputs"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"true"),e.createElement("td",{style:{padding:"8px"}},"Show color input fields (RGB, HSL, HEX)")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"format"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"'rgb' | 'hsl' | 'hex'"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"-"),e.createElement("td",{style:{padding:"8px"}},"Preferred color format for output")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"debounce"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"true"),e.createElement("td",{style:{padding:"8px"}},"Enable debounced onChange events")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"debounceMS"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"number"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"100"),e.createElement("td",{style:{padding:"8px"}},"Debounce delay in milliseconds")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"popupWidth"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"number"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"280"),e.createElement("td",{style:{padding:"8px"}},"Width of the color picker popup")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"colorBoardHeight"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"number"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"200"),e.createElement("td",{style:{padding:"8px"}},"Height of the color selection board")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"defaultActiveTab"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"string"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"-"),e.createElement("td",{style:{padding:"8px"}},'Default active tab ("solid" or "gradient")')),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"onChangeTabs"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"function"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"-"),e.createElement("td",{style:{padding:"8px"}},"Callback when active tab changes: (tab: string) => void")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"showReset"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"false"),e.createElement("td",{style:{padding:"8px"}},"Show reset button in the picker interface")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"onReset"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"function"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"-"),e.createElement("td",{style:{padding:"8px"}},"Callback function triggered when reset button is clicked: () => void")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"defaultColors"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"string[]"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"-"),e.createElement("td",{style:{padding:"8px"}},"Array of preset colors to display"))))),e.createElement("h3",{style:{color:"#38bdf8",marginTop:"2rem",marginBottom:"1rem"}},"🎨 Gradient-Specific Props"),e.createElement("div",{style:{background:"#1e293b",border:"1px solid #475569",borderRadius:"8px",padding:"1rem",margin:"1rem 0",overflowX:"auto"}},e.createElement("table",{style:{width:"100%",borderCollapse:"collapse",minWidth:"600px"}},e.createElement("thead",null,e.createElement("tr",{style:{borderBottom:"2px solid #475569"}},e.createElement("th",{style:{textAlign:"left",padding:"12px 8px",color:"#38bdf8",fontWeight:"600"}},"Prop"),e.createElement("th",{style:{textAlign:"left",padding:"12px 8px",color:"#38bdf8",fontWeight:"600"}},"Type"),e.createElement("th",{style:{textAlign:"left",padding:"12px 8px",color:"#38bdf8",fontWeight:"600"}},"Default"),e.createElement("th",{style:{textAlign:"left",padding:"12px 8px",color:"#38bdf8",fontWeight:"600"}},"Description"))),e.createElement("tbody",null,e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"showGradientResult"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"true"),e.createElement("td",{style:{padding:"8px"}},"Show gradient preview result")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"showGradientStops"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"true"),e.createElement("td",{style:{padding:"8px"}},"Show gradient color stops controls")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"showGradientAngle"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"true"),e.createElement("td",{style:{padding:"8px"}},"Show gradient angle control")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"showGradientMode"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"true"),e.createElement("td",{style:{padding:"8px"}},"Show gradient mode selector (linear/radial)")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"showGradientPosition"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"false"),e.createElement("td",{style:{padding:"8px"}},"Show gradient position controls")),e.createElement("tr",{style:{borderBottom:"1px solid #334155"}},e.createElement("td",{style:{padding:"8px",fontFamily:"monospace",color:"#fbbf24"}},"allowAddGradientStops"),e.createElement("td",{style:{padding:"8px",color:"#10b981"}},"boolean"),e.createElement("td",{style:{padding:"8px",color:"#6b7280"}},"true"),e.createElement("td",{style:{padding:"8px"}},"Allow adding/removing gradient stops")))))),e.createElement("div",{style:{marginBottom:"3rem"}},e.createElement("h2",null,"🚀 Advanced Usage Examples"),e.createElement("h3",{style:{color:"#38bdf8",marginTop:"2rem",marginBottom:"1rem"}},"Custom Debounce Settings"),e.createElement("div",{style:{background:"#1e293b",color:"#f8fafc",padding:"1rem",borderRadius:"8px",fontFamily:'Monaco, "Cascadia Code", monospace',fontSize:"14px",margin:"1rem 0",whiteSpace:"pre"}},`// Disable debouncing for real-time updates
 <ColorPicker
   solid
   value={color}
@@ -357,6 +413,125 @@ function GradientExample() {
   showInputs={true}
   defaultActiveTab="solid"
 />\`}
+        </div>
+      </div>
+
+      <div style={{
+      marginBottom: '3rem'
+    }}>
+        <h2>🔄 Reset Functionality</h2>
+        <p style={{
+        color: '#cbd5e1',
+        marginBottom: '1rem'
+      }}>
+          New reset button functionality allows users to easily restore colors
+          to their initial state:
+        </p>
+        <ul style={{
+        color: '#cbd5e1',
+        paddingLeft: '1.5rem',
+        marginBottom: '2rem'
+      }}>
+          <li>✅ Built-in reset button in the picker interface</li>
+          <li>✅ Custom callbacks for handling reset events</li>
+          <li>✅ Easy state management and tracking</li>
+          <li>✅ Works with both solid and gradient modes</li>
+        </ul>
+
+        <h3 style={{
+        color: '#38bdf8',
+        marginTop: '2rem',
+        marginBottom: '1rem'
+      }}>
+          Basic Reset Example
+        </h3>
+        <div style={{
+        background: '#1e293b',
+        color: '#f8fafc',
+        padding: '1rem',
+        borderRadius: '8px',
+        fontFamily: 'Monaco, "Cascadia Code", monospace',
+        fontSize: '14px',
+        margin: '1rem 0',
+        whiteSpace: 'pre'
+      }}>
+          {\`import React, { useState } from 'react';
+import ColorPicker from 'react-iro-gradient-picker';
+
+function ResetExample() {
+  const [color, setColor] = useState('#3B82F6');
+  const originalColor = '#3B82F6';
+
+  const handleReset = () => {
+    setColor(originalColor);
+    console.log('Color reset to original value!');
+  };
+
+  return (
+    <ColorPicker
+      solid
+      value={color}
+      onChange={setColor}
+      showReset
+      onReset={handleReset}
+    />
+  );
+}\`}
+        </div>
+
+        <h3 style={{
+        color: '#38bdf8',
+        marginTop: '2rem',
+        marginBottom: '1rem'
+      }}>
+          Advanced Reset with History Tracking
+        </h3>
+        <div style={{
+        background: '#1e293b',
+        color: '#f8fafc',
+        padding: '1rem',
+        borderRadius: '8px',
+        fontFamily: 'Monaco, "Cascadia Code", monospace',
+        fontSize: '14px',
+        margin: '1rem 0',
+        whiteSpace: 'pre'
+      }}>
+          {\`function AdvancedResetExample() {
+  const [gradient, setGradient] = useState(
+    'linear-gradient(45deg, #FF6B35 0%, #3A86FF 100%)'
+  );
+  const [resetHistory, setResetHistory] = useState([]);
+
+  const handleReset = () => {
+    const timestamp = new Date().toLocaleTimeString();
+    setResetHistory(prev => [
+      ...prev,
+      \\\`Reset at \\\${timestamp}\\\`
+    ]);
+    setGradient('linear-gradient(45deg, #FF6B35 0%, #3A86FF 100%)');
+  };
+
+  return (
+    <div>
+      <ColorPicker
+        gradient
+        value={gradient}
+        onChange={setGradient}
+        showReset
+        onReset={handleReset}
+      />
+
+      <div style={{ marginTop: '20px' }}>
+        <h4>Reset History:</h4>
+        <ul>
+          {resetHistory.map((entry, index) => (
+            <li key={index}>{entry}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}\`}
         </div>
       </div>
 
@@ -904,6 +1079,55 @@ function CustomComponent() {
                 fontFamily: 'monospace',
                 color: '#fbbf24'
               }}>
+                  showReset
+                </td>
+                <td style={{
+                padding: '8px',
+                color: '#10b981'
+              }}>boolean</td>
+                <td style={{
+                padding: '8px',
+                color: '#6b7280'
+              }}>false</td>
+                <td style={{
+                padding: '8px'
+              }}>
+                  Show reset button in the picker interface
+                </td>
+              </tr>
+              <tr style={{
+              borderBottom: '1px solid #334155'
+            }}>
+                <td style={{
+                padding: '8px',
+                fontFamily: 'monospace',
+                color: '#fbbf24'
+              }}>
+                  onReset
+                </td>
+                <td style={{
+                padding: '8px',
+                color: '#10b981'
+              }}>function</td>
+                <td style={{
+                padding: '8px',
+                color: '#6b7280'
+              }}>-</td>
+                <td style={{
+                padding: '8px'
+              }}>
+                  Callback function triggered when reset button is clicked: ()
+                  =&gt; void
+                </td>
+              </tr>
+              <tr style={{
+              borderBottom: '1px solid #334155'
+            }}>
+                <td style={{
+                padding: '8px',
+                fontFamily: 'monospace',
+                color: '#fbbf24'
+              }}>
                   defaultColors
                 </td>
                 <td style={{
@@ -1290,4 +1514,4 @@ function CustomComponent() {
         </div>
       </div>
     </div>
-}`,...t.parameters?.docs?.source}}};const n=["Installation"];export{t as Installation,n as __namedExportsOrder,l as default};
+}`,...t.parameters?.docs?.source}}};const l=["Installation"];export{t as Installation,l as __namedExportsOrder,n as default};
