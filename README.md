@@ -1,4 +1,5 @@
 <!-- markdownlint-disable -->
+
 # React Iro Gradient Picker
 
 ## ✨ Modern React Color Picker with Complete Dark Theme Support! ✨
@@ -27,8 +28,9 @@ A beautiful, modern React gradient and solid color picker with full dark theme i
 ### 🚀 **[✨ Try it Live - Interactive Storybook Demo ✨](https://romfatal.github.io/react-iro-gradient-picker/)**
 
 Experience all features in action:
+
 - 🌙 **Dark/Light Theme Toggle** - Switch themes and see all components adapt
-- 🎨 **Solid Color Picker** - Pick any solid color with alpha transparency  
+- 🎨 **Solid Color Picker** - Pick any solid color with alpha transparency
 - 🌈 **Gradient Picker** - Create linear/radial gradients with multiple stops
 - 🔄 **Dual Mode** - Switch between solid and gradient modes seamlessly
 - 📱 **Responsive Design** - Works perfectly on desktop and mobile
@@ -91,7 +93,7 @@ function App() {
   const [color, setColor] = useState('#3B82F6');
 
   return (
-    <ThemeProvider defaultTheme="dark">
+    <ThemeProvider defaultTheme='dark'>
       <ColorPicker
         solid
         gradient
@@ -245,4 +247,7 @@ Special thanks to the original author for creating such a solid foundation! 🙏
 MIT © [romfatal](https://github.com/romfatal)
 
 Original project: MIT © [undind](https://github.com/undind)
+
+```
+
 ```

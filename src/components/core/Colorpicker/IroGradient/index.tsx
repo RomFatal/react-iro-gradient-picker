@@ -461,7 +461,7 @@ const IroGradient: FC<IPropsComp> = ({
       </div>
 
       {/* Gradient Controls */}
-      <div className='rounded-lg colorpicker-glass'>
+      <div className='rounded-lg colorpicker-glass px-4'>
         <GradientPanel
           color={color}
           activeColor={activeColor}
@@ -480,7 +480,7 @@ const IroGradient: FC<IPropsComp> = ({
       </div>
 
       {/* Color Palette */}
-      <div className='pt-4'>
+      <div className='pt-4 px-2'>
         <DefaultColorsPanel
           defaultColors={defaultColors}
           setColor={handleColorFromPanel}

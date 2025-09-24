@@ -26,7 +26,7 @@ const ColorPickerDemo: FC<IPropsMain> = ({
 
   return (
     <div
-      className='wrapper'
+      className='wrapper rounded-2xl'
       style={{ background: color, height: 'auto', minHeight: 'auto' }}
     >
       <div className='centered'>

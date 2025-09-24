@@ -20,10 +20,7 @@ export const PopupTabs: FC<Popups> = ({
   });
 
   return (
-    <div
-      className='relative rounded-md colorpicker-glass'
-      style={{ width: `${popupWidth}px` }}
-    >
+    <div className='relative rounded-md' style={{ width: `${popupWidth}px` }}>
       {childrenContact}
     </div>
   );
