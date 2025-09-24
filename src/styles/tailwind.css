@@ -121,7 +121,7 @@
       --colorpicker-input-bg: rgba(39, 39, 42, 0.8);
       --colorpicker-input-border: rgba(39, 39, 42, 0.8);
       --colorpicker-shadow: var(--shadow-lg);
-      --colorpicker-cursor-border: #f7f8f9;
+      --colorpicker-cursor-border: rgba(39, 39, 42, 0.9);
       --colorpicker-modal-bg: rgba(26, 26, 28, 0.9);
       --colorpicker-modal-overlay: rgba(0, 0, 0, 0.8);
     }

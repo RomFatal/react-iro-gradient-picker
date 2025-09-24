@@ -37,16 +37,20 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   });
 
   useEffect(() => {
-    const root = window.document.documentElement;
+    // Apply theme to local container instead of document root for better scoping
+    const containers = document.querySelectorAll('[data-color-picker-theme]');
 
-    // Remove previous theme class
-    root.classList.remove('light', 'dark');
-
-    // Add new theme class
-    root.classList.add(theme);
+    containers.forEach((container) => {
+      // Remove previous theme class
+      container.classList.remove('light', 'dark');
+      // Add new theme class
+      container.classList.add(theme);
+    });
 
     // Store theme preference
-    localStorage.setItem('color-picker-theme', theme);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('color-picker-theme', theme);
+    }
   }, [theme]);
 
   const toggleTheme = () => {
