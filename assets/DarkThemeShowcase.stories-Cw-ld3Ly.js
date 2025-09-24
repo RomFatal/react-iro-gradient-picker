@@ -1,4 +1,4 @@
-import{R as e}from"./iframe-CZUIYe95.js";import{C as a,d}from"./ColorPickerDemo-CmQMRdM5.js";import{e as c}from"./decorators-B2Pq1hOu.js";import"./preload-helper-PPVm8Dsz.js";const u={title:"Examples/Dark Theme Showcase",component:a,parameters:{layout:"fullscreen",docs:{description:{component:`
+import{R as e}from"./iframe-CGMNTXT6.js";import{C as a,d}from"./ColorPickerDemo-DhuyHqmf.js";import{e as c}from"./decorators-DGLne2b9.js";import"./preload-helper-PPVm8Dsz.js";import"./index-BhJblRVN.js";const x={title:"Examples/Dark Theme Showcase",component:a,parameters:{layout:"fullscreen",docs:{description:{component:`
 **Dark Theme Showcase** - Demonstrating the comprehensive dark theme integration!
 
 This showcase highlights all the dark theme enhancements that make React Iro Gradient Picker perfect for modern applications:
@@ -130,4 +130,4 @@ This showcase highlights all the dark theme enhancements that make React Iro Gra
       }
     }
   }
-}`,...n.parameters?.docs?.source},description:{story:"Interactive demo with theme switching",...n.parameters?.docs?.description}}};const x=["InteractiveTheme"];export{n as InteractiveTheme,x as __namedExportsOrder,u as default};
+}`,...n.parameters?.docs?.source},description:{story:"Interactive demo with theme switching",...n.parameters?.docs?.description}}};const h=["InteractiveTheme"];export{n as InteractiveTheme,h as __namedExportsOrder,x as default};

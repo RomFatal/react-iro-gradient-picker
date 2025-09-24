@@ -1,4 +1,4 @@
-import{R as e}from"./iframe-CZUIYe95.js";import{C as a,d,g as u}from"./ColorPickerDemo-CmQMRdM5.js";import{e as f}from"./decorators-B2Pq1hOu.js";import"./preload-helper-PPVm8Dsz.js";const v={title:"Examples/Advanced Integration",component:a,parameters:{layout:"fullscreen",docs:{description:{component:`
+import{R as e}from"./iframe-CGMNTXT6.js";import{C as a,d,g as u}from"./ColorPickerDemo-DhuyHqmf.js";import{e as f}from"./decorators-DGLne2b9.js";import"./preload-helper-PPVm8Dsz.js";import"./index-BhJblRVN.js";const C={title:"Examples/Advanced Integration",component:a,parameters:{layout:"fullscreen",docs:{description:{component:`
 **Advanced Integration Examples** - Real-world scenarios for React Iro Gradient Picker
 
 These examples demonstrate how to integrate the color picker into real applications with:
@@ -353,4 +353,4 @@ These examples demonstrate how to integrate the color picker into real applicati
       }
     }
   }
-}`,...s.parameters?.docs?.source},description:{story:"CSS Generator with live preview",...s.parameters?.docs?.description}}};const C=["DesignToolInterface","CSSGenerator"];export{s as CSSGenerator,l as DesignToolInterface,C as __namedExportsOrder,v as default};
+}`,...s.parameters?.docs?.source},description:{story:"CSS Generator with live preview",...s.parameters?.docs?.description}}};const k=["DesignToolInterface","CSSGenerator"];export{s as CSSGenerator,l as DesignToolInterface,k as __namedExportsOrder,C as default};

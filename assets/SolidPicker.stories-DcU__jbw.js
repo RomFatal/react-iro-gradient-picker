@@ -1,4 +1,4 @@
-import{R as s}from"./iframe-CZUIYe95.js";import{c as l}from"./decorators-B2Pq1hOu.js";import{C as i,d as a,s as c}from"./ColorPickerDemo-CmQMRdM5.js";import"./preload-helper-PPVm8Dsz.js";const f={title:"Components/Color Picker/Solid Picker",component:i,parameters:{layout:"centered",docs:{description:{component:`
+import{R as s}from"./iframe-CGMNTXT6.js";import{c as l}from"./decorators-DGLne2b9.js";import{C as i,d as a,s as c}from"./ColorPickerDemo-DhuyHqmf.js";import"./preload-helper-PPVm8Dsz.js";import"./index-BhJblRVN.js";const h={title:"Components/Color Picker/Solid Picker",component:i,parameters:{layout:"centered",docs:{description:{component:`
 **Solid Color Picker** - Enhanced with complete dark theme support!
 
 ✅ Features:
@@ -62,4 +62,4 @@ All input fields, popup modals, and color controls now properly support dark the
       }
     }
   }
-}`,...t.parameters?.docs?.source},description:{story:"Preset color demonstrations",...t.parameters?.docs?.description}}};const h=["Default","Compact","Large","ColorPresets"];export{t as ColorPresets,r as Compact,e as Default,o as Large,h as __namedExportsOrder,f as default};
+}`,...t.parameters?.docs?.source},description:{story:"Preset color demonstrations",...t.parameters?.docs?.description}}};const y=["Default","Compact","Large","ColorPresets"];export{t as ColorPresets,r as Compact,e as Default,o as Large,y as __namedExportsOrder,h as default};
