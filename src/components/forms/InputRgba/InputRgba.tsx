@@ -124,10 +124,7 @@ const InputRgba: FC<TProps> = ({
                   )}
                   style={{
                     backgroundColor: 'var(--colorpicker-input-bg)',
-                    borderColor: 'var(--colorpicker-input-border)',
-                    color: 'var(--colorpicker-text)',
-                    borderWidth: '1px',
-                    borderStyle: 'solid'
+                    color: 'var(--colorpicker-text)'
                   }}
                 />
               </div>

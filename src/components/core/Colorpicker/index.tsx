@@ -66,7 +66,10 @@ const ColorPicker: FC<IPropsMain> = ({
   if (solid && gradient) {
     return (
       <ThemeProvider>
-        <div className='relative dark' data-color-picker-theme>
+        <div
+          className='relative dark iro-gradient-picker'
+          data-color-picker-theme
+        >
           <ThemeToggle />
           <PopupTabs activeTab={activeTab} popupWidth={popupWidth}>
             <PopupTabsHeader>
