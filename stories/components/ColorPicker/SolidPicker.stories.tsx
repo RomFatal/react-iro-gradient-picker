@@ -135,3 +135,27 @@ export const ColorPresets: Story = {
     }
   }
 };
+
+/**
+ * Example of the reset button functionality with callback
+ */
+export const WithResetButton: Story = {
+  args: {
+    ...defaultArgs,
+    solid: true,
+    showReset: true,
+    onReset: () => {
+      console.log('Reset button clicked!');
+      // This callback allows you to perform custom actions when reset is clicked
+      alert('Color has been reset to initial value!');
+    }
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Demonstrates the reset button functionality with a custom callback. The reset button appears next to the color input and allows users to reset to the initial color value while triggering custom actions.'
+      }
+    }
+  }
+};

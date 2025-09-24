@@ -33,7 +33,8 @@ const IroGradient: FC<IPropsComp> = ({
   allowAddGradientStops = true,
   colorBoardHeight = 120,
   defaultColors,
-  showReset = false
+  showReset = false,
+  onReset
 }) => {
   // Store the initial value for reset functionality
   const initialValue = useRef(value);
@@ -390,6 +391,9 @@ const IroGradient: FC<IPropsComp> = ({
 
     // Call onChange with initial value
     onChange(initialValue.current);
+
+    // Call onReset callback if provided
+    onReset?.();
   };
 
   // Update iro picker when color is selected from default colors panel

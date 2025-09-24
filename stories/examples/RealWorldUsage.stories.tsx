@@ -1,18 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React, { useState } from 'react';
-
-// Import exactly as a real user would
-import GradientColorPicker from '../../src/index';
+import GradientColorPicker from '../../src';
 
 const meta: Meta<typeof GradientColorPicker> = {
   title: 'Examples/Real World Usage',
   component: GradientColorPicker,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
     docs: {
       description: {
         component:
-          'This story shows how the component looks when imported normally by end users, demonstrating the actual user experience.'
+          'This comprehensive example demonstrates real-world usage of the gradient picker with both solid and gradient modes. Key features showcased include:\n\n• **Reset Functionality**: Built-in reset button with custom callback support\n• **State Management**: Track reset history and user interactions\n• **Dual Mode Support**: Switch between gradient and solid color picking\n• **Custom Callbacks**: Handle reset events with your own business logic\n• **Interactive Demo**: See live color changes and reset tracking\n\nPerfect for understanding how to integrate the reset functionality into your applications with proper state management and user feedback.'
       }
     }
   },
@@ -22,7 +20,139 @@ const meta: Meta<typeof GradientColorPicker> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Exactly how a user would use it - basic import
+export const RealWorldUsage: Story = {
+  render: () => {
+    const [color, setColor] = useState('#FF6B35');
+    const [gradient, setGradient] = useState(
+      'linear-gradient(45deg, #FF6B35 0%, #F7931E 25%, #FFD23F 50%, #06FFA5 75%, #3A86FF 100%)'
+    );
+    const [resetCount, setResetCount] = useState(0);
+    const [resetHistory, setResetHistory] = useState<string[]>([]);
+
+    const handleReset = () => {
+      setResetCount((prev) => prev + 1);
+      setResetHistory((prev) => [
+        ...prev,
+        `Reset #${resetCount + 1} at ${new Date().toLocaleTimeString()}`
+      ]);
+      console.log('Reset button clicked!', { resetCount: resetCount + 1 });
+    };
+
+    return (
+      <div
+        style={{
+          padding: '30px',
+          background: '#0f0f0f',
+          color: '#ffffff',
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '30px'
+        }}
+      >
+        <div>
+          <h2 style={{ marginBottom: '20px', fontSize: '24px' }}>
+            Real World Usage with Reset
+          </h2>
+          <p
+            style={{
+              marginBottom: '20px',
+              fontSize: '16px',
+              lineHeight: '1.5'
+            }}
+          >
+            This example demonstrates the reset functionality with custom
+            callbacks.
+          </p>
+        </div>
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '30px' }}>
+          <div style={{ flex: '1', minWidth: '300px' }}>
+            <h3 style={{ marginBottom: '15px', fontSize: '18px' }}>
+              Gradient Mode with Reset
+            </h3>
+            <GradientColorPicker
+              value={gradient}
+              onChange={setGradient}
+              showReset
+              onReset={() => {
+                setGradient(
+                  'linear-gradient(45deg, #FF6B35 0%, #F7931E 25%, #FFD23F 50%, #06FFA5 75%, #3A86FF 100%)'
+                );
+                console.log('Gradient reset to default!');
+              }}
+            />
+          </div>
+
+          <div style={{ flex: '1', minWidth: '300px' }}>
+            <h3 style={{ marginBottom: '15px', fontSize: '18px' }}>
+              Solid Mode with Reset
+            </h3>
+            <GradientColorPicker
+              value={color}
+              onChange={setColor}
+              showReset
+              onReset={handleReset}
+              solid
+            />
+          </div>
+        </div>
+
+        <div
+          style={{
+            padding: '20px',
+            background: '#1a1a1a',
+            borderRadius: '8px'
+          }}
+        >
+          <h4 style={{ marginBottom: '15px', fontSize: '16px' }}>
+            Reset History:
+          </h4>
+          {resetHistory.length === 0 ? (
+            <p style={{ color: '#888' }}>No resets yet</p>
+          ) : (
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              {resetHistory.map((entry, index) => (
+                <li
+                  key={index}
+                  style={{
+                    padding: '5px 0',
+                    borderBottom:
+                      index < resetHistory.length - 1
+                        ? '1px solid #333'
+                        : 'none'
+                  }}
+                >
+                  {entry}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <div
+          style={{
+            padding: '20px',
+            background: '#1a1a1a',
+            borderRadius: '8px'
+          }}
+        >
+          <h4 style={{ marginBottom: '15px', fontSize: '16px' }}>
+            Current Values:
+          </h4>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+            <li style={{ padding: '5px 0', color: color }}>
+              Solid Color: {color}
+            </li>
+            <li style={{ padding: '5px 0' }}>Gradient: {gradient}</li>
+            <li style={{ padding: '5px 0' }}>Reset Count: {resetCount}</li>
+          </ul>
+        </div>
+      </div>
+    );
+  }
+};
+
 export const BasicUserImport: Story = {
   render: () => {
     const [color, setColor] = useState('#3B82F6');
@@ -30,387 +160,152 @@ export const BasicUserImport: Story = {
     return (
       <div
         style={{
-          padding: '20px',
-          background: '#0f0f0f',
-          color: '#ffffff',
-          minHeight: '100vh'
+          padding: '30px',
+          background: '#f5f5f5',
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px'
         }}
       >
-        <h3>How users actually import and use the component:</h3>
-        <pre
-          style={{
-            background: '#2a2a2a',
-            color: '#ffffff',
-            padding: '10px',
-            borderRadius: '4px',
-            marginBottom: '20px',
-            fontSize: '12px'
-          }}
-        >
-          {`import GradientColorPicker from 'react-iro-gradient-picker';
-
-function App() {
-  const [color, setColor] = useState('#3B82F6');
-
-  return (
-    <GradientColorPicker
-      value={color}
-      onChange={(newColor) => setColor(newColor)}
-      gradient
-      solid
-    />
-  );
-}`}
-        </pre>
-
-        <div
-          style={{
-            border: '1px solid #333',
-            padding: '10px',
-            borderRadius: '8px',
-            background: '#1a1a1a',
-            color: '#ffffff'
-          }}
-        >
-          <p>
-            Current color: <strong>{color}</strong>
+        <div>
+          <h2 style={{ marginBottom: '20px', color: '#333' }}>
+            Basic Import Example
+          </h2>
+          <p style={{ marginBottom: '20px', color: '#666', lineHeight: '1.5' }}>
+            This example shows how a typical user would import and use the
+            component.
           </p>
-          <GradientColorPicker
-            value={color}
-            onChange={(newColor: string) => setColor(newColor)}
-            gradient
-            solid
-          />
         </div>
-      </div>
-    );
-  }
-};
 
-// Just solid color picker
-export const SolidOnly: Story = {
-  render: () => {
-    const [color, setColor] = useState('#FF6B6B');
-
-    return (
-      <div
-        style={{
-          padding: '20px',
-          background: '#0f0f0f',
-          color: '#ffffff',
-          minHeight: '100vh'
-        }}
-      >
-        <h3>Solid color picker only:</h3>
-        <pre
-          style={{
-            background: '#2a2a2a',
-            color: '#ffffff',
-            padding: '10px',
-            borderRadius: '4px',
-            marginBottom: '20px',
-            fontSize: '12px'
-          }}
-        >
-          {`<GradientColorPicker
-  value={color}
-  onChange={setColor}
-  solid
-/>`}
-        </pre>
+        <div style={{ maxWidth: '400px' }}>
+          <GradientColorPicker value={color} onChange={setColor} solid />
+        </div>
 
         <div
           style={{
-            border: '1px solid #333',
-            padding: '10px',
+            padding: '20px',
+            background: '#fff',
             borderRadius: '8px',
-            background: '#1a1a1a',
-            color: '#ffffff'
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
           }}
         >
-          <p>
-            Current color: <strong>{color}</strong>
-          </p>
-          <GradientColorPicker
-            value={color}
-            onChange={(newColor: string) => setColor(newColor)}
-            solid
-          />
-        </div>
-      </div>
-    );
-  }
-};
-
-// Just gradient picker
-export const GradientOnly: Story = {
-  render: () => {
-    const [gradient, setGradient] = useState(
-      'linear-gradient(45deg, #FF6B6B, #4ECDC4)'
-    );
-
-    return (
-      <div
-        style={{
-          padding: '20px',
-          background: '#0f0f0f',
-          color: '#ffffff',
-          minHeight: '100vh'
-        }}
-      >
-        <h3>Gradient picker only:</h3>
-        <pre
-          style={{
-            background: '#2a2a2a',
-            color: '#ffffff',
-            padding: '10px',
-            borderRadius: '4px',
-            marginBottom: '20px',
-            fontSize: '12px'
-          }}
-        >
-          {`<GradientColorPicker
-  value={gradient}
-  onChange={setGradient}
-  gradient
-/>`}
-        </pre>
-
-        <div
-          style={{
-            border: '1px solid #333',
-            padding: '10px',
-            borderRadius: '8px',
-            background: '#1a1a1a',
-            color: '#ffffff'
-          }}
-        >
-          <p>Current gradient:</p>
+          <h4 style={{ marginBottom: '10px', color: '#333' }}>
+            Selected Color:
+          </h4>
           <div
             style={{
-              background: gradient,
+              width: '100px',
               height: '40px',
+              backgroundColor: color,
               borderRadius: '4px',
-              marginBottom: '10px'
+              border: '1px solid #ddd'
             }}
-          ></div>
-          <code
+          />
+          <p
             style={{
-              fontSize: '12px',
-              wordBreak: 'break-all',
-              color: '#ffffff'
+              marginTop: '10px',
+              color: '#666',
+              fontFamily: 'monospace'
             }}
           >
-            {gradient}
-          </code>
-
-          <GradientColorPicker
-            value={gradient}
-            onChange={(newGradient: string) => setGradient(newGradient)}
-            gradient
-          />
-        </div>
-      </div>
-    );
-  }
-};
-
-// Default import with minimal props
-export const MinimalUsage: Story = {
-  render: () => {
-    const [color, setColor] = useState('#ffffff');
-
-    return (
-      <div
-        style={{
-          padding: '20px',
-          background: '#0f0f0f',
-          color: '#ffffff',
-          minHeight: '100vh'
-        }}
-      >
-        <h3>Minimal usage (just the basics):</h3>
-        <pre
-          style={{
-            background: '#2a2a2a',
-            color: '#ffffff',
-            padding: '10px',
-            borderRadius: '4px',
-            marginBottom: '20px',
-            fontSize: '12px'
-          }}
-        >
-          {`import GradientColorPicker from 'react-iro-gradient-picker';
-
-<GradientColorPicker
-  value={color}
-  onChange={setColor}
-/>`}
-        </pre>
-
-        <div
-          style={{
-            border: '1px solid #333',
-            padding: '10px',
-            borderRadius: '8px',
-            background: '#1a1a1a',
-            color: '#ffffff'
-          }}
-        >
-          <p>
-            Current color: <strong>{color}</strong>
+            {color}
           </p>
-          <GradientColorPicker
-            value={color}
-            onChange={(newColor: string) => setColor(newColor)}
-          />
         </div>
       </div>
     );
   }
 };
 
-// With custom width
-export const CustomWidth: Story = {
+export const WithCallback: Story = {
   render: () => {
-    const [color, setColor] = useState('#9C27B0');
-
-    return (
-      <div
-        style={{
-          padding: '20px',
-          background: '#0f0f0f',
-          color: '#ffffff',
-          minHeight: '100vh'
-        }}
-      >
-        <h3>With custom width:</h3>
-        <pre
-          style={{
-            background: '#2a2a2a',
-            color: '#ffffff',
-            padding: '10px',
-            borderRadius: '4px',
-            marginBottom: '20px',
-            fontSize: '12px'
-          }}
-        >
-          {`<GradientColorPicker
-  value={color}
-  onChange={setColor}
-  popupWidth={400}
-  gradient
-  solid
-/>`}
-        </pre>
-
-        <div
-          style={{
-            border: '1px solid #333',
-            padding: '10px',
-            borderRadius: '8px',
-            background: '#1a1a1a',
-            color: '#ffffff'
-          }}
-        >
-          <p>
-            Current color: <strong>{color}</strong>
-          </p>
-          <GradientColorPicker
-            value={color}
-            onChange={(newColor: string) => setColor(newColor)}
-            popupWidth={400}
-            gradient
-            solid
-          />
-        </div>
-      </div>
-    );
-  }
-};
-
-// With Reset Button
-export const WithResetButton: Story = {
-  render: () => {
-    const [color, setColor] = useState('#FF6B35');
     const [gradient, setGradient] = useState(
-      'linear-gradient(45deg, #FF6B35 0%, #F7931E 25%, #FFD23F 50%, #06FFA5 75%, #3A86FF 100%)'
+      'linear-gradient(90deg, #FF6B6B 0%, #4ECDC4 100%)'
     );
+    const [changeHistory, setChangeHistory] = useState<string[]>([]);
+
+    const handleGradientChange = (newGradient: string) => {
+      setGradient(newGradient);
+      setChangeHistory((prev) => [
+        ...prev,
+        `${new Date().toLocaleTimeString()}: ${newGradient}`
+      ]);
+    };
+
+    const handleReset = () => {
+      const defaultGradient =
+        'linear-gradient(90deg, #FF6B6B 0%, #4ECDC4 100%)';
+      setGradient(defaultGradient);
+      setChangeHistory((prev) => [
+        ...prev,
+        `${new Date().toLocaleTimeString()}: RESET to default`
+      ]);
+      console.log('Component reset with callback!');
+    };
 
     return (
       <div
         style={{
-          padding: '20px',
-          background: '#0f0f0f',
-          color: '#ffffff',
-          minHeight: '100vh'
+          padding: '30px',
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          minHeight: '100vh',
+          color: 'white'
         }}
       >
-        <h3>With Reset Button:</h3>
-        <pre
-          style={{
-            background: '#2a2a2a',
-            color: '#ffffff',
-            padding: '10px',
-            borderRadius: '4px',
-            marginBottom: '20px',
-            fontSize: '12px'
-          }}
-        >
-          {`<GradientColorPicker
-  value={color}
-  onChange={setColor}
-  showReset
-  solid
-/>`}
-        </pre>
+        <h2 style={{ marginBottom: '20px' }}>
+          Gradient Picker with Custom Callbacks
+        </h2>
 
-        <div
-          style={{
-            border: '1px solid #333',
-            padding: '10px',
-            borderRadius: '8px',
-            background: '#1a1a1a',
-            color: '#ffffff',
-            marginBottom: '20px'
-          }}
-        >
-          <p>
-            Solid color with reset: <strong>{color}</strong>
-          </p>
+        <div style={{ marginBottom: '30px', maxWidth: '400px' }}>
           <GradientColorPicker
-            value={color}
-            onChange={(newColor: string) => setColor(newColor)}
-            showReset
-            solid
+            value={gradient}
+            onChange={handleGradientChange}
+            showReset={true}
+            onReset={handleReset}
           />
         </div>
 
         <div
           style={{
-            border: '1px solid #333',
-            padding: '10px',
+            width: '100%',
+            height: '100px',
+            background: gradient,
             borderRadius: '8px',
-            background: '#1a1a1a',
-            color: '#ffffff'
+            marginBottom: '20px',
+            border: '2px solid rgba(255,255,255,0.3)'
+          }}
+        />
+
+        <div
+          style={{
+            background: 'rgba(255,255,255,0.1)',
+            padding: '20px',
+            borderRadius: '8px'
           }}
         >
-          <p>Gradient with reset:</p>
+          <h4>Change History (last 10):</h4>
           <div
-            style={{
-              background: gradient,
-              height: '40px',
-              borderRadius: '4px',
-              marginBottom: '10px'
-            }}
-          ></div>
-
-          <GradientColorPicker
-            value={gradient}
-            onChange={(newGradient: string) => setGradient(newGradient)}
-            showReset
-            gradient
-          />
+            style={{ maxHeight: '200px', overflowY: 'auto', marginTop: '10px' }}
+          >
+            {changeHistory
+              .slice(-10)
+              .reverse()
+              .map((change, index) => (
+                <div
+                  key={index}
+                  style={{
+                    padding: '8px',
+                    margin: '4px 0',
+                    background: 'rgba(255,255,255,0.1)',
+                    borderRadius: '4px',
+                    fontSize: '14px',
+                    fontFamily: 'monospace'
+                  }}
+                >
+                  {change}
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     );

@@ -19,6 +19,7 @@ export interface IPropsComp {
   onChangeTabs?: (tab: string) => void;
   onChange?: (value: string) => void;
   showReset?: boolean;
+  onReset?: () => void;
 }
 
 export interface IPropsMain extends IPropsComp {

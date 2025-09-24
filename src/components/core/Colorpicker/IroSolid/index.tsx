@@ -20,7 +20,8 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
   showAlpha = true,
   showInputs = true,
   defaultColors,
-  showReset = false
+  showReset = false,
+  onReset
 }) => {
   const node = useRef<HTMLDivElement | null>(null);
   const iroPickerRef = useRef<any>(null);
@@ -260,6 +261,9 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
 
     // Call onChange with initial value
     onChange(initialValue.current);
+
+    // Call onReset callback if provided
+    onReset?.();
   };
 
   // Create layout array conditionally based on showAlpha

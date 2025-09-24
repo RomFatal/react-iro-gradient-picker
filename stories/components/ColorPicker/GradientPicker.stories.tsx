@@ -167,3 +167,27 @@ export const GradientPresets: Story = {
     }
   }
 };
+
+/**
+ * Example of the reset button functionality with callback
+ */
+export const WithResetButton: Story = {
+  args: {
+    ...defaultArgs,
+    gradient: true,
+    showReset: true,
+    onReset: () => {
+      console.log('Gradient reset button clicked!');
+      // This callback allows you to perform custom actions when reset is clicked
+      alert('Gradient has been reset to initial value!');
+    }
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Demonstrates the reset button functionality for gradients with a custom callback. The reset button appears next to the gradient input and allows users to reset to the initial gradient value while triggering custom actions.'
+      }
+    }
+  }
+};

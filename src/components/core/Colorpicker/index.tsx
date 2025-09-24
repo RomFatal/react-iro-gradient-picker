@@ -41,7 +41,8 @@ const ColorPicker: FC<IPropsMain> = ({
   defaultActiveTab,
   onChangeTabs,
   onChange = () => ({}),
-  showReset = false
+  showReset = false,
+  onReset
 }) => {
   const [activeTab, setActiveTab] = useState<string>(
     defaultActiveTab || getIndexActiveTag(value)
@@ -95,6 +96,7 @@ const ColorPicker: FC<IPropsMain> = ({
                   showInputs={showInputs}
                   colorBoardHeight={colorBoardHeight}
                   showReset={showReset}
+                  onReset={onReset}
                 />
               </PopupTabsBodyItem>
               <PopupTabsBodyItem tabName='gradient'>
@@ -115,6 +117,7 @@ const ColorPicker: FC<IPropsMain> = ({
                   allowAddGradientStops={allowAddGradientStops}
                   colorBoardHeight={colorBoardHeight}
                   showReset={showReset}
+                  onReset={onReset}
                 />
               </PopupTabsBodyItem>
             </PopupTabsBody>
@@ -146,6 +149,7 @@ const ColorPicker: FC<IPropsMain> = ({
                   showInputs={showInputs}
                   colorBoardHeight={colorBoardHeight}
                   showReset={showReset}
+                  onReset={onReset}
                 />
               ) : (
                 <Fragment />
@@ -168,6 +172,7 @@ const ColorPicker: FC<IPropsMain> = ({
                   allowAddGradientStops={allowAddGradientStops}
                   colorBoardHeight={colorBoardHeight}
                   showReset={showReset}
+                  onReset={onReset}
                 />
               ) : (
                 <Fragment />

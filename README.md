@@ -18,6 +18,7 @@ A beautiful, modern React gradient and solid color picker with full dark theme i
 
 - 🌙 **Complete Dark Theme** - Works perfectly across all components (modal, solid, gradient)
 - 🎨 **Gradient & Solid Colors** - Full support for both gradient and solid color picking
+- 🔄 **Reset Button** - Built-in reset functionality with customizable callbacks
 - 🔄 **Theme Toggle** - Easy switching between light and dark themes
 - 💾 **Theme Persistence** - Automatically saves user theme preference
 - 🎯 **Tailwind CSS** - Modern styling with comprehensive theming system
@@ -75,6 +76,35 @@ function App() {
         setColor(newColor);
         return newColor;
       }}
+    />
+  );
+}
+
+export default App;
+```
+
+### 🔄 With Reset Functionality
+
+```tsx
+import React, { useState } from 'react';
+import ColorPicker from 'react-iro-gradient-picker';
+
+function App() {
+  const [color, setColor] = useState('#3B82F6');
+  const originalColor = '#3B82F6';
+
+  const handleReset = () => {
+    setColor(originalColor);
+    console.log('Color reset to original value!');
+  };
+
+  return (
+    <ColorPicker
+      solid
+      value={color}
+      onChange={setColor}
+      showReset
+      onReset={handleReset}
     />
   );
 }
@@ -157,6 +187,8 @@ This is an enhanced version of the original react-gcolor-picker with major impro
 | defaultActiveTab      |  `string`  |         `undefined`         | Default value for active tab when initializing the component, takes two values: `solid` or `gradient` |
 | onChangeTabs          | `function` |           `null`            | Default onChange function detect when tabs change and return one of the values: `solid` or `gradient` |
 | onChange              | `function` |           `null`            | Default onChange function returns string value in the given format                                    |
+| showReset             |   `bool`   |           `false`           | Show/hide reset button in the picker interface                                                        |
+| onReset               | `function` |           `null`            | Callback function triggered when reset button is clicked                                              |
 
 When passing a value for a gradient, you must specify the position of all colors. Otherwise the component will throw an exception.
 For example:

@@ -181,6 +181,65 @@ import { Meta } from '@storybook/addon-docs/blocks';
 </code>
 </pre>
 
+<h2
+  style={{
+    color: '#38bdf8',
+    borderBottom: '2px solid #475569',
+    paddingBottom: '0.5rem',
+    marginTop: '2rem'
+  }}
+>
+  🔄 Reset Functionality
+</h2>
+<div style={{ margin: '1.5rem 0' }}>
+  <p style={{ color: '#cbd5e1', marginBottom: '1rem' }}>
+    New reset button functionality allows users to easily restore colors to
+    their initial state:
+  </p>
+  <ul style={{ color: '#94a3b8', paddingLeft: '1.5rem' }}>
+    <li style={{ marginBottom: '0.5rem' }}>
+      ✅ <strong style={{ color: '#10b981' }}>Built-in reset button</strong> -
+      Optional reset button in the picker interface
+    </li>
+    <li style={{ marginBottom: '0.5rem' }}>
+      ✅ <strong style={{ color: '#10b981' }}>Custom callbacks</strong> - Handle
+      reset events with your own logic
+    </li>
+    <li style={{ marginBottom: '0.5rem' }}>
+      ✅ <strong style={{ color: '#10b981' }}>State management</strong> - Easily
+      track reset history and user interactions
+    </li>
+  </ul>
+</div>
+
+<pre style={{
+  backgroundColor: '#0f172a',
+  color: '#e2e8f0',
+  padding: '1rem',
+  borderRadius: '6px',
+  border: '1px solid #334155',
+  fontFamily: 'monospace',
+  marginTop: '1rem'
+}}>
+<code>
+<span style={{ color: '#c678dd' }}>const</span> [<span style={{ color: '#e06c75' }}>color</span>, <span style={{ color: '#e06c75' }}>setColor</span>] = <span style={{ color: '#61dafb' }}>useState</span>(<span style={{ color: '#98c379' }}>'#3B82F6'</span>);<br />
+<span style={{ color: '#c678dd' }}>const</span> <span style={{ color: '#e06c75' }}>originalColor</span> = <span style={{ color: '#98c379' }}>'#3B82F6'</span>;<br />
+<br />
+<span style={{ color: '#c678dd' }}>const</span> <span style={{ color: '#e06c75' }}>handleReset</span> = () => {'{'}<br />
+{'  '}<span style={{ color: '#e06c75' }}>setColor</span>(<span style={{ color: '#e06c75' }}>originalColor</span>);<br />
+{'  '}<span style={{ color: '#e06c75' }}>console</span>.<span style={{ color: '#61dafb' }}>log</span>(<span style={{ color: '#98c379' }}>'Color reset to original!'</span>);<br />
+{'}'};<br />
+<br />
+<span style={{ color: '#61dafb' }}>&lt;ReactGPicker</span><br />
+{'  '}<span style={{ color: '#e06c75' }}>solid</span><br />
+{'  '}<span style={{ color: '#e06c75' }}>value</span>={'{color}'}<br />
+{'  '}<span style={{ color: '#e06c75' }}>onChange</span>={'{setColor}'}<br />
+{'  '}<span style={{ color: '#e06c75' }}>showReset</span><br />
+{'  '}<span style={{ color: '#e06c75' }}>onReset</span>={'{handleReset}'}<br />
+<span style={{ color: '#61dafb' }}/&gt;</span>
+</code>
+</pre>
+
 <p style={{ margin: '1.5rem 0' }}>
   <a
     href='https://github.com/romfatal/react-iro-gradient-picker/blob/main/README.md'
@@ -572,6 +631,124 @@ import { Meta } from '@storybook/addon-docs/blocks';
       </td>
       <td align='left'>
         Default onChange function returns string value on rgba format
+      </td>
+    </tr>
+    <tr className='odd' style={{ backgroundColor: '#1e293b' }}>
+      <td
+        align='left'
+        style={{
+          padding: '12px',
+          color: '#f8fafc',
+          borderBottom: '1px solid #475569'
+        }}
+      >
+        showReset
+      </td>
+      <td
+        align='center'
+        style={{
+          padding: '12px',
+          borderBottom: '1px solid #475569'
+        }}
+      >
+        <code
+          style={{
+            backgroundColor: '#334155',
+            color: '#38bdf8',
+            padding: '2px 6px',
+            borderRadius: '4px'
+          }}
+        >
+          bool
+        </code>
+      </td>
+      <td
+        align='center'
+        style={{
+          padding: '12px',
+          color: '#94a3b8',
+          borderBottom: '1px solid #475569'
+        }}
+      >
+        <code
+          style={{
+            backgroundColor: '#334155',
+            color: '#f59e0b',
+            padding: '2px 6px',
+            borderRadius: '4px'
+          }}
+        >
+          false
+        </code>
+      </td>
+      <td
+        align='left'
+        style={{
+          padding: '12px',
+          color: '#cbd5e1',
+          borderBottom: '1px solid #475569'
+        }}
+      >
+        Show/hide reset button in the picker interface
+      </td>
+    </tr>
+    <tr className='even'>
+      <td
+        align='left'
+        style={{
+          padding: '12px',
+          color: '#f8fafc',
+          borderBottom: '1px solid #475569'
+        }}
+      >
+        onReset
+      </td>
+      <td
+        align='center'
+        style={{
+          padding: '12px',
+          borderBottom: '1px solid #475569'
+        }}
+      >
+        <code
+          style={{
+            backgroundColor: '#334155',
+            color: '#38bdf8',
+            padding: '2px 6px',
+            borderRadius: '4px'
+          }}
+        >
+          function
+        </code>
+      </td>
+      <td
+        align='center'
+        style={{
+          padding: '12px',
+          color: '#94a3b8',
+          borderBottom: '1px solid #475569'
+        }}
+      >
+        <code
+          style={{
+            backgroundColor: '#334155',
+            color: '#f59e0b',
+            padding: '2px 6px',
+            borderRadius: '4px'
+          }}
+        >
+          null
+        </code>
+      </td>
+      <td
+        align='left'
+        style={{
+          padding: '12px',
+          color: '#cbd5e1',
+          borderBottom: '1px solid #475569'
+        }}
+      >
+        Callback function triggered when reset button is clicked
       </td>
     </tr>
   </tbody>
