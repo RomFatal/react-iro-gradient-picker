@@ -64,6 +64,7 @@ pnpm add react-iro-gradient-picker
 ```tsx
 import React, { useState } from 'react';
 import ColorPicker from 'react-iro-gradient-picker';
+import 'react-iro-gradient-picker/dist/index.css'; // Import CSS styles
 
 function App() {
   const [color, setColor] = useState('#3B82F6');
@@ -134,6 +135,43 @@ function App() {
       />
     </ThemeProvider>
   );
+}
+```
+
+### 🎨 Format Control
+
+Control the color format returned by the onChange callback:
+
+```tsx
+import React, { useState } from 'react';
+import ColorPicker from 'react-iro-gradient-picker';
+
+function FormatExample() {
+  const [color, setColor] = useState('#3B82F6');
+
+  // RGB format (default)
+  <ColorPicker
+    solid
+    value={color}
+    onChange={setColor}
+    format="rgb"      // Returns: "rgb(59, 130, 246)" or "rgba(59, 130, 246, 0.8)"
+  />
+
+  // HSL format
+  <ColorPicker
+    solid
+    value={color}
+    onChange={setColor}
+    format="hsl"      // Returns: "hsl(217, 91%, 60%)" or "hsla(217, 91%, 60%, 0.8)"
+  />
+
+  // HEX format
+  <ColorPicker
+    solid
+    value={color}
+    onChange={setColor}
+    format="hex"      // Returns: "#3b82f6" or "#3b82f680" (with alpha)
+  />
 }
 ```
 

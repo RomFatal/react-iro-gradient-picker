@@ -26,8 +26,7 @@ export default {
     external(),
     nodeResolve(),
     postcss({
-      extract: false,
-      inject: true,
+      extract: true,
       minimize: true,
       use: [
         [

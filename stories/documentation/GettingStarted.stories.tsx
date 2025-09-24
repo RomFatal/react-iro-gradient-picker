@@ -107,6 +107,7 @@ export const Installation: Story = {
         >
           {`import React, { useState } from 'react';
 import ColorPicker from 'react-iro-gradient-picker';
+import 'react-iro-gradient-picker/dist/index.css'; // Import CSS styles
 import { ThemeProvider } from 'react-iro-gradient-picker/components/providers/ThemeContext';
 
 function App() {
@@ -464,7 +465,244 @@ function CustomComponent() {
       </div>
 
       <div style={{ marginBottom: '3rem' }}>
-        <h2>🎛️ Complete Props Reference</h2>
+        <h2>� Color Format Control</h2>
+        <p style={{ color: '#cbd5e1', marginBottom: '1rem' }}>
+          Control the output format of colors returned by the onChange callback
+          using the{' '}
+          <code
+            style={{
+              background: '#334155',
+              padding: '2px 6px',
+              borderRadius: '4px',
+              color: '#fbbf24'
+            }}
+          >
+            format
+          </code>{' '}
+          prop:
+        </p>
+
+        <h3
+          style={{ color: '#38bdf8', marginTop: '2rem', marginBottom: '1rem' }}
+        >
+          Available Formats
+        </h3>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gap: '1rem',
+            margin: '2rem 0'
+          }}
+        >
+          <div
+            style={{
+              background: '#1e293b',
+              border: '1px solid #334155',
+              borderRadius: '8px',
+              padding: '1.5rem',
+              borderLeft: '4px solid #3b82f6'
+            }}
+          >
+            <h4 style={{ color: '#3b82f6', margin: '0 0 0.5rem 0' }}>
+              RGB Format
+            </h4>
+            <code style={{ fontSize: '0.9rem', color: '#10b981' }}>
+              format="rgb"
+            </code>
+            <p
+              style={{
+                margin: '0.5rem 0 0',
+                fontSize: '0.85rem',
+                color: '#cbd5e1'
+              }}
+            >
+              <strong>Output:</strong> rgb(97, 207, 255)
+              <br />
+              <strong>With Alpha:</strong> rgba(97, 207, 255, 0.8)
+            </p>
+          </div>
+
+          <div
+            style={{
+              background: '#1e293b',
+              border: '1px solid #334155',
+              borderRadius: '8px',
+              padding: '1.5rem',
+              borderLeft: '4px solid #f59e0b'
+            }}
+          >
+            <h4 style={{ color: '#f59e0b', margin: '0 0 0.5rem 0' }}>
+              HSL Format
+            </h4>
+            <code style={{ fontSize: '0.9rem', color: '#10b981' }}>
+              format="hsl"
+            </code>
+            <p
+              style={{
+                margin: '0.5rem 0 0',
+                fontSize: '0.85rem',
+                color: '#cbd5e1'
+              }}
+            >
+              <strong>Output:</strong> hsl(200, 100%, 69%)
+              <br />
+              <strong>With Alpha:</strong> hsla(200, 100%, 69%, 0.8)
+            </p>
+          </div>
+
+          <div
+            style={{
+              background: '#1e293b',
+              border: '1px solid #334155',
+              borderRadius: '8px',
+              padding: '1.5rem',
+              borderLeft: '4px solid #10b981'
+            }}
+          >
+            <h4 style={{ color: '#10b981', margin: '0 0 0.5rem 0' }}>
+              HEX Format
+            </h4>
+            <code style={{ fontSize: '0.9rem', color: '#10b981' }}>
+              format="hex"
+            </code>
+            <p
+              style={{
+                margin: '0.5rem 0 0',
+                fontSize: '0.85rem',
+                color: '#cbd5e1'
+              }}
+            >
+              <strong>Output:</strong> #61cfff
+              <br />
+              <strong>With Alpha:</strong> #61cfff80
+            </p>
+          </div>
+        </div>
+
+        <h3
+          style={{ color: '#38bdf8', marginTop: '2rem', marginBottom: '1rem' }}
+        >
+          Format Examples
+        </h3>
+        <div
+          style={{
+            background: '#1e293b',
+            color: '#f8fafc',
+            padding: '1rem',
+            borderRadius: '8px',
+            fontFamily: 'Monaco, "Cascadia Code", monospace',
+            fontSize: '14px',
+            margin: '1rem 0',
+            whiteSpace: 'pre'
+          }}
+        >
+          {`// RGB Format (default)
+<ColorPicker
+  solid
+  value={color}
+  onChange={handleColorChange}
+  format="rgb"
+/>
+// Returns: "rgb(97, 207, 255)" or "rgba(97, 207, 255, 0.8)"
+
+// HSL Format
+<ColorPicker
+  solid
+  value={color}
+  onChange={handleColorChange}
+  format="hsl"
+/>
+// Returns: "hsl(200, 100%, 69%)" or "hsla(200, 100%, 69%, 0.8)"
+
+// HEX Format
+<ColorPicker
+  solid
+  value={color}
+  onChange={handleColorChange}
+  format="hex"
+/>
+// Returns: "#61cfff" or "#61cfff80" (with alpha)`}
+        </div>
+
+        <h3
+          style={{ color: '#38bdf8', marginTop: '2rem', marginBottom: '1rem' }}
+        >
+          Dynamic Format Switching
+        </h3>
+        <div
+          style={{
+            background: '#1e293b',
+            color: '#f8fafc',
+            padding: '1rem',
+            borderRadius: '8px',
+            fontFamily: 'Monaco, "Cascadia Code", monospace',
+            fontSize: '14px',
+            margin: '1rem 0',
+            whiteSpace: 'pre'
+          }}
+        >
+          {`function ColorFormatExample() {
+  const [color, setColor] = useState('#61cfff');
+  const [format, setFormat] = useState('rgb');
+
+  const handleColorChange = (newColor) => {
+    setColor(newColor);
+    console.log(\`Color in \${format} format:\`, newColor);
+  };
+
+  return (
+    <div>
+      <select value={format} onChange={(e) => setFormat(e.target.value)}>
+        <option value="rgb">RGB</option>
+        <option value="hsl">HSL</option>
+        <option value="hex">HEX</option>
+      </select>
+
+      <ColorPicker
+        solid
+        value={color}
+        onChange={handleColorChange}
+        format={format}
+        showAlpha={true}
+      />
+    </div>
+  );
+}`}
+        </div>
+
+        <div
+          style={{
+            background: '#0f172a',
+            border: '1px solid #334155',
+            borderRadius: '8px',
+            padding: '1rem',
+            marginTop: '2rem'
+          }}
+        >
+          <p style={{ margin: '0 0 8px', color: '#38bdf8', fontWeight: '600' }}>
+            💡 Format Pro Tips:
+          </p>
+          <ul style={{ margin: 0, paddingLeft: '1.5rem', color: '#cbd5e1' }}>
+            <li>
+              Use <strong>RGB</strong> for CSS styling and web development
+            </li>
+            <li>
+              Use <strong>HSL</strong> for intuitive color manipulation
+            </li>
+            <li>
+              Use <strong>HEX</strong> for design tools and color codes
+            </li>
+            <li>
+              Alpha channel is automatically included when{' '}
+              <code>showAlpha={true}</code>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div style={{ marginBottom: '3rem' }}>
+        <h2>�🎛️ Complete Props Reference</h2>
         <div
           style={{
             background: '#1e293b', // Dark surface background
@@ -641,7 +879,9 @@ function CustomComponent() {
                 </td>
                 <td style={{ padding: '8px', color: '#6b7280' }}>-</td>
                 <td style={{ padding: '8px' }}>
-                  Preferred color format for output
+                  Control the output format of colors returned by onChange
+                  callback. Supports RGB (default), HSL, and HEX formats with
+                  automatic alpha channel handling.
                 </td>
               </tr>
               <tr style={{ borderBottom: '1px solid #334155' }}>
