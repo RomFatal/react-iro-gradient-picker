@@ -133,7 +133,7 @@ const ColorPicker: FC<IPropsMain> = ({
   return (
     <ThemeProvider>
       <div
-        className='relative dark react-iro-color-picker'
+        className='relative dark iro-gradient-picker'
         data-color-picker-theme
       >
         <ThemeToggle />

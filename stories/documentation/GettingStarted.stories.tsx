@@ -194,6 +194,122 @@ function GradientExample() {
       </div>
 
       <div style={{ marginBottom: '3rem' }}>
+        <h2>🔄 Reset Functionality</h2>
+        <p style={{ color: '#cbd5e1', marginBottom: '1rem' }}>
+          New reset button functionality allows users to easily restore colors
+          to their initial state:
+        </p>
+        <ul
+          style={{
+            color: '#cbd5e1',
+            paddingLeft: '1.5rem',
+            marginBottom: '2rem'
+          }}
+        >
+          <li>✅ Built-in reset button in the picker interface</li>
+          <li>✅ Custom callbacks for handling reset events</li>
+          <li>✅ Easy state management and tracking</li>
+          <li>✅ Works with both solid and gradient modes</li>
+        </ul>
+
+        <h3
+          style={{ color: '#38bdf8', marginTop: '2rem', marginBottom: '1rem' }}
+        >
+          Basic Reset Example
+        </h3>
+        <div
+          style={{
+            background: '#1e293b',
+            color: '#f8fafc',
+            padding: '1rem',
+            borderRadius: '8px',
+            fontFamily: 'Monaco, "Cascadia Code", monospace',
+            fontSize: '14px',
+            margin: '1rem 0',
+            whiteSpace: 'pre'
+          }}
+        >
+          {`import React, { useState } from 'react';
+import ColorPicker from 'react-iro-gradient-picker';
+
+function ResetExample() {
+  const [color, setColor] = useState('#3B82F6');
+  const originalColor = '#3B82F6';
+
+  const handleReset = () => {
+    setColor(originalColor);
+    console.log('Color reset to original value!');
+  };
+
+  return (
+    <ColorPicker
+      solid
+      value={color}
+      onChange={setColor}
+      showReset
+      onReset={handleReset}
+    />
+  );
+}`}
+        </div>
+
+        <h3
+          style={{ color: '#38bdf8', marginTop: '2rem', marginBottom: '1rem' }}
+        >
+          Advanced Reset with History Tracking
+        </h3>
+        <div
+          style={{
+            background: '#1e293b',
+            color: '#f8fafc',
+            padding: '1rem',
+            borderRadius: '8px',
+            fontFamily: 'Monaco, "Cascadia Code", monospace',
+            fontSize: '14px',
+            margin: '1rem 0',
+            whiteSpace: 'pre'
+          }}
+        >
+          {`function AdvancedResetExample() {
+  const [gradient, setGradient] = useState(
+    'linear-gradient(45deg, #FF6B35 0%, #3A86FF 100%)'
+  );
+  const [resetHistory, setResetHistory] = useState([]);
+
+  const handleReset = () => {
+    const timestamp = new Date().toLocaleTimeString();
+    setResetHistory(prev => [
+      ...prev,
+      \`Reset at \${timestamp}\`
+    ]);
+    setGradient('linear-gradient(45deg, #FF6B35 0%, #3A86FF 100%)');
+  };
+
+  return (
+    <div>
+      <ColorPicker
+        gradient
+        value={gradient}
+        onChange={setGradient}
+        showReset
+        onReset={handleReset}
+      />
+
+      <div style={{ marginTop: '20px' }}>
+        <h4>Reset History:</h4>
+        <ul>
+          {resetHistory.map((entry, index) => (
+            <li key={index}>{entry}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}`}
+        </div>
+      </div>
+
+      <div style={{ marginBottom: '3rem' }}>
         <h2>🌙 Complete Dark Theme Integration</h2>
         <p style={{ color: '#cbd5e1', marginBottom: '1rem' }}>
           React Iro Gradient Picker provides comprehensive dark theme support
@@ -622,6 +738,39 @@ function CustomComponent() {
                 <td style={{ padding: '8px', color: '#6b7280' }}>-</td>
                 <td style={{ padding: '8px' }}>
                   Callback when active tab changes: (tab: string) =&gt; void
+                </td>
+              </tr>
+              <tr style={{ borderBottom: '1px solid #334155' }}>
+                <td
+                  style={{
+                    padding: '8px',
+                    fontFamily: 'monospace',
+                    color: '#fbbf24'
+                  }}
+                >
+                  showReset
+                </td>
+                <td style={{ padding: '8px', color: '#10b981' }}>boolean</td>
+                <td style={{ padding: '8px', color: '#6b7280' }}>false</td>
+                <td style={{ padding: '8px' }}>
+                  Show reset button in the picker interface
+                </td>
+              </tr>
+              <tr style={{ borderBottom: '1px solid #334155' }}>
+                <td
+                  style={{
+                    padding: '8px',
+                    fontFamily: 'monospace',
+                    color: '#fbbf24'
+                  }}
+                >
+                  onReset
+                </td>
+                <td style={{ padding: '8px', color: '#10b981' }}>function</td>
+                <td style={{ padding: '8px', color: '#6b7280' }}>-</td>
+                <td style={{ padding: '8px' }}>
+                  Callback function triggered when reset button is clicked: ()
+                  =&gt; void
                 </td>
               </tr>
               <tr style={{ borderBottom: '1px solid #334155' }}>
