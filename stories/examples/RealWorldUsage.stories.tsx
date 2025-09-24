@@ -328,3 +328,91 @@ export const CustomWidth: Story = {
     );
   }
 };
+
+// With Reset Button
+export const WithResetButton: Story = {
+  render: () => {
+    const [color, setColor] = useState('#FF6B35');
+    const [gradient, setGradient] = useState(
+      'linear-gradient(45deg, #FF6B35 0%, #F7931E 25%, #FFD23F 50%, #06FFA5 75%, #3A86FF 100%)'
+    );
+
+    return (
+      <div
+        style={{
+          padding: '20px',
+          background: '#0f0f0f',
+          color: '#ffffff',
+          minHeight: '100vh'
+        }}
+      >
+        <h3>With Reset Button:</h3>
+        <pre
+          style={{
+            background: '#2a2a2a',
+            color: '#ffffff',
+            padding: '10px',
+            borderRadius: '4px',
+            marginBottom: '20px',
+            fontSize: '12px'
+          }}
+        >
+          {`<GradientColorPicker
+  value={color}
+  onChange={setColor}
+  showReset
+  solid
+/>`}
+        </pre>
+
+        <div
+          style={{
+            border: '1px solid #333',
+            padding: '10px',
+            borderRadius: '8px',
+            background: '#1a1a1a',
+            color: '#ffffff',
+            marginBottom: '20px'
+          }}
+        >
+          <p>
+            Solid color with reset: <strong>{color}</strong>
+          </p>
+          <GradientColorPicker
+            value={color}
+            onChange={(newColor: string) => setColor(newColor)}
+            showReset
+            solid
+          />
+        </div>
+
+        <div
+          style={{
+            border: '1px solid #333',
+            padding: '10px',
+            borderRadius: '8px',
+            background: '#1a1a1a',
+            color: '#ffffff'
+          }}
+        >
+          <p>Gradient with reset:</p>
+          <div
+            style={{
+              background: gradient,
+              height: '40px',
+              borderRadius: '4px',
+              marginBottom: '10px'
+            }}
+          ></div>
+
+          <GradientColorPicker
+            value={gradient}
+            onChange={(newGradient: string) => setGradient(newGradient)}
+            showReset
+            gradient
+          />
+        </div>
+      </div>
+    );
+  }
+};

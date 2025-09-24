@@ -18,6 +18,7 @@ export interface IPropsComp {
   defaultActiveTab?: string | undefined;
   onChangeTabs?: (tab: string) => void;
   onChange?: (value: string) => void;
+  showReset?: boolean;
 }
 
 export interface IPropsMain extends IPropsComp {

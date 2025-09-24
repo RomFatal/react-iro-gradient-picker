@@ -32,8 +32,11 @@ const IroGradient: FC<IPropsComp> = ({
   showGradientPosition = true,
   allowAddGradientStops = true,
   colorBoardHeight = 120,
-  defaultColors
+  defaultColors,
+  showReset = false
 }) => {
+  // Store the initial value for reset functionality
+  const initialValue = useRef(value);
   const parsedColors = useCallback(() => {
     return parseGradient(value);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -363,6 +366,32 @@ const IroGradient: FC<IPropsComp> = ({
     onChangeActiveColor({ hex, alpha });
   };
 
+  // Reset to initial color
+  const handleResetColor = () => {
+    const initialParsed = parseGradient(initialValue.current);
+    setColor(initialParsed);
+
+    // Reset active color to the last stop of the initial gradient
+    const lastStop = rgbaToArray(
+      initialParsed.stops[initialParsed.stops.length - 1][0]
+    );
+    const newActiveColor = {
+      hex: rgbaToHex([lastStop[0], lastStop[1], lastStop[2]]),
+      alpha: Math.round(lastStop[3] * 100),
+      loc: initialParsed.stops[initialParsed.stops.length - 1][1],
+      index: initialParsed.stops.length - 1
+    };
+    setActiveColor(newActiveColor);
+
+    // Update iro picker if available
+    if (iroPickerRef.current?.colorPicker) {
+      updateIroPickerColor(newActiveColor);
+    }
+
+    // Call onChange with initial value
+    onChange(initialValue.current);
+  };
+
   // Update iro picker when color is selected from default colors panel
   const handleColorFromPanel = (newColor: any) => {
     setColor(newColor);
@@ -436,10 +465,7 @@ const IroGradient: FC<IPropsComp> = ({
     <div
       className='w-full rounded-xl shadow-lg space-y-2 transition-all duration-200 hover:shadow-xl'
       style={{
-        backgroundColor: 'var(--colorpicker-panel-bg)',
-        borderColor: 'var(--colorpicker-border)',
-        borderWidth: '1px',
-        borderStyle: 'solid'
+        backgroundColor: 'var(--colorpicker-panel-bg)'
       }}
     >
       {/* Color Picker Container */}
@@ -492,21 +518,45 @@ const IroGradient: FC<IPropsComp> = ({
 
       {/* Input Controls */}
       {showInputs && (
-        <div className='rounded-lg colorpicker-glass'>
-          <InputRgba
-            hex={activeColor.hex}
-            alpha={activeColor.alpha}
-            showAlpha={showAlpha}
-            onChange={(value: { hex: string; alpha: number }) =>
-              setActiveColor((prev) => ({
-                ...prev,
-                hex: value.hex,
-                alpha: value.alpha,
-                index: prev.index // Preserve the index!
-              }))
-            }
-            onSubmitChange={onSubmitChange}
-          />
+        <div className='rounded-lg colorpicker-glass flex items-center gap-2'>
+          <div className='flex-1'>
+            <InputRgba
+              hex={activeColor.hex}
+              alpha={activeColor.alpha}
+              showAlpha={showAlpha}
+              onChange={(value: { hex: string; alpha: number }) =>
+                setActiveColor((prev) => ({
+                  ...prev,
+                  hex: value.hex,
+                  alpha: value.alpha,
+                  index: prev.index // Preserve the index!
+                }))
+              }
+              onSubmitChange={onSubmitChange}
+            />
+          </div>
+          {showReset && (
+            <button
+              onClick={handleResetColor}
+              className='px-3 py-2 text-xs font-medium rounded-md transition-colors duration-200 bg-transparent border border-gray-600 text-gray-300 hover:text-white hover:border-gray-500 hover:bg-gray-800/50 whitespace-nowrap flex items-center gap-1'
+              title='Reset to initial color'
+            >
+              <svg
+                className='w-3 h-3'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth={2}
+                  d='M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'
+                />
+              </svg>
+              Reset
+            </button>
+          )}
         </div>
       )}
     </div>

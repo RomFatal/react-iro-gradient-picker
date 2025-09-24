@@ -40,7 +40,8 @@ const ColorPicker: FC<IPropsMain> = ({
   defaultColors = DEFAULT_COLORS,
   defaultActiveTab,
   onChangeTabs,
-  onChange = () => ({})
+  onChange = () => ({}),
+  showReset = false
 }) => {
   const [activeTab, setActiveTab] = useState<string>(
     defaultActiveTab || getIndexActiveTag(value)
@@ -93,6 +94,7 @@ const ColorPicker: FC<IPropsMain> = ({
                   showAlpha={showAlpha}
                   showInputs={showInputs}
                   colorBoardHeight={colorBoardHeight}
+                  showReset={showReset}
                 />
               </PopupTabsBodyItem>
               <PopupTabsBodyItem tabName='gradient'>
@@ -112,6 +114,7 @@ const ColorPicker: FC<IPropsMain> = ({
                   showGradientPosition={showGradientPosition}
                   allowAddGradientStops={allowAddGradientStops}
                   colorBoardHeight={colorBoardHeight}
+                  showReset={showReset}
                 />
               </PopupTabsBodyItem>
             </PopupTabsBody>
@@ -123,7 +126,10 @@ const ColorPicker: FC<IPropsMain> = ({
 
   return (
     <ThemeProvider>
-      <div className='relative dark' data-color-picker-theme>
+      <div
+        className='relative dark react-iro-color-picker'
+        data-color-picker-theme
+      >
         <ThemeToggle />
         {solid || gradient ? (
           <PopupTabs popupWidth={popupWidth}>
@@ -139,6 +145,7 @@ const ColorPicker: FC<IPropsMain> = ({
                   showAlpha={showAlpha}
                   showInputs={showInputs}
                   colorBoardHeight={colorBoardHeight}
+                  showReset={showReset}
                 />
               ) : (
                 <Fragment />
@@ -160,6 +167,7 @@ const ColorPicker: FC<IPropsMain> = ({
                   showGradientPosition={showGradientPosition}
                   allowAddGradientStops={allowAddGradientStops}
                   colorBoardHeight={colorBoardHeight}
+                  showReset={showReset}
                 />
               ) : (
                 <Fragment />

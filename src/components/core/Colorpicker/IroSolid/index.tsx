@@ -19,10 +19,13 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
   debounce = true,
   showAlpha = true,
   showInputs = true,
-  defaultColors
+  defaultColors,
+  showReset = false
 }) => {
   const node = useRef<HTMLDivElement | null>(null);
   const iroPickerRef = useRef<any>(null);
+  // Store the initial value for reset functionality
+  const initialValue = useRef(value);
   const [init, setInit] = useState<boolean>(true);
   const [color, setColor] = useState(getHexAlpha(value));
   const [pickerWidth, setPickerWidth] = useState<number>(200);
@@ -232,6 +235,33 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
     updateIroColor();
   };
 
+  // Reset to initial color
+  const handleResetColor = () => {
+    const initialColorData = getHexAlpha(initialValue.current);
+    setColor(initialColorData);
+
+    // Update the iro color picker
+    if (iroPickerRef.current?.colorPicker) {
+      const iroColor = showAlpha
+        ? {
+            r: parseInt(initialColorData.hex.slice(1, 3), 16),
+            g: parseInt(initialColorData.hex.slice(3, 5), 16),
+            b: parseInt(initialColorData.hex.slice(5, 7), 16),
+            a: initialColorData.alpha / 100
+          }
+        : initialColorData.hex;
+
+      try {
+        iroPickerRef.current.colorPicker.color.set(iroColor);
+      } catch (error) {
+        console.warn('Error updating iro color picker on reset:', error);
+      }
+    }
+
+    // Call onChange with initial value
+    onChange(initialValue.current);
+  };
+
   // Create layout array conditionally based on showAlpha
   const layoutConfig = [
     {
@@ -271,9 +301,6 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
       className='w-full p-2 rounded-xl shadow-lg space-y-2 transition-all duration-200 hover:shadow-xl overflow-hidden'
       style={{
         backgroundColor: 'var(--colorpicker-panel-bg)',
-        borderColor: 'var(--colorpicker-border)',
-        borderWidth: '1px',
-        borderStyle: 'solid',
         maxWidth: '100%',
         minWidth: 0,
         boxSizing: 'border-box'
@@ -319,15 +346,39 @@ const IroSolidColorPicker: FC<IPropsComp> = ({
       </div>
       {/* Input Controls */}
       {showInputs && (
-        <div className='rounded-lg  colorpicker-glass'>
-          <InputRgba
-            hex={color.hex}
-            alpha={color.alpha}
-            format={format}
-            showAlpha={showAlpha}
-            onChange={handleInputChange}
-            onSubmitChange={handleInputSubmit}
-          />
+        <div className='rounded-lg colorpicker-glass flex items-center gap-2'>
+          <div className='flex-1'>
+            <InputRgba
+              hex={color.hex}
+              alpha={color.alpha}
+              format={format}
+              showAlpha={showAlpha}
+              onChange={handleInputChange}
+              onSubmitChange={handleInputSubmit}
+            />
+          </div>
+          {showReset && (
+            <button
+              onClick={handleResetColor}
+              className='px-3 py-2 text-xs font-medium rounded-md transition-colors duration-200 bg-transparent border border-gray-600 text-gray-300 hover:text-white hover:border-gray-500 hover:bg-gray-800/50 whitespace-nowrap flex items-center gap-1'
+              title='Reset to initial color'
+            >
+              <svg
+                className='w-3 h-3'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth={2}
+                  d='M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'
+                />
+              </svg>
+              Reset
+            </button>
+          )}
         </div>
       )}
     </div>
