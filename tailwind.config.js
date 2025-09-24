@@ -1,5 +1,4 @@
 /** @type {import('@tailwindcss/postcss').Config} */
-import { Config } from '@tailwindcss/postcss'
 
 export default {
   content: [
@@ -46,4 +45,4 @@ export default {
       }
     }
   }
-} satisfies Config
+};

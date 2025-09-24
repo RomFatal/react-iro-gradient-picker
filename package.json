@@ -1,7 +1,7 @@
 {
   "name": "react-iro-gradient-picker",
   "version": "1.0.0",
-  "description": "React gradient color picker with complete dark theme support and modern Tailwind CSS styling",
+  "description": "Modern React gradient and solid color picker with complete dark theme support, built with TypeScript and Tailwind CSS",
   "keywords": [
     "react",
     "react-component",
@@ -11,22 +11,37 @@
     "dark-theme",
     "tailwind",
     "iro",
-    "color"
+    "color",
+    "gradient",
+    "picker",
+    "ui-component"
   ],
+  "homepage": "https://romfatal.github.io/react-iro-gradient-picker/",
   "bugs": {
     "url": "https://github.com/romfatal/react-iro-gradient-picker/issues"
   },
-  "author": "romfatal",
+  "author": {
+    "name": "romfatal",
+    "url": "https://github.com/romfatal"
+  },
   "license": "MIT",
-  "repository": "romfatal/react-iro-gradient-picker",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/romfatal/react-iro-gradient-picker.git"
+  },
   "main": "dist/index.js",
   "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
   "source": "src/index.tsx",
+  "sideEffects": false,
   "engines": {
-    "node": ">=10"
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "storybook": "storybook dev -p 6006",

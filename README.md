@@ -5,11 +5,13 @@
 
 A beautiful, modern React gradient and solid color picker with full dark theme integration, built with Tailwind CSS and TypeScript.
 
+### 🚀 **[✨ LIVE DEMO & DOCUMENTATION ✨](https://romfatal.github.io/react-iro-gradient-picker/)**
+
+[![NPM](https://img.shields.io/npm/v/react-iro-gradient-picker.svg)](https://www.npmjs.com/package/react-iro-gradient-picker) [![License](https://img.shields.io/npm/l/react-iro-gradient-picker.svg)](https://github.com/romfatal/react-iro-gradient-picker/blob/main/LICENSE) [![GitHub Pages](https://img.shields.io/badge/docs-live-brightgreen)](https://romfatal.github.io/react-iro-gradient-picker/)
+
+> 📚 **[Interactive Documentation](https://romfatal.github.io/react-iro-gradient-picker/)** | 📦 **[NPM Package](https://www.npmjs.com/package/react-iro-gradient-picker)** | 🔧 **[GitHub Repository](https://github.com/romfatal/react-iro-gradient-picker)**
+
 ### Inspired by [gpickr](https://github.com/Simonwep/gpickr) and enhanced with modern features
-
-[![NPM](https://img.shields.io/npm/v/react-iro-gradient-picker.svg)](https://www.npmjs.com/package/react-iro-gradient-picker) [![License](https://img.shields.io/npm/l/react-iro-gradient-picker.svg)](https://github.com/romfatal/react-iro-gradient-picker/blob/main/LICENSE)
-
-**[Demo](https://romfatal.github.io/react-iro-gradient-picker/)**
 
 ## ✨ Features
 
@@ -20,38 +22,90 @@ A beautiful, modern React gradient and solid color picker with full dark theme i
 - 🎯 **Tailwind CSS** - Modern styling with comprehensive theming system
 - 📱 **Responsive Design** - Works great on all screen sizes
 
-## Install
+## 🎬 Live Demo
 
-### **Important: this component uses React Hooks and works on React version 16.8.0 and higher**
+### 🚀 **[✨ Try it Live - Interactive Storybook Demo ✨](https://romfatal.github.io/react-iro-gradient-picker/)**
+
+Experience all features in action:
+- 🌙 **Dark/Light Theme Toggle** - Switch themes and see all components adapt
+- 🎨 **Solid Color Picker** - Pick any solid color with alpha transparency  
+- 🌈 **Gradient Picker** - Create linear/radial gradients with multiple stops
+- 🔄 **Dual Mode** - Switch between solid and gradient modes seamlessly
+- 📱 **Responsive Design** - Works perfectly on desktop and mobile
+- ⚙️ **All Props & Configuration** - Explore every feature and customization option
+
+**[📚 View Complete Documentation →](https://romfatal.github.io/react-iro-gradient-picker/)**
 
 ---
 
-```bash
-npm install --save react-iro-gradient-picker
-```
+## 🚀 Quick Start
 
-OR
+### Install
+
+**Important: this component uses React Hooks and works on React version 16.8.0 and higher**
+
+```bash
+npm install react-iro-gradient-picker
+```
 
 ```bash
 yarn add react-iro-gradient-picker
 ```
 
-## Usage
+```bash
+pnpm add react-iro-gradient-picker
+```
+
+### Basic Usage
 
 ```tsx
-import React from 'react';
-import ReactIroGradientPicker from 'react-iro-gradient-picker';
+import React, { useState } from 'react';
+import ColorPicker from 'react-iro-gradient-picker';
 
 function App() {
-  const onChange = (value) => {
-    console.log(value);
-  };
+  const [color, setColor] = useState('#3B82F6');
 
-  return <ReactIroGradientPicker value='red' onChange={onChange} />;
+  return (
+    <ColorPicker
+      solid
+      value={color}
+      onChange={(newColor: string) => {
+        setColor(newColor);
+        return newColor;
+      }}
+    />
+  );
 }
 
 export default App;
 ```
+
+### 🌙 With Dark Theme Support
+
+```tsx
+import React, { useState } from 'react';
+import ColorPicker from 'react-iro-gradient-picker';
+import { ThemeProvider } from 'react-iro-gradient-picker/components/providers/ThemeContext';
+
+function App() {
+  const [color, setColor] = useState('#3B82F6');
+
+  return (
+    <ThemeProvider defaultTheme="dark">
+      <ColorPicker
+        solid
+        gradient
+        value={color}
+        onChange={setColor}
+        showAlpha={true}
+        showInputs={true}
+      />
+    </ThemeProvider>
+  );
+}
+```
+
+### 📚 **[→ View Complete Documentation & Examples](https://romfatal.github.io/react-iro-gradient-picker/)**
 
 ## 🌟 What Makes This Special
 
@@ -76,10 +130,6 @@ This is an enhanced version of the original react-gcolor-picker with major impro
 - **TypeScript Support** - Full type safety and better development experience
 - **Updated Dependencies** - Latest versions of all packages
 - **Better Build Process** - Optimized for modern React applications
-
-export default App;
-
-```
 
 ## Props
 

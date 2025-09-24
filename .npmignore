@@ -1,0 +1,63 @@
+# Development files
+.devcontainer/
+.storybook/
+stories/
+storybook-static/
+src/
+__tests__/
+*.test.*
+*.spec.*
+
+# Configuration files
+.editorconfig
+.eslintrc
+.eslintignore
+.prettierrc
+.release-it.json
+rollup.config.js
+tsconfig.json
+tsconfig.test.json
+postcss.config.js
+tailwind.config.js
+tailwind.config.ts
+
+# Documentation (keep README and LICENSE)
+CONTRIBUTING.md
+CHANGELOG.md
+
+# Build tools and dependencies
+node_modules/
+.git/
+.gitignore
+.gitattributes
+
+# Package manager files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# IDE and OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Coverage and test reports
+coverage/
+.nyc_output/
+junit.xml
