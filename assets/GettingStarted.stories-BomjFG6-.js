@@ -1,6 +1,6 @@
-import{R as e}from"./iframe-BragJFFY.js";import{d as o}from"./decorators-Bk1N4fpp.js";import"./preload-helper-PPVm8Dsz.js";const n={title:"Documentation/Getting Started",parameters:{layout:"fullscreen",docs:{description:{component:"Complete guide to getting started with React Iro Gradient Picker"}}},decorators:[o],tags:["autodocs"]},t={render:()=>e.createElement("div",{style:{maxWidth:"800px",margin:"0 auto",padding:"2rem"}},e.createElement("h1",{style:{color:"#38bdf8",marginBottom:"2rem"}},"🚀 Getting Started with React Iro Gradient Picker"),e.createElement("div",{style:{marginBottom:"3rem"}},e.createElement("h2",null,"📦 Installation"),e.createElement("p",{style:{color:"#cbd5e1",marginBottom:"1rem"}},"Install React Iro Gradient Picker using your preferred package manager:"),e.createElement("div",{style:{background:"#1e293b",color:"#f8fafc",padding:"1rem",borderRadius:"8px",fontFamily:'Monaco, "Cascadia Code", monospace',fontSize:"14px",margin:"1rem 0"}},e.createElement("div",null,"npm install react-iro-gradient-picker"),e.createElement("div",{style:{opacity:.6,marginTop:"8px"}},"# or"),e.createElement("div",null,"yarn add react-iro-gradient-picker"),e.createElement("div",{style:{opacity:.6,marginTop:"8px"}},"# or"),e.createElement("div",null,"pnpm add react-iro-gradient-picker")),e.createElement("div",{style:{background:"#0f172a",border:"1px solid #334155",borderRadius:"8px",padding:"1rem",marginTop:"1rem"}},e.createElement("p",{style:{margin:"0 0 8px",color:"#38bdf8",fontWeight:"600"}},"📊 Package Info:"),e.createElement("ul",{style:{margin:0,paddingLeft:"1.5rem",color:"#cbd5e1"}},e.createElement("li",null,"Version: 1.0.0"),e.createElement("li",null,"Repository:"," ",e.createElement("a",{href:"https://github.com/romfatal/react-iro-gradient-picker",style:{color:"#38bdf8"}},"romfatal/react-iro-gradient-picker")),e.createElement("li",null,"License: MIT"),e.createElement("li",null,"TypeScript support included")))),e.createElement("div",{style:{marginBottom:"3rem"}},e.createElement("h2",null,"🎨 Basic Usage"),e.createElement("p",{style:{color:"#cbd5e1",marginBottom:"1rem"}},"Quick start with solid color picker:"),e.createElement("div",{style:{background:"#1e293b",color:"#f8fafc",padding:"1rem",borderRadius:"8px",fontFamily:'Monaco, "Cascadia Code", monospace',fontSize:"14px",margin:"1rem 0",whiteSpace:"pre"}},`import React, { useState } from 'react';
+import{R as e}from"./iframe-kfIBff6-.js";import{d as o}from"./decorators-C4L0FlJT.js";import"./preload-helper-PPVm8Dsz.js";const n={title:"Documentation/Getting Started",parameters:{layout:"fullscreen",docs:{description:{component:"Complete guide to getting started with React Iro Gradient Picker"}}},decorators:[o],tags:["autodocs"]},t={render:()=>e.createElement("div",{style:{maxWidth:"800px",margin:"0 auto",padding:"2rem"}},e.createElement("h1",{style:{color:"#38bdf8",marginBottom:"2rem"}},"🚀 Getting Started with React Iro Gradient Picker"),e.createElement("div",{style:{marginBottom:"3rem"}},e.createElement("h2",null,"📦 Installation"),e.createElement("p",{style:{color:"#cbd5e1",marginBottom:"1rem"}},"Install React Iro Gradient Picker using your preferred package manager:"),e.createElement("div",{style:{background:"#1e293b",color:"#f8fafc",padding:"1rem",borderRadius:"8px",fontFamily:'Monaco, "Cascadia Code", monospace',fontSize:"14px",margin:"1rem 0"}},e.createElement("div",null,"npm install react-iro-gradient-picker"),e.createElement("div",{style:{opacity:.6,marginTop:"8px"}},"# or"),e.createElement("div",null,"yarn add react-iro-gradient-picker"),e.createElement("div",{style:{opacity:.6,marginTop:"8px"}},"# or"),e.createElement("div",null,"pnpm add react-iro-gradient-picker")),e.createElement("div",{style:{background:"#0f172a",border:"1px solid #334155",borderRadius:"8px",padding:"1rem",marginTop:"1rem"}},e.createElement("p",{style:{margin:"0 0 8px",color:"#38bdf8",fontWeight:"600"}},"📊 Package Info:"),e.createElement("ul",{style:{margin:0,paddingLeft:"1.5rem",color:"#cbd5e1"}},e.createElement("li",null,"Version: 1.0.0"),e.createElement("li",null,"Repository:"," ",e.createElement("a",{href:"https://github.com/romfatal/react-iro-gradient-picker",style:{color:"#38bdf8"}},"romfatal/react-iro-gradient-picker")),e.createElement("li",null,"License: MIT"),e.createElement("li",null,"TypeScript support included")))),e.createElement("div",{style:{marginBottom:"3rem"}},e.createElement("div",{style:{background:"#7c2d12",border:"1px solid #dc2626",borderRadius:"8px",padding:"1.5rem",marginTop:"2rem"}},e.createElement("h2",{style:{margin:"0 0 1rem",color:"#fef2f2",display:"flex",alignItems:"center"}},"⚠️ IMPORTANT: CSS Import Required"),e.createElement("p",{style:{margin:"0 0 1rem",color:"#fef2f2",fontWeight:"600"}},"You MUST import the CSS file for the component to work properly:"),e.createElement("div",{style:{background:"#0f172a",color:"#f8fafc",padding:"1rem",borderRadius:"6px",fontFamily:'Monaco, "Cascadia Code", monospace',fontSize:"14px",border:"1px solid #334155"}},"import 'react-iro-gradient-picker/dist/index.css';"),e.createElement("p",{style:{margin:"1rem 0 0",color:"#fed7aa",fontSize:"14px"}},"Add this import at the top of your main App.js/App.tsx file or in your main CSS/SCSS file. Without this import, the component will not display correctly."))),e.createElement("div",{style:{marginBottom:"3rem"}},e.createElement("h2",null,"🎨 Basic Usage"),e.createElement("p",{style:{color:"#cbd5e1",marginBottom:"1rem"}},"Quick start with solid color picker:"),e.createElement("div",{style:{background:"#1e293b",color:"#f8fafc",padding:"1rem",borderRadius:"8px",fontFamily:'Monaco, "Cascadia Code", monospace',fontSize:"14px",margin:"1rem 0",whiteSpace:"pre"}},`import React, { useState } from 'react';
 import ColorPicker from 'react-iro-gradient-picker';
-import 'react-iro-gradient-picker/dist/index.css'; // Import CSS styles
+import 'react-iro-gradient-picker/dist/index.css'; // ⚠️ REQUIRED CSS import
 import { ThemeProvider } from 'react-iro-gradient-picker/components/providers/ThemeContext';
 
 function App() {
@@ -20,6 +20,7 @@ function App() {
   );
 }`),e.createElement("h3",{style:{color:"#38bdf8",marginTop:"2rem",marginBottom:"1rem"}},"Gradient Mode"),e.createElement("div",{style:{background:"#1e293b",color:"#f8fafc",padding:"1rem",borderRadius:"8px",fontFamily:'Monaco, "Cascadia Code", monospace',fontSize:"14px",margin:"1rem 0",whiteSpace:"pre"}},`import React, { useState } from 'react';
 import ColorPicker from 'react-iro-gradient-picker';
+import 'react-iro-gradient-picker/dist/index.css'; // ⚠️ REQUIRED CSS import
 
 function GradientExample() {
   const [gradient, setGradient] = useState('linear-gradient(45deg, #3B82F6, #8B5CF6)');
@@ -45,6 +46,7 @@ function GradientExample() {
   defaultActiveTab="solid"
 />`)),e.createElement("div",{style:{marginBottom:"3rem"}},e.createElement("h2",null,"🔄 Reset Functionality"),e.createElement("p",{style:{color:"#cbd5e1",marginBottom:"1rem"}},"New reset button functionality allows users to easily restore colors to their initial state:"),e.createElement("ul",{style:{color:"#cbd5e1",paddingLeft:"1.5rem",marginBottom:"2rem"}},e.createElement("li",null,"✅ Built-in reset button in the picker interface"),e.createElement("li",null,"✅ Custom callbacks for handling reset events"),e.createElement("li",null,"✅ Easy state management and tracking"),e.createElement("li",null,"✅ Works with both solid and gradient modes")),e.createElement("h3",{style:{color:"#38bdf8",marginTop:"2rem",marginBottom:"1rem"}},"Basic Reset Example"),e.createElement("div",{style:{background:"#1e293b",color:"#f8fafc",padding:"1rem",borderRadius:"8px",fontFamily:'Monaco, "Cascadia Code", monospace',fontSize:"14px",margin:"1rem 0",whiteSpace:"pre"}},`import React, { useState } from 'react';
 import ColorPicker from 'react-iro-gradient-picker';
+import 'react-iro-gradient-picker/dist/index.css'; // ⚠️ REQUIRED CSS import
 
 function ResetExample() {
   const [color, setColor] = useState('#3B82F6');
@@ -361,6 +363,55 @@ function CustomComponent() {
       <div style={{
       marginBottom: '3rem'
     }}>
+        <div style={{
+        background: '#7c2d12',
+        // Red/orange background for warning
+        border: '1px solid #dc2626',
+        borderRadius: '8px',
+        padding: '1.5rem',
+        marginTop: '2rem'
+      }}>
+          <h2 style={{
+          margin: '0 0 1rem',
+          color: '#fef2f2',
+          display: 'flex',
+          alignItems: 'center'
+        }}>
+            ⚠️ IMPORTANT: CSS Import Required
+          </h2>
+          <p style={{
+          margin: '0 0 1rem',
+          color: '#fef2f2',
+          fontWeight: '600'
+        }}>
+            You MUST import the CSS file for the component to work properly:
+          </p>
+          <div style={{
+          background: '#0f172a',
+          color: '#f8fafc',
+          padding: '1rem',
+          borderRadius: '6px',
+          fontFamily: 'Monaco, "Cascadia Code", monospace',
+          fontSize: '14px',
+          border: '1px solid #334155'
+        }}>
+            import 'react-iro-gradient-picker/dist/index.css';
+          </div>
+          <p style={{
+          margin: '1rem 0 0',
+          color: '#fed7aa',
+          fontSize: '14px'
+        }}>
+            Add this import at the top of your main App.js/App.tsx file or in
+            your main CSS/SCSS file. Without this import, the component will not
+            display correctly.
+          </p>
+        </div>
+      </div>
+
+      <div style={{
+      marginBottom: '3rem'
+    }}>
         <h2>🎨 Basic Usage</h2>
         <p style={{
         color: '#cbd5e1',
@@ -382,7 +433,7 @@ function CustomComponent() {
       }}>
           {\`import React, { useState } from 'react';
 import ColorPicker from 'react-iro-gradient-picker';
-import 'react-iro-gradient-picker/dist/index.css'; // Import CSS styles
+import 'react-iro-gradient-picker/dist/index.css'; // ⚠️ REQUIRED CSS import
 import { ThemeProvider } from 'react-iro-gradient-picker/components/providers/ThemeContext';
 
 function App() {
@@ -422,6 +473,7 @@ function App() {
       }}>
           {\`import React, { useState } from 'react';
 import ColorPicker from 'react-iro-gradient-picker';
+import 'react-iro-gradient-picker/dist/index.css'; // ⚠️ REQUIRED CSS import
 
 function GradientExample() {
   const [gradient, setGradient] = useState('linear-gradient(45deg, #3B82F6, #8B5CF6)');
@@ -510,6 +562,7 @@ function GradientExample() {
       }}>
           {\`import React, { useState } from 'react';
 import ColorPicker from 'react-iro-gradient-picker';
+import 'react-iro-gradient-picker/dist/index.css'; // ⚠️ REQUIRED CSS import
 
 function ResetExample() {
   const [color, setColor] = useState('#3B82F6');
