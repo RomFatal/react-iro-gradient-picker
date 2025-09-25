@@ -272,6 +272,55 @@ This is an enhanced version of the original react-gcolor-picker with major impro
 - **Updated Dependencies** - Latest versions of all packages
 - **Better Build Process** - Optimized for modern React applications
 
+## 🎨 Supported CSS Gradient Formats
+
+**v1.2.2+ supports all standard CSS gradient formats with robust parsing:**
+
+### Linear Gradients
+```css
+/* Angle-based directions */
+linear-gradient(120deg, #FF6B6B, #FFD93D, #6BCB77)
+linear-gradient(45deg, #4FACFE, #00F2FE, #38EF7D)
+linear-gradient(200deg, #FF9A9E, #FAD0C4, #FBC2EB)
+linear-gradient(60deg, #30CFD0, #330867, #6A82FB)
+
+/* Named directions */
+linear-gradient(to top right, #FF6B6B, #FFD93D)
+linear-gradient(to bottom, #4FACFE, #00F2FE)
+linear-gradient(to left, #FF9A9E, #FAD0C4)
+
+/* With explicit positions */
+linear-gradient(90deg, #FF6B6B 0%, #FFD93D 50%, #6BCB77 100%)
+
+/* Without positions (auto-distributed) */
+linear-gradient(180deg, #FF9966, #FF5E62, #F54EA2)
+```
+
+### Radial Gradients
+```css
+/* Basic circle gradients */
+radial-gradient(circle at center, #00C9FF, #92FE9D, #0061FF)
+radial-gradient(circle at top left, #FF6B6B, #FF4757, #2F3542)
+radial-gradient(circle at bottom right, #1E90FF, #3742FA, #2C3E50)
+
+/* Positioned radial gradients */
+radial-gradient(circle at 70% 30%, #2ED573, #1EAE98, #004E64)
+radial-gradient(circle at 20% 80%, #FFB347, #FFCC33, #FF6347)
+radial-gradient(circle at top center, #FF7E5F, #FEB47B, #FFD93D)
+radial-gradient(circle at right center, #6A82FB, #FC5C7D, #FF85A1)
+
+/* Complex positioning */
+radial-gradient(circle at 30% 70%, #11998E, #38EF7D, #8BC34A)
+radial-gradient(circle at 80% 20%, #F7971E, #FFD200, #FF512F)
+radial-gradient(circle at 40% 40%, #C6FFDD, #FBD786, #F7797D)
+```
+
+### Advanced Features
+- **Auto-positioning**: Color stops without explicit positions are automatically distributed evenly
+- **Flexible syntax**: Supports various positioning keywords and percentage values
+- **Error recovery**: Invalid gradients fall back to a default gradient instead of crashing
+- **Type safety**: Full TypeScript support with proper gradient object interfaces
+
 ## Props
 
 | Attribute             |    Type    |           Default           | Description                                                                                           |
