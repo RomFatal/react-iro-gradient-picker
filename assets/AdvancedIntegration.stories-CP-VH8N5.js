@@ -1,4 +1,4 @@
-import{R as e}from"./iframe-DYafyThc.js";import{C as a,d,g as u}from"./ColorPickerDemo-CPR0R1Fz.js";import{e as f}from"./decorators-B9kxSWF_.js";import"./preload-helper-PPVm8Dsz.js";import"./index-Xpw01kgk.js";const C={title:"Examples/Advanced Integration",component:a,parameters:{layout:"fullscreen",docs:{description:{component:`
+import{R as e}from"./iframe-BnlyAV7-.js";import{C as a,d,g as u}from"./ColorPickerDemo-Ckm1ZXbz.js";import{e as f}from"./decorators-YqIUqoll.js";import"./preload-helper-PPVm8Dsz.js";import"./index-7ZkjA95N.js";const C={title:"Examples/Advanced Integration",component:a,parameters:{layout:"fullscreen",docs:{description:{component:`
 **Advanced Integration Examples** - Real-world scenarios for React Iro Gradient Picker
 
 These examples demonstrate how to integrate the color picker into real applications with:
