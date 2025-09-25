@@ -89,6 +89,52 @@ export const Installation: Story = {
       </div>
 
       <div style={{ marginBottom: '3rem' }}>
+        <div
+          style={{
+            background: '#7c2d12', // Red/orange background for warning
+            border: '1px solid #dc2626',
+            borderRadius: '8px',
+            padding: '1.5rem',
+            marginTop: '2rem'
+          }}
+        >
+          <h2
+            style={{
+              margin: '0 0 1rem',
+              color: '#fef2f2',
+              display: 'flex',
+              alignItems: 'center'
+            }}
+          >
+            ⚠️ IMPORTANT: CSS Import Required
+          </h2>
+          <p
+            style={{ margin: '0 0 1rem', color: '#fef2f2', fontWeight: '600' }}
+          >
+            You MUST import the CSS file for the component to work properly:
+          </p>
+          <div
+            style={{
+              background: '#0f172a',
+              color: '#f8fafc',
+              padding: '1rem',
+              borderRadius: '6px',
+              fontFamily: 'Monaco, "Cascadia Code", monospace',
+              fontSize: '14px',
+              border: '1px solid #334155'
+            }}
+          >
+            import 'react-iro-gradient-picker/dist/index.css';
+          </div>
+          <p style={{ margin: '1rem 0 0', color: '#fed7aa', fontSize: '14px' }}>
+            Add this import at the top of your main App.js/App.tsx file or in
+            your main CSS/SCSS file. Without this import, the component will not
+            display correctly.
+          </p>
+        </div>
+      </div>
+
+      <div style={{ marginBottom: '3rem' }}>
         <h2>🎨 Basic Usage</h2>
         <p style={{ color: '#cbd5e1', marginBottom: '1rem' }}>
           Quick start with solid color picker:
@@ -107,7 +153,7 @@ export const Installation: Story = {
         >
           {`import React, { useState } from 'react';
 import ColorPicker from 'react-iro-gradient-picker';
-import 'react-iro-gradient-picker/dist/index.css'; // Import CSS styles
+import 'react-iro-gradient-picker/dist/index.css'; // ⚠️ REQUIRED CSS import
 import { ThemeProvider } from 'react-iro-gradient-picker/components/providers/ThemeContext';
 
 function App() {
@@ -147,6 +193,7 @@ function App() {
         >
           {`import React, { useState } from 'react';
 import ColorPicker from 'react-iro-gradient-picker';
+import 'react-iro-gradient-picker/dist/index.css'; // ⚠️ REQUIRED CSS import
 
 function GradientExample() {
   const [gradient, setGradient] = useState('linear-gradient(45deg, #3B82F6, #8B5CF6)');
@@ -232,6 +279,7 @@ function GradientExample() {
         >
           {`import React, { useState } from 'react';
 import ColorPicker from 'react-iro-gradient-picker';
+import 'react-iro-gradient-picker/dist/index.css'; // ⚠️ REQUIRED CSS import
 
 function ResetExample() {
   const [color, setColor] = useState('#3B82F6');
