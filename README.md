@@ -59,12 +59,22 @@ yarn add react-iro-gradient-picker
 pnpm add react-iro-gradient-picker
 ```
 
+### ⚠️ **IMPORTANT: Import CSS Styles**
+
+**You MUST import the CSS file for the component to work properly:**
+
+```tsx
+import 'react-iro-gradient-picker/dist/index.css';
+```
+
+Add this import at the top of your main App.js/App.tsx file or in your main CSS/SCSS file.
+
 ### Basic Usage
 
 ```tsx
 import React, { useState } from 'react';
 import ColorPicker from 'react-iro-gradient-picker';
-import 'react-iro-gradient-picker/dist/index.css'; // Import CSS styles
+import 'react-iro-gradient-picker/dist/index.css'; // ⚠️ REQUIRED CSS import
 
 function App() {
   const [color, setColor] = useState('#3B82F6');
@@ -89,6 +99,7 @@ export default App;
 ```tsx
 import React, { useState } from 'react';
 import ColorPicker from 'react-iro-gradient-picker';
+import 'react-iro-gradient-picker/dist/index.css'; // ⚠️ REQUIRED CSS import
 
 function App() {
   const [color, setColor] = useState('#3B82F6');

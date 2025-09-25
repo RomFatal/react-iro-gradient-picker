@@ -101,6 +101,15 @@ const IroGradient: FC<IPropsComp> = ({
     (colorData: { hex: string; alpha: number }, retryCount = 0) => {
       const maxRetries = 5;
 
+      // Validate input data
+      if (!colorData || !colorData.hex || typeof colorData.alpha !== 'number') {
+        console.log(
+          '❌ Invalid color data provided to updateIroPickerColor:',
+          colorData
+        );
+        return; // Early return if invalid data
+      }
+
       const updateColor = () => {
         // Check if picker is properly initialized
         if (
@@ -386,7 +395,10 @@ const IroGradient: FC<IPropsComp> = ({
 
     // Update iro picker if available
     if (iroPickerRef.current?.colorPicker) {
-      updateIroPickerColor(newActiveColor);
+      updateIroPickerColor({
+        hex: newActiveColor.hex,
+        alpha: newActiveColor.alpha
+      });
     }
 
     // Call onChange with initial value
@@ -414,7 +426,10 @@ const IroGradient: FC<IPropsComp> = ({
       setActiveColor(newActiveColor);
 
       // Update the iro color picker
-      updateIroPickerColor(newActiveColor);
+      updateIroPickerColor({
+        hex: newActiveColor.hex,
+        alpha: newActiveColor.alpha
+      });
     }
   };
 
