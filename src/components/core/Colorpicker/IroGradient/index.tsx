@@ -43,7 +43,20 @@ const IroGradient: FC<IPropsGradient> = ({
   // Store the initial value for reset functionality
   const initialValue = useRef(value);
   const parsedColors = useCallback(() => {
-    return parseGradient(value);
+    try {
+      const parsed = parseGradient(value);
+      // If parsing failed, return fallback gradient
+      if (typeof parsed === 'string') {
+        console.warn('Gradient parsing failed, using fallback:', parsed);
+        return parseGradient(
+          'linear-gradient(90deg, #ffffff 0%, #000000 100%)'
+        );
+      }
+      return parsed;
+    } catch (error) {
+      console.warn('Error parsing gradient, using fallback:', error);
+      return parseGradient('linear-gradient(90deg, #ffffff 0%, #000000 100%)');
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 

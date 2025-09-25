@@ -18,166 +18,150 @@ interface IParsedGraient {
   parseWarning?: boolean;
 }
 
-interface IGradientReg {
-  gradientSearch: RegExp;
-  colorStopSearch: RegExp;
-}
-
-const combineRegExp = (
-  regexpList: ReadonlyArray<string | RegExp>,
-  flags: string
-): RegExp => {
-  return new RegExp(
-    regexpList.reduce<string>(
-      (result, item) =>
-        result + (typeof item === 'string' ? item : item.source),
-      ''
-    ),
-    flags
-  );
-};
-
-const generateRegExp = () => {
-  const searchFlags = 'gi';
-  const rAngle = /(?:[+-]?\d*\.?\d+)(?:deg|grad|rad|turn)/;
-  const rSideCornerCapture = /to\s+((?:(?:left|right)(?:\s+(?:top|bottom))?))/;
-  const rRadial =
-    /circle at\s+((?:(?:left|right|center|top|bottom)(?:\s+(?:left|right|center|top|bottom))?))/;
-  const rComma = /\s*,\s*/;
-  const rColorHex = /\#(?:[a-f0-9]{6,8}|[a-f0-9]{3})/;
-  const rDigits3 = /\(\s*(?:\d{1,3}%?\s*,\s*){2}%?\d{1,3}%?\s*\)/;
-  const rDigits4 = /\(\s*(?:\d{1,3}%?\s*,\s*){2}%?\d{1,3}%?\s*,\s*\d*\.?\d+\)/;
-  const rValue = /(?:[+-]?\d*\.?\d+)(?:%|[a-z]+)?/;
-  const rKeyword = /[_a-z-][_a-z0-9-]*/;
-  const rColor = combineRegExp(
-    [
-      '(?:',
-      rColorHex,
-      '|',
-      '(?:rgb|hsl)',
-      rDigits3,
-      '|',
-      '(?:rgba|hsla)',
-      rDigits4,
-      '|',
-      rKeyword,
-      ')'
-    ],
-    ''
-  );
-  const rColorStop = combineRegExp(
-    [rColor, '(?:\\s+', rValue, '(?:\\s+', rValue, ')?)?'],
-    ''
-  );
-  const rColorStopList = combineRegExp(
-    ['(?:', rColorStop, rComma, ')*', rColorStop],
-    ''
-  );
-  const rLineCapture = combineRegExp(
-    ['(?:(', rAngle, ')|', rSideCornerCapture, '|', rRadial, ')'],
-    ''
-  );
-  const rGradientSearch = combineRegExp(
-    ['(?:(', rLineCapture, ')', rComma, ')?(', rColorStopList, ')'],
-    searchFlags
-  );
-  const rColorStopSearch = combineRegExp(
-    [
-      '\\s*(',
-      rColor,
-      ')',
-      '(?:\\s+',
-      '(',
-      rValue,
-      '))?',
-      '(?:',
-      rComma,
-      '\\s*)?'
-    ],
-    searchFlags
-  );
-
-  return {
-    gradientSearch: rGradientSearch,
-    colorStopSearch: rColorStopSearch
-  };
-};
-
-const parseGradient = (regExpLib: IGradientReg, input: string) => {
-  let result: IParsedGraient = {
-    stops: [],
-    angle: '',
-    line: '',
-    original: ''
-  };
-  let matchGradient, matchColorStop, stopResult: IGradientStop;
-
-  regExpLib.gradientSearch.lastIndex = 0;
-
-  matchGradient = regExpLib.gradientSearch.exec(input);
-  if (matchGradient !== null) {
-    result = {
-      ...result,
-      original: matchGradient[0]
-    };
-
-    if (matchGradient[1]) {
-      result.line = matchGradient[1];
+export default (input: string): IParsedGraient | string => {
+  try {
+    // Clean input
+    const cleanInput = input
+      .trim()
+      .replace(/;$/, '')
+      .replace(/^background-image:\s*/, '');
+    
+    // Extract gradient type and content
+    const gradientMatch = cleanInput.match(
+      /^(linear|radial)-gradient\s*\(\s*(.*)\s*\)$/i
+    );
+    if (!gradientMatch) {
+      return 'Failed to find gradient';
     }
 
-    if (matchGradient[2]) {
-      result.angle = matchGradient[2];
-    }
-
-    if (matchGradient[3]) {
-      result.sideCorner = matchGradient[3];
-    }
-
-    regExpLib.colorStopSearch.lastIndex = 0;
-
-    matchColorStop = regExpLib.colorStopSearch.exec(matchGradient[5]);
-    while (matchColorStop !== null) {
-      const tinyColor = tinycolor(matchColorStop[1]);
-      stopResult = {
-        color: tinyColor.toRgbString()
-      };
-
-      if (matchColorStop[2]) {
-        stopResult.position = Number(
-          (parseInt(matchColorStop[2], 10) / 100).toFixed(2)
-        );
+    const [, type, content] = gradientMatch;
+    const parts = [];
+    let currentPart = '';
+    let parenDepth = 0;
+    let inQuotes = false;
+    
+    // Parse content by splitting on commas, but respect parentheses and quotes
+    for (let i = 0; i < content.length; i++) {
+      const char = content[i];
+      
+      if (char === '"' || char === "'") {
+        inQuotes = !inQuotes;
+      } else if (!inQuotes) {
+        if (char === '(') parenDepth++;
+        else if (char === ')') parenDepth--;
+        else if (char === ',' && parenDepth === 0) {
+          parts.push(currentPart.trim());
+          currentPart = '';
+          continue;
+        }
       }
-      result.stops.push(stopResult);
-
-      matchColorStop = regExpLib.colorStopSearch.exec(matchGradient[5]);
+      
+      currentPart += char;
     }
+    
+    if (currentPart.trim()) {
+      parts.push(currentPart.trim());
+    }
+
+    let angle = '';
+    let line = '';
+    let colorStops: string[] = [];
+    
+    // Determine if first part is direction/angle or color stop
+    const firstPart = parts[0];
+    const isDirection =
+      /^\d+deg$/i.test(firstPart) ||
+      /^to\s+/.test(firstPart) ||
+      /^(?:circle|ellipse)/.test(firstPart) ||
+      /at\s+/.test(firstPart);
+    
+    if (isDirection) {
+      if (type === 'linear') {
+        if (/^\d+deg$/i.test(firstPart)) {
+          angle = firstPart.replace(/deg$/i, '');
+        } else if (/^to\s+/.test(firstPart)) {
+          line = firstPart;
+          // Convert named directions to angles
+          const directionMap: Record<string, string> = {
+            'to top': '0',
+            'to top right': '45',
+            'to right': '90',
+            'to bottom right': '135',
+            'to bottom': '180',
+            'to bottom left': '225',
+            'to left': '270',
+            'to top left': '315'
+          };
+          angle = directionMap[firstPart] || '0';
+        }
+      } else {
+        line = firstPart;
+      }
+      colorStops = parts.slice(1);
+    } else {
+      // No explicit direction, use defaults
+      angle = type === 'linear' ? '180' : '';
+      line = type === 'radial' ? 'circle at center' : '';
+      colorStops = parts;
+    }
+    
+    // Parse color stops
+    const stops: IGradientStop[] = [];
+    
+    for (let i = 0; i < colorStops.length; i++) {
+      const stopString = colorStops[i].trim();
+      
+      // Try to extract color and position
+      const stopMatch = stopString.match(/^(.+?)(?:\s+(\d+(?:\.\d+)?)(%)?)?$/);
+      if (stopMatch) {
+        const [, colorStr, positionStr, isPercent] = stopMatch;
+        const tinyColorInstance = tinycolor(colorStr.trim());
+        
+        if (tinyColorInstance.isValid()) {
+          const stop: IGradientStop = {
+            color: tinyColorInstance.toRgbString()
+          };
+          
+          if (positionStr) {
+            let position = parseFloat(positionStr);
+            // Assume percentage if no unit specified
+            if (isPercent || !isPercent) {
+              position = position / 100;
+            }
+            stop.position = Math.max(0, Math.min(1, position));
+          }
+          
+          stops.push(stop);
+        }
+      }
+    }
+    
+    // Auto-assign positions if missing
+    stops.forEach((stop, index) => {
+      if (!stop.hasOwnProperty('position')) {
+        stop.position = stops.length > 1 ? index / (stops.length - 1) : 0;
+      }
+    });
+    
+    // Ensure we have at least 2 stops
+    if (stops.length === 0) {
+      return 'No valid color stops found';
+    } else if (stops.length === 1) {
+      // Duplicate the single stop to create a valid gradient
+      stops.push({
+        color: stops[0].color,
+        position: 1
+      });
+    }
+
+    return {
+      stops,
+      angle,
+      line,
+      original: cleanInput
+    };
+  } catch (error) {
+    console.warn('Error parsing gradient:', error);
+    return 'Failed to parse gradient';
   }
-
-  return result;
-};
-
-export default (input: string) => {
-  const regExpLib = generateRegExp();
-  let result;
-  const rGradientEnclosedInBrackets =
-    /.*gradient\s*\(((?:\([^\)]*\)|[^\)\(]*)*)\)/;
-  const match = rGradientEnclosedInBrackets.exec(input);
-
-  if (match !== null) {
-    result = parseGradient(regExpLib, match[1]);
-
-    if (result.original.trim() !== match[1].trim()) {
-      result.parseWarning = true;
-    }
-
-    if (
-      result.stops.every((item) => item.hasOwnProperty('position')) === false
-    ) {
-      result = 'Not correct position';
-    }
-  } else {
-    result = 'Failed to find gradient';
-  }
-
-  return result;
 };
