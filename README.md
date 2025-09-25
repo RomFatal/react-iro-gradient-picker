@@ -277,6 +277,7 @@ This is an enhanced version of the original react-gcolor-picker with major impro
 **v1.2.2+ supports all standard CSS gradient formats with robust parsing:**
 
 ### Linear Gradients
+
 ```css
 /* Angle-based directions */
 linear-gradient(120deg, #FF6B6B, #FFD93D, #6BCB77)
@@ -297,6 +298,7 @@ linear-gradient(180deg, #FF9966, #FF5E62, #F54EA2)
 ```
 
 ### Radial Gradients
+
 ```css
 /* Basic circle gradients */
 radial-gradient(circle at center, #00C9FF, #92FE9D, #0061FF)
@@ -316,6 +318,7 @@ radial-gradient(circle at 40% 40%, #C6FFDD, #FBD786, #F7797D)
 ```
 
 ### Advanced Features
+
 - **Auto-positioning**: Color stops without explicit positions are automatically distributed evenly
 - **Flexible syntax**: Supports various positioning keywords and percentage values
 - **Error recovery**: Invalid gradients fall back to a default gradient instead of crashing

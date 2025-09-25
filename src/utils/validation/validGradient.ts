@@ -25,7 +25,7 @@ export default (input: string): IParsedGraient | string => {
       .trim()
       .replace(/;$/, '')
       .replace(/^background-image:\s*/, '');
-    
+
     // Extract gradient type and content
     const gradientMatch = cleanInput.match(
       /^(linear|radial)-gradient\s*\(\s*(.*)\s*\)$/i
@@ -39,11 +39,11 @@ export default (input: string): IParsedGraient | string => {
     let currentPart = '';
     let parenDepth = 0;
     let inQuotes = false;
-    
+
     // Parse content by splitting on commas, but respect parentheses and quotes
     for (let i = 0; i < content.length; i++) {
       const char = content[i];
-      
+
       if (char === '"' || char === "'") {
         inQuotes = !inQuotes;
       } else if (!inQuotes) {
@@ -55,10 +55,10 @@ export default (input: string): IParsedGraient | string => {
           continue;
         }
       }
-      
+
       currentPart += char;
     }
-    
+
     if (currentPart.trim()) {
       parts.push(currentPart.trim());
     }
@@ -66,7 +66,7 @@ export default (input: string): IParsedGraient | string => {
     let angle = '';
     let line = '';
     let colorStops: string[] = [];
-    
+
     // Determine if first part is direction/angle or color stop
     const firstPart = parts[0];
     const isDirection =
@@ -74,7 +74,7 @@ export default (input: string): IParsedGraient | string => {
       /^to\s+/.test(firstPart) ||
       /^(?:circle|ellipse)/.test(firstPart) ||
       /at\s+/.test(firstPart);
-    
+
     if (isDirection) {
       if (type === 'linear') {
         if (/^\d+deg$/i.test(firstPart)) {
@@ -104,24 +104,24 @@ export default (input: string): IParsedGraient | string => {
       line = type === 'radial' ? 'circle at center' : '';
       colorStops = parts;
     }
-    
+
     // Parse color stops
     const stops: IGradientStop[] = [];
-    
+
     for (let i = 0; i < colorStops.length; i++) {
       const stopString = colorStops[i].trim();
-      
+
       // Try to extract color and position
       const stopMatch = stopString.match(/^(.+?)(?:\s+(\d+(?:\.\d+)?)(%)?)?$/);
       if (stopMatch) {
         const [, colorStr, positionStr, isPercent] = stopMatch;
         const tinyColorInstance = tinycolor(colorStr.trim());
-        
+
         if (tinyColorInstance.isValid()) {
           const stop: IGradientStop = {
             color: tinyColorInstance.toRgbString()
           };
-          
+
           if (positionStr) {
             let position = parseFloat(positionStr);
             // Assume percentage if no unit specified
@@ -130,19 +130,19 @@ export default (input: string): IParsedGraient | string => {
             }
             stop.position = Math.max(0, Math.min(1, position));
           }
-          
+
           stops.push(stop);
         }
       }
     }
-    
+
     // Auto-assign positions if missing
     stops.forEach((stop, index) => {
       if (!stop.hasOwnProperty('position')) {
         stop.position = stops.length > 1 ? index / (stops.length - 1) : 0;
       }
     });
-    
+
     // Ensure we have at least 2 stops
     if (stops.length === 0) {
       return 'No valid color stops found';
