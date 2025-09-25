@@ -205,7 +205,11 @@ const IroGradient: FC<IPropsComp> = ({
   // Initialize iro picker with current activeColor when component mounts or picker becomes ready
   useEffect(() => {
     const initializeIroPicker = () => {
-      if (iroPickerRef.current?.colorPicker?.color && activeColor.hex) {
+      if (
+        iroPickerRef.current?.colorPicker?.color &&
+        activeColor.hex &&
+        typeof activeColor.alpha === 'number'
+      ) {
         console.log(
           '🚀 Initializing iro picker with activeColor:',
           activeColor
@@ -238,13 +242,21 @@ const IroGradient: FC<IPropsComp> = ({
       );
       setActiveColor(newActiveColor);
 
-      // Force immediate update of iro picker with longer delay for first-time reliability
-      setTimeout(() => {
-        updateIroPickerColor({
-          hex: newActiveColor.hex,
-          alpha: newActiveColor.alpha
-        });
-      }, 50); // Increased from 5ms to 50ms for better first-time success
+      // Validate before updating iro picker
+      if (newActiveColor.hex && typeof newActiveColor.alpha === 'number') {
+        // Force immediate update of iro picker with longer delay for first-time reliability
+        setTimeout(() => {
+          updateIroPickerColor({
+            hex: newActiveColor.hex,
+            alpha: newActiveColor.alpha
+          });
+        }, 50); // Increased from 5ms to 50ms for better first-time success
+      } else {
+        console.log(
+          '⚠️ Skipping iro picker update in handleSetActiveColor - invalid data:',
+          newActiveColor
+        );
+      }
     },
     [updateIroPickerColor]
   );
@@ -258,19 +270,22 @@ const IroGradient: FC<IPropsComp> = ({
       loc: activeColor.loc
     });
 
+    // Validate activeColor before proceeding
+    if (!activeColor.hex || typeof activeColor.alpha !== 'number') {
+      console.log(
+        '⚠️ Skipping iro picker update - invalid activeColor:',
+        activeColor
+      );
+      return;
+    }
+
     // Add a small delay to ensure the activeColor state has fully updated
     const timeoutId = setTimeout(() => {
       updateIroPickerColor({ hex: activeColor.hex, alpha: activeColor.alpha });
     }, 10);
 
     return () => clearTimeout(timeoutId);
-  }, [
-    activeColor.hex,
-    activeColor.alpha,
-    activeColor.index,
-    activeColor.loc,
-    updateIroPickerColor
-  ]);
+  }, [activeColor, updateIroPickerColor]);
 
   const updateGradient = useCallback(
     (newColor: any) => {
