@@ -9,9 +9,9 @@ import DefaultColorsPanel from '../DefaultColorPanel';
 import { useDebounce } from '../../../../hooks';
 import { checkFormat, getHexAlpha } from '../../../../utils';
 
-import { IPropsComp, TPropsChange } from '../../../../lib/types';
+import { IPropsSolid, TPropsChange } from '../../../../lib/types';
 
-const IroSolidColorPicker: FC<IPropsComp> = ({
+const IroSolidColorPicker: FC<IPropsSolid> = ({
   value = '#ffffff',
   onChange = () => ({}),
   format = 'rgb',

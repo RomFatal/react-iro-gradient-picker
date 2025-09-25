@@ -1,33 +1,48 @@
 import tinycolor from 'tinycolor2';
 
-import { isValidRgba, rgbaToArray, validGradient } from '../../../utils';
+import { TValueProp } from '../../../lib/types';
+import {
+  isGradientObject,
+  isValidRgba,
+  rgbaToArray,
+  validGradient
+} from '../../../utils';
 
-export const getIndexActiveTag = (value: string) => {
+export const getIndexActiveTag = (value: TValueProp) => {
   let tab = 'solid';
-  const validValue = tinycolor(value).isValid();
 
-  if (value) {
-    if (value === 'transparent') {
-      tab = 'solid';
-      return tab;
-    }
-    if (
-      validValue &&
-      !value.trim().startsWith('radial-gradient') &&
-      !value.trim().startsWith('linear-gradient')
-    ) {
-      tab = 'solid';
-      return tab;
-    }
-    const rgba = rgbaToArray(value);
-    if (rgba) {
-      if (isValidRgba([rgba[0], rgba[1], rgba[2]])) {
+  // Handle gradient object
+  if (isGradientObject(value)) {
+    return 'gradient';
+  }
+
+  // Handle string value
+  if (typeof value === 'string') {
+    const validValue = tinycolor(value).isValid();
+
+    if (value) {
+      if (value === 'transparent') {
         tab = 'solid';
         return tab;
       }
-    } else {
-      tab = 'gradient';
-      return tab;
+      if (
+        validValue &&
+        !value.trim().startsWith('radial-gradient') &&
+        !value.trim().startsWith('linear-gradient')
+      ) {
+        tab = 'solid';
+        return tab;
+      }
+      const rgba = rgbaToArray(value);
+      if (rgba) {
+        if (isValidRgba([rgba[0], rgba[1], rgba[2]])) {
+          tab = 'solid';
+          return tab;
+        }
+      } else {
+        tab = 'gradient';
+        return tab;
+      }
     }
   }
 

@@ -124,7 +124,67 @@ function App() {
 export default App;
 ```
 
-### 🌙 With Dark Theme Support
+### � **NEW: Enhanced Gradient Object Support**
+
+**v1.2.0+ supports both CSS strings AND gradient objects for maximum flexibility!**
+
+```tsx
+import React, { useState } from 'react';
+import ColorPicker from 'react-iro-gradient-picker';
+import 'react-iro-gradient-picker/dist/index.css';
+
+function GradientObjectExample() {
+  // Define gradient as an object
+  const [gradientData, setGradientData] = useState({
+    type: 'linear',
+    angle: 120,
+    stops: [
+      { color: '#FF6B6B', position: 0 }, // Red at 0%
+      { color: '#FFD93D', position: 50 }, // Yellow at 50%
+      { color: '#6BCB77', position: 100 } // Green at 100%
+    ]
+  });
+
+  return (
+    <ColorPicker
+      value={gradientData} // 🎯 Pass object directly!
+      onChange={(cssGradient) => {
+        console.log('Generated CSS:', cssGradient);
+        // Component auto-switches to gradient tab
+        // Sets angle to 120°, creates 3 stops with exact colors/positions
+      }}
+      gradient={true}
+      solid={true}
+      showGradientAngle={true}
+      showGradientStops={true}
+    />
+  );
+}
+```
+
+**🚀 What happens when you pass a gradient object:**
+
+- ✅ **Auto-switches to gradient tab**
+- ✅ **Sets angle slider to specified degrees** (120° in example)
+- ✅ **Creates gradient stops** at exact positions (0%, 50%, 100%)
+- ✅ **Sets stop colors** to specified values (#FF6B6B, #FFD93D, #6BCB77)
+- ✅ **Updates gradient preview** to match exactly
+- ✅ **Returns CSS gradient string** in onChange callback
+
+**📋 Gradient Object Structure:**
+
+```typescript
+interface IGradientData {
+  type: 'linear' | 'radial';
+  angle?: number; // For linear gradients (0-360 degrees)
+  stops: Array<{
+    color: string; // Any valid CSS color
+    position: number; // 0-100 (percentage)
+  }>;
+}
+```
+
+### �🌙 With Dark Theme Support
 
 ```tsx
 import React, { useState } from 'react';

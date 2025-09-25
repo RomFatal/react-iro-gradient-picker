@@ -15,9 +15,13 @@ import {
   rgbaToHex
 } from '../../../../utils';
 
-import { IActiveColor, IPropsComp, TPropsChange } from '../../../../lib/types';
+import {
+  IActiveColor,
+  IPropsGradient,
+  TPropsChange
+} from '../../../../lib/types';
 
-const IroGradient: FC<IPropsComp> = ({
+const IroGradient: FC<IPropsGradient> = ({
   value = 'linear-gradient(90deg, #ffffff 0%, #000000 100%)',
   onChange = () => ({}),
   format = 'rgb',

@@ -17,6 +17,7 @@ import {
 import { getIndexActiveTag } from './helper';
 
 import { IPropsMain } from '../../../lib/types/types';
+import { isGradientObject, normalizeGradientValue } from '../../../utils';
 
 import { DEFAULT_COLORS } from '../../../constants/constants';
 
@@ -44,9 +45,25 @@ const ColorPicker: FC<IPropsMain> = ({
   showReset = false,
   onReset
 }) => {
-  const [activeTab, setActiveTab] = useState<string>(
-    defaultActiveTab || getIndexActiveTag(value)
-  );
+  // Convert object value to CSS string for internal use
+  const cssValue = normalizeGradientValue(value);
+
+  // Auto-switch to gradient tab if receiving gradient object
+  const initialTab = isGradientObject(value)
+    ? 'gradient'
+    : defaultActiveTab || getIndexActiveTag(value);
+
+  const [activeTab, setActiveTab] = useState<string>(initialTab);
+
+  // Auto-switch tab when value changes from object to string or vice versa
+  React.useEffect(() => {
+    if (isGradientObject(value) && activeTab !== 'gradient') {
+      setActiveTab('gradient');
+      if (typeof onChangeTabs === 'function') {
+        onChangeTabs('gradient');
+      }
+    }
+  }, [value, activeTab, onChangeTabs]);
 
   const onChangeSolid = (value: string) => {
     onChange(value);
@@ -90,7 +107,7 @@ const ColorPicker: FC<IPropsMain> = ({
               <PopupTabsBodyItem tabName='solid'>
                 <IroSolid
                   onChange={onChangeSolid}
-                  value={value}
+                  value={cssValue}
                   format={format}
                   defaultColors={defaultColors}
                   debounceMS={debounceMS}
@@ -105,7 +122,7 @@ const ColorPicker: FC<IPropsMain> = ({
               <PopupTabsBodyItem tabName='gradient'>
                 <IroGradient
                   onChange={onChangeGradient}
-                  value={value}
+                  value={cssValue}
                   format={format}
                   defaultColors={defaultColors}
                   debounceMS={debounceMS}
@@ -143,7 +160,7 @@ const ColorPicker: FC<IPropsMain> = ({
               {solid ? (
                 <IroSolid
                   onChange={onChangeSolid}
-                  value={value}
+                  value={cssValue}
                   format={format}
                   defaultColors={defaultColors}
                   debounceMS={debounceMS}
@@ -160,7 +177,7 @@ const ColorPicker: FC<IPropsMain> = ({
               {gradient ? (
                 <IroGradient
                   onChange={onChangeGradient}
-                  value={value}
+                  value={cssValue}
                   format={format}
                   defaultColors={defaultColors}
                   debounceMS={debounceMS}
