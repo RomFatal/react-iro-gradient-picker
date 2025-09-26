@@ -143,10 +143,16 @@ const GradientPanel: FC<IPropsPanel> = ({
   };
 
   const onDrag = (e: any) => {
-    const x = e.clientX;
-    const y = e.clientY;
-    const shiftKey = e.shiftKey;
-    const ctrlKey = e.ctrlKey * 2;
+    // Defensive check for event object
+    if (!e) {
+      console.warn('onDrag called with undefined event object');
+      return;
+    }
+
+    const x = e.clientX || 0;
+    const y = e.clientY || 0;
+    const shiftKey = e.shiftKey || false;
+    const ctrlKey = (e.ctrlKey || false) * 2;
 
     pointMoveTo({
       x,

@@ -69,11 +69,20 @@ export default (input: string): IParsedGraient | string => {
 
     // Determine if first part is direction/angle or color stop
     const firstPart = parts[0];
-    const isDirection =
-      /^\d+deg$/i.test(firstPart) ||
-      /^to\s+/.test(firstPart) ||
-      /^(?:circle|ellipse)/.test(firstPart) ||
-      /at\s+/.test(firstPart);
+    let isDirection = false;
+
+    if (type === 'linear') {
+      isDirection = /^\d+deg$/i.test(firstPart) || /^to\s+/.test(firstPart);
+    } else if (type === 'radial') {
+      // For radial gradients, check for size, shape, or position keywords
+      isDirection =
+        /^(?:circle|ellipse)/.test(firstPart) ||
+        /at\s+/.test(firstPart) ||
+        /^(?:closest-side|closest-corner|farthest-side|farthest-corner)$/i.test(
+          firstPart
+        ) ||
+        /^\d+(?:%|px|em|rem)?$/i.test(firstPart); // Size values like "70", "70%", "70px"
+    }
 
     if (isDirection) {
       if (type === 'linear') {

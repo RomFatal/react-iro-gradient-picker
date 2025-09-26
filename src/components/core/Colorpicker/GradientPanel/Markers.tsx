@@ -128,10 +128,21 @@ const Markers: FC<IPropsPanel> = ({
   };
 
   const onDrag = (e: any) => {
-    const x = e.clientX;
-    const y = e.clientY;
+    // Defensive check for event object
+    if (!e) {
+      console.warn('onDrag called with undefined event object');
+      return;
+    }
+
+    const x = e.clientX || 0;
+    const y = e.clientY || 0;
 
     const rect = node?.current?.getBoundingClientRect();
+    if (!rect) {
+      console.warn('Unable to get bounding rect for drag operation');
+      return;
+    }
+
     const rootDistance = y - rect.y;
 
     // Now we know user is actually dragging
