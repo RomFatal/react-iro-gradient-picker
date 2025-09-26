@@ -60,9 +60,8 @@ const DefaultColorPanel: FC<IProps> = ({
   }, []);
 
   const onChooseColor = (item: string | IColor, index: number) => {
-    if (index === active) {
-      return;
-    }
+    // Allow re-applying the same color (removed guard clause that prevented this)
+    // This enables users to reset back to a popular color after making changes
 
     if (colorType === 'gradient' && typeof item !== 'string') {
       // If this is a simplified display object (identified by dummy stops), parse the gradient properly
