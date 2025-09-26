@@ -120,7 +120,19 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
     // Create a shared picker creation function
     const createColorPicker = useCallback(
       (pickerWidth: number) => {
-        if (!containerRef.current || colorPickerRef.current) return;
+        if (!containerRef.current) return;
+
+        // If picker already exists and is functioning, don't recreate
+        if (colorPickerRef.current && colorPickerRef.current.color) return;
+
+        // Clean up any existing picker first
+        if (colorPickerRef.current) {
+          try {
+            colorPickerRef.current = null;
+          } catch (error) {
+            console.warn('Error cleaning up existing picker:', error);
+          }
+        }
 
         // Capture the container reference for cleanup
         const currentContainer = containerRef.current;
@@ -264,24 +276,28 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
     // Cleanup function
     const cleanup = useCallback(() => {
       if (colorPickerRef.current) {
-        // Clean up event listeners
-        if (onColorChange) {
-          colorPickerRef.current.off('color:change', onColorChange);
-        }
-        if (onInputChange) {
-          colorPickerRef.current.off('input:change', onInputChange);
-        }
-        if (onInputStart) {
-          colorPickerRef.current.off('input:start', onInputStart);
-        }
-        if (onInputMove) {
-          colorPickerRef.current.off('input:move', onInputMove);
-        }
-        if (onInputEnd) {
-          colorPickerRef.current.off('input:end', onInputEnd);
-        }
-        if (onMount) {
-          colorPickerRef.current.off('mount', onMount);
+        try {
+          // Clean up event listeners
+          if (onColorChange) {
+            colorPickerRef.current.off('color:change', onColorChange);
+          }
+          if (onInputChange) {
+            colorPickerRef.current.off('input:change', onInputChange);
+          }
+          if (onInputStart) {
+            colorPickerRef.current.off('input:start', onInputStart);
+          }
+          if (onInputMove) {
+            colorPickerRef.current.off('input:move', onInputMove);
+          }
+          if (onInputEnd) {
+            colorPickerRef.current.off('input:end', onInputEnd);
+          }
+          if (onMount) {
+            colorPickerRef.current.off('mount', onMount);
+          }
+        } catch (error) {
+          console.warn('Error cleaning up iro picker event listeners:', error);
         }
 
         // Set to null to ensure clean recreation
@@ -300,21 +316,15 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
     useEffect(() => {
       if (!width) return;
 
-      if (!containerRef.current || colorPickerRef.current) {
-        // Clear existing picker to force recreation
-        if (colorPickerRef.current) {
-          colorPickerRef.current = null;
-        }
-      }
-
-      const currentContainer = createColorPicker(width);
+      // Add a small delay to ensure DOM is ready
+      const timeoutId = setTimeout(() => {
+        const currentContainer = createColorPicker(width);
+        return currentContainer;
+      }, 50);
 
       return () => {
+        clearTimeout(timeoutId);
         cleanup();
-        // IMPORTANT: Clear DOM content to prevent visual artifacts
-        if (currentContainer) {
-          currentContainer.innerHTML = '';
-        }
       };
     }, [width, theme, createColorPicker, cleanup]);
 
@@ -322,21 +332,15 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
     useEffect(() => {
       if (width) return; // Don't run if width prop is provided
 
-      if (!containerRef.current || colorPickerRef.current) {
-        // Clear existing picker to force recreation
-        if (colorPickerRef.current) {
-          colorPickerRef.current = null;
-        }
-      }
-
-      const currentContainer = createColorPicker(containerWidth);
+      // Add a small delay to ensure DOM is ready
+      const timeoutId = setTimeout(() => {
+        const currentContainer = createColorPicker(containerWidth);
+        return currentContainer;
+      }, 50);
 
       return () => {
+        clearTimeout(timeoutId);
         cleanup();
-        // IMPORTANT: Clear DOM content to prevent visual artifacts
-        if (currentContainer) {
-          currentContainer.innerHTML = '';
-        }
       };
     }, [containerWidth, theme, createColorPicker, cleanup, width]);
 
