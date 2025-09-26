@@ -48,28 +48,71 @@ const IroGradient: FC<IPropsGradient> = ({
       // If parsing failed, return fallback gradient
       if (typeof parsed === 'string') {
         console.warn('Gradient parsing failed, using fallback:', parsed);
-        return parseGradient(
+        const fallback = parseGradient(
           'linear-gradient(90deg, #ffffff 0%, #000000 100%)'
         );
+        // Ensure fallback has valid structure
+        if (fallback && typeof fallback === 'object' && Array.isArray(fallback.stops) && fallback.stops.length > 0) {
+          return fallback;
+        }
+        // Ultimate fallback with guaranteed structure
+        return {
+          stops: [
+            ['rgba(255, 255, 255, 1)', 0, 0],
+            ['rgba(0, 0, 0, 1)', 1, 1]
+          ],
+          gradient: 'linear-gradient(90deg, #ffffff 0%, #000000 100%)',
+          modifier: 90,
+          type: 'linear'
+        };
       }
-      return parsed;
+      
+      // Validate parsed result has required structure
+      if (parsed && typeof parsed === 'object' && Array.isArray(parsed.stops) && parsed.stops.length > 0) {
+        return parsed;
+      }
+      
+      // If parsed result is invalid, use ultimate fallback
+      console.warn('Parsed gradient has invalid structure:', parsed);
+      return {
+        stops: [
+          ['rgba(255, 255, 255, 1)', 0, 0],
+          ['rgba(0, 0, 0, 1)', 1, 1]
+        ],
+        gradient: 'linear-gradient(90deg, #ffffff 0%, #000000 100%)',
+        modifier: 90,
+        type: 'linear'
+      };
     } catch (error) {
-      console.warn('Error parsing gradient, using fallback:', error);
-      return parseGradient('linear-gradient(90deg, #ffffff 0%, #000000 100%)');
+      console.warn('Error parsing gradient, using ultimate fallback:', error);
+      return {
+        stops: [
+          ['rgba(255, 255, 255, 1)', 0, 0],
+          ['rgba(0, 0, 0, 1)', 1, 1]
+        ],
+        gradient: 'linear-gradient(90deg, #ffffff 0%, #000000 100%)',
+        modifier: 90,
+        type: 'linear'
+      };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   const { stops, type, modifier } = parsedColors();
-  const lastStop = rgbaToArray(stops[stops.length - 1][0]);
-  const activeStopIndex = stops.length - 1;
-  const activeStop = rgbaToHex([lastStop[0], lastStop[1], lastStop[2]]);
-  const activeAlpha = Math.round(lastStop[3] * 100);
-
+  
   const iroPickerRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isUpdatingFromGradientStop = useRef<boolean>(false);
   const [pickerWidth, setPickerWidth] = useState<number>(200);
+  
+  // Safe extraction of stop data with fallbacks
+  const safeStops = Array.isArray(stops) && stops.length > 0 ? stops : [['rgba(255, 255, 255, 1)', 0, 0], ['rgba(0, 0, 0, 1)', 1, 1]];
+  const safeLastStop = rgbaToArray(safeStops[safeStops.length - 1][0]);
+  const safeParsedLastStop = Array.isArray(safeLastStop) && safeLastStop.length >= 4 ? safeLastStop : [255, 255, 255, 1];
+  
+  const activeStopIndex = safeStops.length - 1;
+  const activeStop = rgbaToHex([safeParsedLastStop[0], safeParsedLastStop[1], safeParsedLastStop[2]]);
+  const activeAlpha = Math.round(safeParsedLastStop[3] * 100);
   // Responsive width for IroColorPicker - match solid picker logic
   useEffect(() => {
     if (!containerRef.current) return;
@@ -101,13 +144,13 @@ const IroGradient: FC<IPropsGradient> = ({
     gradient: value,
     type,
     modifier,
-    stops
+    stops: safeStops
   });
 
   const [activeColor, setActiveColor] = useState<IActiveColor>({
     hex: activeStop,
     alpha: activeAlpha,
-    loc: stops[activeStopIndex][1],
+    loc: safeStops[activeStopIndex][1],
     index: activeStopIndex
   });
 

@@ -111,10 +111,11 @@ export default (input: string): IParsedGraient | string => {
     for (let i = 0; i < colorStops.length; i++) {
       const stopString = colorStops[i].trim();
 
-      // Try to extract color and position
-      const stopMatch = stopString.match(/^(.+?)(?:\s+(\d+(?:\.\d+)?)(%)?)?$/);
+      // Improved regex to handle various gradient stop formats
+      // Matches: color position%, color position, or just color
+      const stopMatch = stopString.match(/^(.+?)(?:\s+([\d.]+)(%|px|em|rem)?)?$/);
       if (stopMatch) {
-        const [, colorStr, positionStr, isPercent] = stopMatch;
+        const [, colorStr, positionStr, unit] = stopMatch;
         const tinyColorInstance = tinycolor(colorStr.trim());
 
         if (tinyColorInstance.isValid()) {
@@ -124,15 +125,20 @@ export default (input: string): IParsedGraient | string => {
 
           if (positionStr) {
             let position = parseFloat(positionStr);
-            // Assume percentage if no unit specified
-            if (isPercent || !isPercent) {
+            // Convert percentage to decimal (0-1 range)
+            if (unit === '%' || !unit) {
+              // If no unit specified, assume percentage
               position = position / 100;
             }
             stop.position = Math.max(0, Math.min(1, position));
           }
 
           stops.push(stop);
+        } else {
+          console.warn('Invalid color in gradient stop:', colorStr.trim());
         }
+      } else {
+        console.warn('Could not parse gradient stop:', stopString);
       }
     }
 

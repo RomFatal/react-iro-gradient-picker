@@ -35,11 +35,24 @@ const DefaultColorPanel: FC<IProps> = ({
 
   useEffect(() => {
     if (colorType === 'gradient') {
-      setFormatedDefColors(
-        checkValidColorsArray(defaultColors, 'grad').map((item: string) => {
-          return parseGradient(item);
-        })
-      );
+      const validGradients = checkValidColorsArray(defaultColors, 'grad');
+      
+      // For popular colors display, create minimal IColor objects using original CSS strings
+      // This avoids complex parsing issues while still providing functional display
+      const displayGradients = validGradients.map((gradientString: string) => {
+        return {
+          gradient: gradientString, // Use the original CSS string directly for display
+          type: gradientString.startsWith('radial-') ? 'radial' : 'linear',
+          modifier: 180, // Default value, not critical for display
+          stops: [
+            // Dummy stops that help identify display objects in onChooseColor
+            ['rgba(255, 0, 0, 1)', 0, 0],
+            ['rgba(0, 255, 0, 1)', 1, 1]
+          ]
+        };
+      });
+      
+      setFormatedDefColors(displayGradients);
     } else {
       setFormatedDefColors(checkValidColorsArray(defaultColors, 'solid'));
     }
@@ -52,6 +65,50 @@ const DefaultColorPanel: FC<IProps> = ({
     }
 
     if (colorType === 'gradient' && typeof item !== 'string') {
+      // If this is a simplified display object (identified by dummy stops), parse the gradient properly
+      if (
+        item.stops.length === 2 && 
+        item.stops[0][0] === 'rgba(255, 0, 0, 1)'
+      ) {
+        try {
+          const properlyParsed = parseGradient(item.gradient);
+          if (
+            properlyParsed && 
+            properlyParsed.stops && 
+            properlyParsed.stops.length > 0
+          ) {
+            const { stops } = properlyParsed;
+            const lastStop = rgbaToArray(stops[stops.length - 1][0]);
+            const lastStopLoc = stops[stops.length - 1][1];
+            const activeStop = rgbaToHex([
+              lastStop[0], 
+              lastStop[1], 
+              lastStop[2]
+            ]);
+            const activeIdx = stops[stops.length - 1][2];
+
+            setInit(false);
+            setColor(properlyParsed);
+            setActiveColor &&
+              setActiveColor({
+                hex: activeStop,
+                alpha: Number(Math.round(lastStop[3] * 100)),
+                loc: lastStopLoc,
+                index: activeIdx
+              });
+            setActive(index);
+            return;
+          }
+        } catch (error) {
+          console.warn(
+            'Failed to parse popular gradient on click:', 
+            item.gradient, 
+            error
+          );
+        }
+      }
+      
+      // Normal gradient object processing (fallback)
       const { stops } = item;
       const lastStop = rgbaToArray(stops[stops.length - 1][0]);
       const lastStopLoc = stops[stops.length - 1][1];

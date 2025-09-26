@@ -1,9 +1,13 @@
 import tinyColor from 'tinycolor2';
-import { IGradientData, IGradientStop } from '../../lib/types';
+import { 
+  IGradientData, 
+  IGradientStop, 
+  IFlexibleGradientData 
+} from '../../lib/types';
 import { parseGradient } from '../format';
 
 /**
- * Convert gradient object to CSS gradient string
+ * Convert gradient object to CSS gradient string (strict typing)
  */
 export function gradientObjectToCss(gradientData: IGradientData): string {
   const { type, angle = 90, stops } = gradientData;
@@ -21,6 +25,41 @@ export function gradientObjectToCss(gradientData: IGradientData): string {
     return `linear-gradient(${angle}deg, ${cssStops})`;
   } else {
     return `radial-gradient(circle, ${cssStops})`;
+  }
+}
+
+/**
+ * Convert flexible gradient object to CSS gradient string (loose typing)
+ */
+export function flexibleGradientToCss(gradientData: IFlexibleGradientData): string {
+  const { type = 'linear', angle, direction, position, stops } = gradientData;
+
+  // Convert stops to CSS format with flexible position handling
+  const cssStops = stops
+    .map((stop) => {
+      const color = tinyColor(stop.color);
+      let positionStr = '';
+      
+      if (stop.position !== undefined) {
+        if (typeof stop.position === 'string') {
+          positionStr = ` ${stop.position}`;
+        } else {
+          positionStr = ` ${stop.position}%`;
+        }
+      }
+      
+      return `${color.toRgbString()}${positionStr}`;
+    })
+    .join(', ');
+
+  if (type === 'linear') {
+    // Use direction if provided, otherwise use angle
+    const gradientDirection = direction || (angle ? `${angle}deg` : '90deg');
+    return `linear-gradient(${gradientDirection}, ${cssStops})`;
+  } else {
+    // Handle radial gradients with flexible positioning
+    const radialPosition = position || 'circle';
+    return `radial-gradient(${radialPosition}, ${cssStops})`;
   }
 }
 
@@ -89,7 +128,7 @@ export function isGradientObject(value: any): value is IGradientData {
 /**
  * Normalize value to always return a CSS gradient string
  */
-export function normalizeGradientValue(value: string | IGradientData): string {
+export function normalizeGradientValue(value: string | IGradientData | IFlexibleGradientData): string {
   if (typeof value === 'string') {
     return value;
   }

@@ -86,9 +86,7 @@ export default (str: string) => {
     const modifier = findF || angle || helperAngle;
 
     return {
-      gradient: `${type}-gradient(${
-        typeof gradient !== 'string' ? gradient.original : str
-      })`,
+      gradient: typeof gradient !== 'string' ? gradient.original : str,
       type,
       modifier:
         modifier.match(/\d+/) !== null

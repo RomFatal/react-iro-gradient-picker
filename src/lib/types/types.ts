@@ -1,12 +1,18 @@
 import { ReactText } from 'react';
 
-// Gradient stop interface
+// Gradient stop interface with flexible typing
 export interface IGradientStop {
   color: string;
   position: number; // 0-100 (percentage)
 }
 
-// Enhanced gradient data interface
+// Flexible gradient stop that can handle different position formats
+export interface IFlexibleGradientStop {
+  color: string;
+  position?: number | string; // Can be number (0-100) or string ("50%", "50px")
+}
+
+// Enhanced gradient data interface - strict typing
 export interface IGradientData {
   type: 'linear' | 'radial';
   angle?: number; // For linear gradients (0-360 degrees)
@@ -14,8 +20,23 @@ export interface IGradientData {
   defaultActiveTab?: 'gradient';
 }
 
-// Enhanced value prop that can accept both string and object
-export type TValueProp = string | IGradientData;
+// Flexible gradient data interface - loose typing
+export interface IFlexibleGradientData {
+  type?: 'linear' | 'radial' | string;
+  angle?: number | string;
+  stops: IFlexibleGradientStop[];
+  direction?: string; // Alternative to angle (e.g., "to right", "45deg")
+  position?: string; // For radial gradients (e.g., "center", "top left")
+}
+
+// Enhanced value prop that supports multiple formats
+export type TValueProp = 
+  | string                      // CSS gradient string
+  | IGradientData              // Strict typed gradient object
+  | IFlexibleGradientData;     // Flexible typed gradient object
+
+// Legacy support type
+export type TValuePropLegacy = string | IGradientData;
 
 export interface IPropsComp {
   value: TValueProp;
