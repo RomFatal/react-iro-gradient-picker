@@ -323,6 +323,91 @@ radial-gradient(circle at 40% 40%, #C6FFDD, #FBD786, #F7797D)
 - **Flexible syntax**: Supports various positioning keywords and percentage values
 - **Error recovery**: Invalid gradients fall back to a default gradient instead of crashing
 - **Type safety**: Full TypeScript support with proper gradient object interfaces
+- **Smart position mapping**: Automatically highlights correct position markers for all gradient formats
+
+## 📐 Gradient Value Format Guide
+
+The component accepts gradient values in multiple formats and automatically maps them to the correct UI controls:
+
+### ✅ Supported Gradient Formats
+
+#### Linear Gradients
+
+```css
+/* Angle-based (0-360 degrees) */
+linear-gradient(45deg, #FF6B6B, #4ECDC4)
+linear-gradient(180deg, #667eea 0%, #764ba2 100%)
+
+/* Named directions (automatically converted to angles) */
+linear-gradient(to top, #FF6B6B, #4ECDC4)        → 0deg
+linear-gradient(to top right, #FF6B6B, #4ECDC4)  → 45deg
+linear-gradient(to right, #FF6B6B, #4ECDC4)      → 90deg
+linear-gradient(to bottom, #FF6B6B, #4ECDC4)     → 180deg
+```
+
+#### Radial Gradients - Standard Positions
+
+```css
+/* Standard position keywords (auto-mapped to UI markers) */
+radial-gradient(circle at center, #FF6B6B, #4ECDC4)
+radial-gradient(circle at top left, #FF6B6B, #4ECDC4)
+radial-gradient(circle at top center, #FF6B6B, #4ECDC4)    ✨ Maps to "center top"
+radial-gradient(circle at right center, #FF6B6B, #4ECDC4)  ✨ Maps to "center right"
+
+/* Percentage-based positions */
+radial-gradient(circle at 70% 30%, #FF6B6B, #4ECDC4)
+radial-gradient(circle at 0% 100%, #FF6B6B, #4ECDC4)
+```
+
+#### Radial Gradients - Edge Cases ✨ NEW
+
+```css
+/* Size-only gradients (automatically default to center position) */
+radial-gradient(70, #ff0000, #0000ff)              ✨ → circle at center
+radial-gradient(150%, #FFB347, #FFCC33, #FF6347)   ✨ → circle at center
+radial-gradient(200px, #FF6B6B, #4ECDC4)           ✨ → circle at center
+
+/* Size keywords (automatically default to center position) */
+radial-gradient(closest-side, #FF6B6B, #4ECDC4)    ✨ → circle at center
+radial-gradient(farthest-corner, #FF6B6B, #4ECDC4) ✨ → circle at center
+```
+
+### 🎯 Position Mapping Intelligence
+
+The component intelligently maps gradient positions to UI markers:
+
+| **Input Format**         | **UI Marker Highlighted** | **Notes**                       |
+| ------------------------ | ------------------------- | ------------------------------- |
+| `circle at center`       | Center (●)                | Standard center position        |
+| `circle at top center`   | Center Top (●)            | Alias automatically normalized  |
+| `circle at right center` | Center Right (●)          | Alias automatically normalized  |
+| `70`, `150%`, `200px`    | Center (●)                | Size-only defaults to center    |
+| `closest-side`           | Center (●)                | Size keywords default to center |
+| `circle at 25% 75%`      | No marker                 | Custom percentage position      |
+
+### 📝 Gradient Value Requirements
+
+#### ✅ Valid Examples
+
+```css
+/* With explicit positions (recommended) */
+linear-gradient(90deg, #FF6B6B 0%, #4ECDC4 100%)
+radial-gradient(circle at center, #FF6B6B 0%, #4ECDC4 50%, #FFD93D 100%)
+
+/* Without positions (auto-distributed) */
+linear-gradient(45deg, #FF6B6B, #4ECDC4, #FFD93D)
+radial-gradient(circle at top left, #FF6B6B, #4ECDC4)
+```
+
+#### ❌ Invalid Examples
+
+```css
+/* Missing gradient type */
+90deg, #FF6B6B, #4ECDC4
+
+/* Invalid color format */
+linear-gradient(90deg, notacolor, #4ECDC4)
+```
 
 ## Props
 
@@ -351,39 +436,48 @@ radial-gradient(circle at 40% 40%, #C6FFDD, #FBD786, #F7797D)
 | showReset             |   `bool`   |           `false`           | Show/hide reset button in the picker interface                                                        |
 | onReset               | `function` |           `null`            | Callback function triggered when reset button is clicked                                              |
 
-When passing a value for a gradient, you must specify the position of all colors. Otherwise the component will throw an exception.
-For example:
+## 🎯 Radial Gradient Position Reference
 
-### Wrong
+The component supports all standard radial gradient positions and automatically maps them to UI markers:
 
+### Standard Positions (9-Point Grid)
+
+```css
+/* Top Row */
+circle at left top       → Top-Left marker (●)
+circle at center top     → Top-Center marker (●)
+circle at right top      → Top-Right marker (●)
+
+/* Middle Row */
+circle at left           → Middle-Left marker (●)
+circle at center         → Center marker (●) [Default]
+circle at right          → Middle-Right marker (●)
+
+/* Bottom Row */
+circle at left bottom    → Bottom-Left marker (●)
+circle at center bottom  → Bottom-Center marker (●)
+circle at right bottom   → Bottom-Right marker (●)
 ```
 
-linear-gradient(180deg, #000000,#ff0000)
+### Position Aliases (Auto-Normalized)
 
+```css
+/* These aliases are automatically converted: */
+circle at top center     → circle at center top
+circle at bottom center  → circle at center bottom
+circle at left center    → circle at center left
+circle at right center   → circle at center right
 ```
 
-### Correct
+### Edge Cases (Auto-Defaulted to Center)
 
-```
-
-linear-gradient(180deg, #000000 0%,#ff0000 100%)
-
-```
-
-If you are using a radial gradient a list of possible directions for it:
-
-```
-
-circle at left top
-circle at center top
-circle at right top
-circle at left
-circle at center
-circle at right
-circle at left bottom
-circle at center bottom
-circle at right bottom
-
+```css
+/* Size-only gradients default to center: */
+70                       → circle at center
+150%                     → circle at center
+200px                    → circle at center
+closest-side            → circle at center
+farthest-corner         → circle at center
 ```
 
 ## Default color list

@@ -1,0 +1,26 @@
+/* Dark mode CSS custom properties for colorpicker components */
+:root,
+.dark {
+  --colorpicker-bg: #1e293b;
+  --colorpicker-text: #f8fafc;
+  --colorpicker-text-muted: #cbd5e1;
+  --colorpicker-border: #475569;
+  --colorpicker-panel-bg: #000000;
+  --colorpicker-input-bg: #334155;
+  --colorpicker-accent-bg: #3b82f6;
+  --colorpicker-accent: #60a5fa;
+}
+
+/* Ensure body and html have proper dark background */
+body,
+html {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+/* Override Storybook's default backgrounds */
+#storybook-root,
+.sb-show-main {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+}

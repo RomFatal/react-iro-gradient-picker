@@ -18,10 +18,29 @@ import { arraysEqual, shallowEqual } from '../helper';
 import { RADIALS_POS } from '../../../../constants';
 
 // Map aliases like 'circle at top center' to 'circle at center top', etc.
+// Also handle edge cases like numeric sizes (70, 150%) -> default to center
 const normalizeRadialPosition = (modifier: string) => {
   if (typeof modifier !== 'string') return modifier;
+
+  // Handle edge cases:
+  // - Pure numeric sizes (70, 150%, 200px, etc.) -> default to center
+  // - Size keywords (closest-side, farthest-corner, etc.) -> default to center
+  if (
+    /^\d+(%|px|em|rem)?$/.test(modifier.trim()) ||
+    /^(closest-side|closest-corner|farthest-side|farthest-corner)$/i.test(
+      modifier.trim()
+    )
+  ) {
+    return 'circle at center';
+  }
+
+  // Handle standard "circle at position" or "ellipse at position" format
   const match = modifier.match(/^(circle|ellipse) at (.+)$/);
-  if (!match) return modifier;
+  if (!match) {
+    // If it doesn't match any known pattern, default to center for radial gradients
+    return 'circle at center';
+  }
+
   let pos = match[2]?.trim() || '';
   pos = pos
     .replace(/^top center$/i, 'center top')
