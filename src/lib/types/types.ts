@@ -30,10 +30,10 @@ export interface IFlexibleGradientData {
 }
 
 // Enhanced value prop that supports multiple formats
-export type TValueProp = 
-  | string                      // CSS gradient string
-  | IGradientData              // Strict typed gradient object
-  | IFlexibleGradientData;     // Flexible typed gradient object
+export type TValueProp =
+  | string // CSS gradient string
+  | IGradientData // Strict typed gradient object
+  | IFlexibleGradientData; // Flexible typed gradient object
 
 // Legacy support type
 export type TValuePropLegacy = string | IGradientData;

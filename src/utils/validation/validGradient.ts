@@ -113,7 +113,9 @@ export default (input: string): IParsedGraient | string => {
 
       // Improved regex to handle various gradient stop formats
       // Matches: color position%, color position, or just color
-      const stopMatch = stopString.match(/^(.+?)(?:\s+([\d.]+)(%|px|em|rem)?)?$/);
+      const stopMatch = stopString.match(
+        /^(.+?)(?:\s+([\d.]+)(%|px|em|rem)?)?$/
+      );
       if (stopMatch) {
         const [, colorStr, positionStr, unit] = stopMatch;
         const tinyColorInstance = tinycolor(colorStr.trim());

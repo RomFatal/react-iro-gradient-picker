@@ -52,7 +52,12 @@ const IroGradient: FC<IPropsGradient> = ({
           'linear-gradient(90deg, #ffffff 0%, #000000 100%)'
         );
         // Ensure fallback has valid structure
-        if (fallback && typeof fallback === 'object' && Array.isArray(fallback.stops) && fallback.stops.length > 0) {
+        if (
+          fallback &&
+          typeof fallback === 'object' &&
+          Array.isArray(fallback.stops) &&
+          fallback.stops.length > 0
+        ) {
           return fallback;
         }
         // Ultimate fallback with guaranteed structure
@@ -66,12 +71,17 @@ const IroGradient: FC<IPropsGradient> = ({
           type: 'linear'
         };
       }
-      
+
       // Validate parsed result has required structure
-      if (parsed && typeof parsed === 'object' && Array.isArray(parsed.stops) && parsed.stops.length > 0) {
+      if (
+        parsed &&
+        typeof parsed === 'object' &&
+        Array.isArray(parsed.stops) &&
+        parsed.stops.length > 0
+      ) {
         return parsed;
       }
-      
+
       // If parsed result is invalid, use ultimate fallback
       console.warn('Parsed gradient has invalid structure:', parsed);
       return {
@@ -99,19 +109,32 @@ const IroGradient: FC<IPropsGradient> = ({
   }, [value]);
 
   const { stops, type, modifier } = parsedColors();
-  
+
   const iroPickerRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isUpdatingFromGradientStop = useRef<boolean>(false);
   const [pickerWidth, setPickerWidth] = useState<number>(200);
-  
+
   // Safe extraction of stop data with fallbacks
-  const safeStops = Array.isArray(stops) && stops.length > 0 ? stops : [['rgba(255, 255, 255, 1)', 0, 0], ['rgba(0, 0, 0, 1)', 1, 1]];
+  const safeStops =
+    Array.isArray(stops) && stops.length > 0
+      ? stops
+      : [
+          ['rgba(255, 255, 255, 1)', 0, 0],
+          ['rgba(0, 0, 0, 1)', 1, 1]
+        ];
   const safeLastStop = rgbaToArray(safeStops[safeStops.length - 1][0]);
-  const safeParsedLastStop = Array.isArray(safeLastStop) && safeLastStop.length >= 4 ? safeLastStop : [255, 255, 255, 1];
-  
+  const safeParsedLastStop =
+    Array.isArray(safeLastStop) && safeLastStop.length >= 4
+      ? safeLastStop
+      : [255, 255, 255, 1];
+
   const activeStopIndex = safeStops.length - 1;
-  const activeStop = rgbaToHex([safeParsedLastStop[0], safeParsedLastStop[1], safeParsedLastStop[2]]);
+  const activeStop = rgbaToHex([
+    safeParsedLastStop[0],
+    safeParsedLastStop[1],
+    safeParsedLastStop[2]
+  ]);
   const activeAlpha = Math.round(safeParsedLastStop[3] * 100);
   // Responsive width for IroColorPicker - match solid picker logic
   useEffect(() => {

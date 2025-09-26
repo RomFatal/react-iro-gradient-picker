@@ -1,8 +1,8 @@
 import tinyColor from 'tinycolor2';
-import { 
-  IGradientData, 
-  IGradientStop, 
-  IFlexibleGradientData 
+import {
+  IFlexibleGradientData,
+  IGradientData,
+  IGradientStop
 } from '../../lib/types';
 import { parseGradient } from '../format';
 
@@ -31,7 +31,9 @@ export function gradientObjectToCss(gradientData: IGradientData): string {
 /**
  * Convert flexible gradient object to CSS gradient string (loose typing)
  */
-export function flexibleGradientToCss(gradientData: IFlexibleGradientData): string {
+export function flexibleGradientToCss(
+  gradientData: IFlexibleGradientData
+): string {
   const { type = 'linear', angle, direction, position, stops } = gradientData;
 
   // Convert stops to CSS format with flexible position handling
@@ -39,7 +41,7 @@ export function flexibleGradientToCss(gradientData: IFlexibleGradientData): stri
     .map((stop) => {
       const color = tinyColor(stop.color);
       let positionStr = '';
-      
+
       if (stop.position !== undefined) {
         if (typeof stop.position === 'string') {
           positionStr = ` ${stop.position}`;
@@ -47,7 +49,7 @@ export function flexibleGradientToCss(gradientData: IFlexibleGradientData): stri
           positionStr = ` ${stop.position}%`;
         }
       }
-      
+
       return `${color.toRgbString()}${positionStr}`;
     })
     .join(', ');
@@ -128,7 +130,9 @@ export function isGradientObject(value: any): value is IGradientData {
 /**
  * Normalize value to always return a CSS gradient string
  */
-export function normalizeGradientValue(value: string | IGradientData | IFlexibleGradientData): string {
+export function normalizeGradientValue(
+  value: string | IGradientData | IFlexibleGradientData
+): string {
   if (typeof value === 'string') {
     return value;
   }
