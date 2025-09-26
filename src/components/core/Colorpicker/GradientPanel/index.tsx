@@ -8,6 +8,7 @@ import React, {
   useRef,
   useState
 } from 'react';
+import { IPropsPanel, TCoords } from './types';
 
 import Markers from './Markers';
 
@@ -15,7 +16,20 @@ import { getGradient } from '../../../../utils';
 import { arraysEqual, shallowEqual } from '../helper';
 
 import { RADIALS_POS } from '../../../../constants';
-import { IPropsPanel, TCoords } from './types';
+
+// Map aliases like 'circle at top center' to 'circle at center top', etc.
+const normalizeRadialPosition = (modifier: string) => {
+  if (typeof modifier !== 'string') return modifier;
+  const match = modifier.match(/^(circle|ellipse) at (.+)$/);
+  if (!match) return modifier;
+  let pos = match[2]?.trim() || '';
+  pos = pos
+    .replace(/^top center$/i, 'center top')
+    .replace(/^bottom center$/i, 'center bottom')
+    .replace(/^left center$/i, 'center left')
+    .replace(/^right center$/i, 'center right');
+  return `${match[1]} at ${pos}`;
+};
 
 const GradientPanel: FC<IPropsPanel> = ({
   color,
@@ -252,14 +266,17 @@ const GradientPanel: FC<IPropsPanel> = ({
 
   useEffect(() => {
     if (type === 'radial') {
-      const activePos = radialsPosition.find((item) => item.css === modifier);
+      const normalizedModifier = normalizeRadialPosition(String(modifier));
+      const activePos = RADIALS_POS.find(
+        (item) => item.css === normalizedModifier
+      );
       setColor({
         ...color,
-        modifier: activePos?.css || modifier,
+        modifier: activePos?.css || normalizedModifier,
         gradient: `${getGradient(
           'radial',
           stops,
-          activePos?.css || modifier,
+          activePos?.css || normalizedModifier,
           format,
           showAlpha
         )}`
@@ -267,13 +284,12 @@ const GradientPanel: FC<IPropsPanel> = ({
 
       setRadialPosition(
         RADIALS_POS.map((item) => {
-          if (item.css === modifier) {
+          if (item.css === normalizedModifier) {
             return {
               ...item,
               active: true
             };
           }
-
           return {
             ...item,
             active: false

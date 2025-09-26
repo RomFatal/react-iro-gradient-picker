@@ -85,13 +85,23 @@ export default (str: string) => {
     const helperAngle = type === 'linear' ? '180' : 'circle at center';
     const modifier = findF || angle || helperAngle;
 
+    // For radial gradients, preserve the full modifier string to maintain positioning
+    let processedModifier: string | number;
+    if (type === 'radial') {
+      // Keep the full radial gradient specification
+      processedModifier = modifier;
+    } else {
+      // For linear gradients, extract number if it's a degree value
+      processedModifier =
+        modifier.match(/\d+/) !== null
+          ? Number(modifier.match(/\d+/)?.join(''))
+          : modifier;
+    }
+
     return {
       gradient: typeof gradient !== 'string' ? gradient.original : str,
       type,
-      modifier:
-        modifier.match(/\d+/) !== null
-          ? Number(modifier.match(/\d+/)?.join(''))
-          : modifier,
+      modifier: processedModifier,
       stops: stops.map((stop, index: number) => {
         const formatStop = [`${stop.color}`, index];
         if (stop.position || stop.position === 0) {
