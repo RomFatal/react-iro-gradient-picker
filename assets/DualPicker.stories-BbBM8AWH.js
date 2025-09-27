@@ -1,4 +1,4 @@
-import{R as e}from"./iframe-DwoEBKqM.js";import{c as u}from"./decorators-C36nluAq.js";import{C as c,d as r}from"./ColorPickerDemo-yZwkjElj.js";import"./preload-helper-PPVm8Dsz.js";import"./index-17cPI0IQ.js";const f={title:"Components/Color Picker/DualPicker",component:c,parameters:{layout:"centered",docs:{description:{component:`
+import{R as e}from"./iframe-DoHY_Mpp.js";import{c as u}from"./decorators-lgw7vJEW.js";import{C as c,d as r}from"./ColorPickerDemo-DPMovFky.js";import"./preload-helper-PPVm8Dsz.js";import"./index-WPcL0I6T.js";const f={title:"Components/Color Picker/DualPicker",component:c,parameters:{layout:"centered",docs:{description:{component:`
 **Dual Color Picker** - Enhanced with complete dark theme support!
 
 ✅ Features:
