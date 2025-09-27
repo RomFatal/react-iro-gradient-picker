@@ -1,4 +1,4 @@
-import{R as r}from"./iframe-DoHY_Mpp.js";import{c as g}from"./decorators-lgw7vJEW.js";import{C as c,d as e,g as u}from"./ColorPickerDemo-DPMovFky.js";import"./preload-helper-PPVm8Dsz.js";import"./index-WPcL0I6T.js";const b={title:"Components/Color Picker/Gradient Picker",component:c,parameters:{layout:"centered",docs:{description:{component:`
+import{R as r}from"./iframe-BvxcuPcl.js";import{c as g}from"./decorators-BudtwUhP.js";import{C as c,d as e,g as u}from"./ColorPickerDemo-CqLlaU67.js";import"./preload-helper-PPVm8Dsz.js";import"./index-Ce_rIXTE.js";const b={title:"Components/Color Picker/Gradient Picker",component:c,parameters:{layout:"centered",docs:{description:{component:`
 **Gradient Color Picker** - Enhanced with complete dark theme support!
 
 ✅ Features:
