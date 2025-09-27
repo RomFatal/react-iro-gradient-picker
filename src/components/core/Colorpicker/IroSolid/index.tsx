@@ -35,7 +35,6 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
   // Update ref when state changes
   useEffect(() => {
     pickerWidthRef.current = pickerWidth;
-    console.log('📊 Picker width state changed to:', pickerWidth);
   }, [pickerWidth]);
 
   // Calculate responsive width based on container
@@ -64,7 +63,6 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
           const newWidth = Math.floor(getResponsiveWidth(rect.width));
           if (Math.abs(newWidth - pickerWidthRef.current) > 5) {
             // Only update if significant change
-            console.log('� Size update:', { container: rect.width, newWidth });
             setPickerWidth(newWidth);
           }
         }
@@ -98,19 +96,18 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
 
     const debug = (window as any).debugPicker;
     debug.getCurrentWidth = () => {
-      console.log('Current picker width:', pickerWidth);
       return pickerWidth;
     };
     debug.getContainerWidth = () => {
       const width = node.current?.getBoundingClientRect().width;
-      console.log('Current container width:', width);
+
       return width;
     };
     debug.forceResize = () => {
       if (node.current) {
         const rect = node.current.getBoundingClientRect();
         const newWidth = Math.floor(getResponsiveWidth(rect.width));
-        console.log('🔧 Force resize:', { container: rect.width, newWidth });
+
         setPickerWidth(newWidth);
       }
     };
@@ -169,12 +166,6 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
   }, [value, showAlpha]);
 
   const handleColorChange = (iroColor: any) => {
-    console.log('🎨 Alpha slider changed!', {
-      hex: iroColor.hexString,
-      alpha: iroColor.alpha,
-      alphaPercent: Math.round(iroColor.alpha * 100)
-    });
-
     const newColor: TPropsChange = {
       hex: iroColor.hexString,
       alpha: Math.round(iroColor.alpha * 100)

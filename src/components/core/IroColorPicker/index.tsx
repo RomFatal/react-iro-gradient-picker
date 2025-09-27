@@ -113,6 +113,8 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [padding, margin]); // Remove width from dependencies to prevent recreation
 
+    // Add state to track when picker is ready (removed as it's set but not used)
+
     useImperativeHandle(ref, () => ({
       colorPicker: colorPickerRef.current
     }));
@@ -135,17 +137,9 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
               colorPickerRef.current.color &&
               typeof colorPickerRef.current.color.hexString === 'string'
             ) {
-              console.log(
-                'IroColorPicker: Existing picker is healthy, skipping recreation'
-              );
               return;
             }
-          } catch (error) {
-            console.warn(
-              'IroColorPicker: Existing picker is broken, will recreate:',
-              error
-            );
-          }
+          } catch (error) {}
         }
 
         // Clean up any existing picker first
@@ -166,15 +160,6 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
 
         // Capture the container reference for cleanup
         const currentContainer = containerRef.current;
-
-        console.log(
-          '🔧 IroColorPicker creating/recreating picker - width prop:',
-          width,
-          'containerWidth:',
-          containerWidth,
-          'pickerWidth:',
-          pickerWidth
-        );
 
         // IMPORTANT: Clear any existing DOM content first
         if (currentContainer) {
@@ -228,9 +213,13 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
             throw new Error('ColorPicker was not created properly');
           }
 
-          console.log('✅ IroColorPicker successfully created');
+          // Update picker ready state and notify parent
+
+          // Force update of imperative handle by calling onMount callback
+          if (onMount) {
+            setTimeout(() => onMount(colorPickerRef.current), 0);
+          }
         } catch (error) {
-          console.error('❌ IroColorPicker creation failed:', error);
           colorPickerRef.current = null;
           return null; // Return null to indicate failure
         }
@@ -314,9 +303,7 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
         onInputStart,
         onInputMove,
         onInputEnd,
-        onMount,
-        width,
-        containerWidth
+        onMount
       ]
     );
 
@@ -377,19 +364,14 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
               retryCount < maxRetries
             ) {
               retryCount++;
-              console.log(
-                `🔄 IroColorPicker retry attempt ${retryCount}/${maxRetries}`
-              );
+
               // Exponential backoff: 100ms, 200ms, 400ms
               setTimeout(createWithRetry, 100 * Math.pow(2, retryCount - 1));
             }
           } catch (error) {
-            console.error('❌ IroColorPicker creation error:', error);
             if (retryCount < maxRetries) {
               retryCount++;
-              console.log(
-                `🔄 IroColorPicker retry attempt ${retryCount}/${maxRetries} after error`
-              );
+
               setTimeout(createWithRetry, 100 * Math.pow(2, retryCount - 1));
             }
           }
@@ -424,22 +406,14 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
               retryCount < maxRetries
             ) {
               retryCount++;
-              console.log(
-                `🔄 IroColorPicker retry attempt ${retryCount}/${maxRetries} (ResizeObserver mode)`
-              );
+
               // Exponential backoff: 100ms, 200ms, 400ms
               setTimeout(createWithRetry, 100 * Math.pow(2, retryCount - 1));
             }
           } catch (error) {
-            console.error(
-              '❌ IroColorPicker creation error (ResizeObserver mode):',
-              error
-            );
             if (retryCount < maxRetries) {
               retryCount++;
-              console.log(
-                `🔄 IroColorPicker retry attempt ${retryCount}/${maxRetries} after error (ResizeObserver mode)`
-              );
+
               setTimeout(createWithRetry, 100 * Math.pow(2, retryCount - 1));
             }
           }

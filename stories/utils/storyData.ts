@@ -22,10 +22,6 @@ export const defaultArgs: Partial<IPropsMain> = {
   showGradientAngle: true,
   showGradientPosition: true,
   allowAddGradientStops: true,
-  onChange: (value: string) => {
-    console.log('Color changed:', value);
-    return value;
-  }
 };
 
 /**

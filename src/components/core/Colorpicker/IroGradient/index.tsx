@@ -113,6 +113,8 @@ const IroGradient: FC<IPropsGradient> = ({
   const iroPickerRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isUpdatingFromGradientStop = useRef<boolean>(false);
+  const lastUpdateAttempt = useRef<number>(0); // Track last update attempt
+  const isPickerInitialized = useRef<boolean>(false); // Track if picker is already initialized
   const [pickerWidth, setPickerWidth] = useState<number>(200);
 
   // Safe extraction of stop data with fallbacks
@@ -181,18 +183,27 @@ const IroGradient: FC<IPropsGradient> = ({
 
   // Update iro picker color
   const updateIroPickerColor = useCallback(
-    (colorData: { hex: string; alpha: number }, retryCount = 0) => {
-      const maxRetries = 5;
+    (colorData: any, retryCount: number = 0) => {
+      const maxRetries = 3; // Reduced from 5 to limit spam
 
-      // Validate input data
-      if (!colorData || !colorData.hex || typeof colorData.alpha !== 'number') {
-        console.log(
-          '❌ Invalid color data provided to updateIroPickerColor:',
-          colorData
-        );
+      // Enhanced validation for color data
+      if (
+        !colorData ||
+        typeof colorData.hex !== 'string' ||
+        typeof colorData.alpha !== 'number'
+      ) {
         return; // Early return if invalid data
       }
 
+      // Throttle rapid calls - but allow calls if color is significantly different
+      const now = Date.now();
+      const timeSinceLastUpdate = now - lastUpdateAttempt.current;
+
+      // Allow immediate update if throttling time has passed OR if it's a significant color change
+      if (timeSinceLastUpdate < 100) {
+        return;
+      }
+      lastUpdateAttempt.current = now;
       const updateColor = () => {
         // Enhanced picker readiness check
         const isPickerReady = () => {
@@ -224,45 +235,21 @@ const IroGradient: FC<IPropsGradient> = ({
             // Set flag to prevent circular updates
             isUpdatingFromGradientStop.current = true;
 
-            console.log(
-              '🎨 Updating iro picker in gradient mode (attempt:',
-              retryCount + 1,
-              '):',
-              {
-                hex: colorData.hex,
-                alpha: colorData.alpha,
-                iroColor,
-                pickerReady: isPickerReady()
-              }
-            );
-
             iroPickerRef.current.colorPicker.color.set(iroColor);
 
             // Reset flag after a short delay
             setTimeout(() => {
               isUpdatingFromGradientStop.current = false;
             }, 100);
-
-            console.log('✅ Successfully updated iro picker');
           } catch (error) {
             isUpdatingFromGradientStop.current = false;
-            console.warn('❌ Error updating iro color picker:', error);
 
             // Retry with exponential backoff only for actual errors, not readiness issues
             if (retryCount < maxRetries) {
               const delay = 150 + retryCount * 100; // 150ms, 250ms, 350ms
-              console.log(
-                `🔄 Retrying after error in ${delay}ms (attempt ${
-                  retryCount + 2
-                }/${maxRetries + 1})`
-              );
               setTimeout(() => {
                 updateIroPickerColor(colorData, retryCount + 1);
               }, delay);
-            } else {
-              console.error(
-                '💥 Max retries reached, giving up on iro picker update'
-              );
             }
           }
         } else {
@@ -272,27 +259,9 @@ const IroGradient: FC<IPropsGradient> = ({
             // Longer delays for picker readiness: 200ms, 500ms, 1000ms
             const delay = 200 + retryCount * 300;
 
-            console.log(
-              '⏳ Iro picker not ready, retrying in',
-              delay + 'ms...',
-              {
-                hasRef: !!iroPickerRef.current,
-                hasColorPicker: !!iroPickerRef.current?.colorPicker,
-                hasColor: !!iroPickerRef.current?.colorPicker?.color,
-                hasSetMethod:
-                  typeof iroPickerRef.current?.colorPicker?.color?.set ===
-                  'function',
-                attempt: retryCount + 1
-              }
-            );
-
             setTimeout(() => {
               updateIroPickerColor(colorData, retryCount + 1);
             }, delay);
-          } else {
-            console.warn(
-              '💥 Iro picker never became ready after 3 attempts, giving up'
-            );
           }
         }
       };
@@ -312,15 +281,21 @@ const IroGradient: FC<IPropsGradient> = ({
   // Initialize iro picker with current activeColor when component mounts or picker becomes ready
   useEffect(() => {
     const initializeIroPicker = () => {
+      // Skip if picker is already initialized and working
+      if (
+        isPickerInitialized.current &&
+        iroPickerRef.current?.colorPicker?.color
+      ) {
+        return;
+      }
+
       if (
         iroPickerRef.current?.colorPicker?.color &&
         activeColor.hex &&
         typeof activeColor.alpha === 'number'
       ) {
-        console.log(
-          '🚀 Initializing iro picker with activeColor:',
-          activeColor
-        );
+        isPickerInitialized.current = true;
+
         // Wait a bit for the picker to be fully ready, then update
         setTimeout(() => {
           updateIroPickerColor({
@@ -331,68 +306,54 @@ const IroGradient: FC<IPropsGradient> = ({
       }
     };
 
-    // Try immediately
-    initializeIroPicker();
+    // Only initialize if not already initialized
+    if (!isPickerInitialized.current) {
+      // Try immediately
+      initializeIroPicker();
 
-    // Also try after a delay in case picker wasn't ready
-    const timeoutId = setTimeout(initializeIroPicker, 500);
+      // Also try after a delay in case picker wasn't ready
+      const timeoutId = setTimeout(initializeIroPicker, 500);
 
-    return () => clearTimeout(timeoutId);
+      return () => clearTimeout(timeoutId);
+    }
+
+    // Return empty cleanup function when no initialization is needed
+    return () => {};
   }, [activeColor, updateIroPickerColor]); // Initialize when activeColor or updateFunction changes
 
   // Custom setActiveColor that also updates iro picker
   const handleSetActiveColor = useCallback(
     (newActiveColor: any) => {
-      console.log(
-        '🎯 Gradient stop clicked, setting active color:',
-        newActiveColor
-      );
-      setActiveColor(newActiveColor);
+      // Handle both direct values and function updaters
+      if (typeof newActiveColor === 'function') {
+        // This is a function updater - call setActiveColor properly
+        setActiveColor((prev) => {
+          const updated = newActiveColor(prev);
 
-      // Validate before updating iro picker
-      if (newActiveColor.hex && typeof newActiveColor.alpha === 'number') {
-        // Force immediate update of iro picker with longer delay for first-time reliability
-        setTimeout(() => {
-          updateIroPickerColor({
-            hex: newActiveColor.hex,
-            alpha: newActiveColor.alpha
-          });
-        }, 50); // Increased from 5ms to 50ms for better first-time success
+          // Note: useEffect will handle iro picker update automatically
+          return updated;
+        });
       } else {
-        console.log(
-          '⚠️ Skipping iro picker update in handleSetActiveColor - invalid data:',
-          newActiveColor
-        );
+        // This is a direct value - just update state, useEffect will handle iro picker update
+        setActiveColor(newActiveColor);
       }
     },
-    [updateIroPickerColor]
+    [] // No dependencies needed since we're just calling setState
   );
 
-  // Update iro picker when activeColor changes (e.g., clicking gradient stops)
+  // Update iro picker when activeColor's hex or alpha changes (not location)
   useEffect(() => {
-    console.log('🔄 ActiveColor changed in gradient:', {
-      hex: activeColor.hex,
-      alpha: activeColor.alpha,
-      index: activeColor.index,
-      loc: activeColor.loc
-    });
+    const { hex, alpha } = activeColor;
 
     // Validate activeColor before proceeding
-    if (!activeColor.hex || typeof activeColor.alpha !== 'number') {
-      console.log(
-        '⚠️ Skipping iro picker update - invalid activeColor:',
-        activeColor
-      );
+    if (!hex || typeof alpha !== 'number') {
       return;
     }
 
-    // Add a small delay to ensure the activeColor state has fully updated
-    const timeoutId = setTimeout(() => {
-      updateIroPickerColor({ hex: activeColor.hex, alpha: activeColor.alpha });
-    }, 10);
-
-    return () => clearTimeout(timeoutId);
-  }, [activeColor, updateIroPickerColor]);
+    // Update iro picker immediately when color changes
+    updateIroPickerColor({ hex, alpha });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeColor.hex, activeColor.alpha, updateIroPickerColor]); // Only depend on hex and alpha, not full activeColor
 
   const updateGradient = useCallback(
     (newColor: any) => {
@@ -515,13 +476,7 @@ const IroGradient: FC<IPropsGradient> = ({
     };
     setActiveColor(newActiveColor);
 
-    // Update iro picker if available
-    if (iroPickerRef.current?.colorPicker) {
-      updateIroPickerColor({
-        hex: newActiveColor.hex,
-        alpha: newActiveColor.alpha
-      });
-    }
+    // Note: useEffect will handle iro picker update automatically when activeColor changes
 
     // Call onChange with initial value
     onChange(initialValue.current);
@@ -547,11 +502,7 @@ const IroGradient: FC<IPropsGradient> = ({
 
       setActiveColor(newActiveColor);
 
-      // Update the iro color picker
-      updateIroPickerColor({
-        hex: newActiveColor.hex,
-        alpha: newActiveColor.alpha
-      });
+      // Note: useEffect will handle iro picker update automatically when activeColor changes
     }
   };
 

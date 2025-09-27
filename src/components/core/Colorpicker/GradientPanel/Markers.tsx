@@ -166,7 +166,7 @@ const Markers: FC<IPropsPanel> = ({
       return;
     }
 
-    const rootDistance = y - rect.y;
+    const rootDistance = y - (rect.y || rect.top);
 
     // Now we know user is actually dragging
     setIsDragging(true);
@@ -216,7 +216,7 @@ const Markers: FC<IPropsPanel> = ({
       return;
     }
 
-    const rootDistance = y - rect.y;
+    const rootDistance = y - (rect.y || rect.top);
     if (rootDistance > 80 && stops.length > 2) {
       setNeedDeleteActive(true);
     }
@@ -268,7 +268,7 @@ const Markers: FC<IPropsPanel> = ({
     const y = e.targetTouches[0].clientY;
 
     const rect = node?.current?.getBoundingClientRect();
-    const rootDistance = y - rect.y;
+    const rootDistance = y - (rect?.y || rect?.top || 0);
 
     // Now we know user is actually dragging
     setIsDragging(true);
