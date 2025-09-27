@@ -194,11 +194,23 @@ const IroGradient: FC<IPropsGradient> = ({
       }
 
       const updateColor = () => {
+        // Enhanced picker readiness check
+        const isPickerReady = () => {
+          try {
+            return (
+              iroPickerRef.current &&
+              iroPickerRef.current.colorPicker &&
+              iroPickerRef.current.colorPicker.color &&
+              typeof iroPickerRef.current.colorPicker.color.set === 'function'
+            );
+          } catch (error) {
+            console.warn('Error checking picker readiness:', error);
+            return false;
+          }
+        };
+
         // Check if picker is properly initialized
-        if (
-          iroPickerRef.current?.colorPicker &&
-          iroPickerRef.current.colorPicker.color
-        ) {
+        if (isPickerReady()) {
           const iroColor = showAlpha
             ? {
                 r: parseInt(colorData.hex.slice(1, 3), 16),
@@ -220,7 +232,7 @@ const IroGradient: FC<IPropsGradient> = ({
                 hex: colorData.hex,
                 alpha: colorData.alpha,
                 iroColor,
-                pickerReady: !!iroPickerRef.current?.colorPicker?.color
+                pickerReady: isPickerReady()
               }
             );
 
@@ -236,13 +248,13 @@ const IroGradient: FC<IPropsGradient> = ({
             isUpdatingFromGradientStop.current = false;
             console.warn('❌ Error updating iro color picker:', error);
 
-            // Retry with exponential backoff
+            // Retry with exponential backoff only for actual errors, not readiness issues
             if (retryCount < maxRetries) {
-              const delay = 100 * Math.pow(2, retryCount); // 100ms, 200ms, 400ms, etc.
+              const delay = 150 + retryCount * 100; // 150ms, 250ms, 350ms
               console.log(
-                `🔄 Retrying in ${delay}ms (attempt ${retryCount + 2}/${
-                  maxRetries + 1
-                })`
+                `🔄 Retrying after error in ${delay}ms (attempt ${
+                  retryCount + 2
+                }/${maxRetries + 1})`
               );
               setTimeout(() => {
                 updateIroPickerColor(colorData, retryCount + 1);
@@ -254,21 +266,33 @@ const IroGradient: FC<IPropsGradient> = ({
             }
           }
         } else {
-          console.log('⏳ Iro picker not ready, retrying...', {
-            hasRef: !!iroPickerRef.current,
-            hasColorPicker: !!iroPickerRef.current?.colorPicker,
-            hasColor: !!iroPickerRef.current?.colorPicker?.color,
-            attempt: retryCount + 1
-          });
+          // If picker is not ready, wait longer before retrying
+          if (retryCount < 3) {
+            // Reduced max retries for readiness checks
+            // Longer delays for picker readiness: 200ms, 500ms, 1000ms
+            const delay = 200 + retryCount * 300;
 
-          // If picker is not ready, retry with increasing delays
-          if (retryCount < maxRetries) {
-            const delay = 50 + retryCount * 100; // 50ms, 150ms, 250ms, etc.
+            console.log(
+              '⏳ Iro picker not ready, retrying in',
+              delay + 'ms...',
+              {
+                hasRef: !!iroPickerRef.current,
+                hasColorPicker: !!iroPickerRef.current?.colorPicker,
+                hasColor: !!iroPickerRef.current?.colorPicker?.color,
+                hasSetMethod:
+                  typeof iroPickerRef.current?.colorPicker?.color?.set ===
+                  'function',
+                attempt: retryCount + 1
+              }
+            );
+
             setTimeout(() => {
               updateIroPickerColor(colorData, retryCount + 1);
             }, delay);
           } else {
-            console.error('💥 Iro picker never became ready, giving up');
+            console.warn(
+              '💥 Iro picker never became ready after 3 attempts, giving up'
+            );
           }
         }
       };

@@ -134,12 +134,35 @@ const Markers: FC<IPropsPanel> = ({
       return;
     }
 
+    // More defensive check for component and node availability
+    if (!node || !node.current) {
+      console.warn(
+        'Unable to get bounding rect: component reference unavailable'
+      );
+      // Clean up event listeners if component is no longer mounted
+      window.removeEventListener('mousemove', onDrag);
+      window.removeEventListener('mouseup', onDragEnd);
+      return;
+    }
+
     const x = e.clientX || 0;
     const y = e.clientY || 0;
 
-    const rect = node?.current?.getBoundingClientRect();
+    let rect;
+    try {
+      rect = node.current.getBoundingClientRect();
+    } catch (error) {
+      console.warn('Unable to get bounding rect for drag operation:', error);
+      // Clean up event listeners on error
+      window.removeEventListener('mousemove', onDrag);
+      window.removeEventListener('mouseup', onDragEnd);
+      return;
+    }
+
     if (!rect) {
-      console.warn('Unable to get bounding rect for drag operation');
+      console.warn(
+        'Unable to get bounding rect: getBoundingClientRect returned null'
+      );
       return;
     }
 
@@ -162,10 +185,37 @@ const Markers: FC<IPropsPanel> = ({
   };
 
   const onDragEnd = (e: any) => {
-    const x = e.clientX;
-    const y = e.clientY;
+    // Always remove listeners first, regardless of errors
+    removeListeners();
+    setIsDragging(false); // Mark as not dragging
 
-    const rect = node?.current?.getBoundingClientRect();
+    // Defensive event and component checks
+    if (!e) {
+      console.warn('onDragEnd called with undefined event object');
+      return;
+    }
+
+    if (!node || !node.current) {
+      console.warn('onDragEnd: component reference unavailable');
+      return;
+    }
+
+    const x = e.clientX || 0;
+    const y = e.clientY || 0;
+
+    let rect;
+    try {
+      rect = node.current.getBoundingClientRect();
+    } catch (error) {
+      console.warn('Unable to get bounding rect in onDragEnd:', error);
+      return;
+    }
+
+    if (!rect) {
+      console.warn('onDragEnd: getBoundingClientRect returned null');
+      return;
+    }
+
     const rootDistance = y - rect.y;
     if (rootDistance > 80 && stops.length > 2) {
       setNeedDeleteActive(true);
@@ -175,9 +225,6 @@ const Markers: FC<IPropsPanel> = ({
       x,
       y
     });
-
-    setIsDragging(false); // Mark as not dragging
-    removeListeners();
   };
 
   const onTouchStart = (e: TouchEvent, color: any) => {
