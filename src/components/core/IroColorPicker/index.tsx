@@ -117,20 +117,50 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
       colorPicker: colorPickerRef.current
     }));
 
-    // Create a shared picker creation function
+    // Create a shared picker creation function with enhanced error handling
     const createColorPicker = useCallback(
       (pickerWidth: number) => {
-        if (!containerRef.current) return;
+        if (!containerRef.current) {
+          console.warn(
+            'IroColorPicker: Container ref not available, skipping creation'
+          );
+          return;
+        }
 
-        // If picker already exists and is functioning, don't recreate
-        if (colorPickerRef.current && colorPickerRef.current.color) return;
+        // More thorough check for existing picker
+        if (colorPickerRef.current) {
+          try {
+            // Check if picker is still valid and functioning
+            if (
+              colorPickerRef.current.color &&
+              typeof colorPickerRef.current.color.hexString === 'string'
+            ) {
+              console.log(
+                'IroColorPicker: Existing picker is healthy, skipping recreation'
+              );
+              return;
+            }
+          } catch (error) {
+            console.warn(
+              'IroColorPicker: Existing picker is broken, will recreate:',
+              error
+            );
+          }
+        }
 
         // Clean up any existing picker first
         if (colorPickerRef.current) {
           try {
+            // Proper cleanup of event listeners and resources
+            if (typeof colorPickerRef.current.off === 'function') {
+              colorPickerRef.current.off();
+            }
             colorPickerRef.current = null;
           } catch (error) {
-            console.warn('Error cleaning up existing picker:', error);
+            console.warn(
+              'IroColorPicker: Error cleaning up existing picker:',
+              error
+            );
           }
         }
 
@@ -138,10 +168,12 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
         const currentContainer = containerRef.current;
 
         console.log(
-          '🔧 IroColorPicker recreating picker - width prop:',
+          '🔧 IroColorPicker creating/recreating picker - width prop:',
           width,
           'containerWidth:',
-          containerWidth
+          containerWidth,
+          'pickerWidth:',
+          pickerWidth
         );
 
         // IMPORTANT: Clear any existing DOM content first
@@ -153,6 +185,7 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
         const themeBorderColor = theme === 'light' ? '#ffffff' : '#334155';
         const themeBorderWidth = theme === 'light' ? 1 : 0;
 
+        // Enhanced options with better default values
         const options: any = {
           width: pickerWidth,
           color: colors ? undefined : color,
@@ -168,7 +201,7 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
           handleRadius,
           activeHandleRadius: activeHandleRadius || handleRadius,
           handleSvg,
-          handleProps,
+          handleProps: handleProps || { x: 0, y: 0 }, // Ensure defaults are always set
           wheelLightness,
           wheelAngle,
           wheelDirection,
@@ -176,17 +209,31 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
           boxHeight
         };
 
-        // Remove undefined values
+        // Remove undefined values but preserve explicit defaults
         Object.keys(options).forEach((key) => {
           if (options[key] === undefined) {
             delete options[key];
           }
         });
 
-        colorPickerRef.current = new (iro as any).ColorPicker(
-          containerRef.current,
-          options
-        );
+        try {
+          // Create the picker with enhanced error handling
+          colorPickerRef.current = new (iro as any).ColorPicker(
+            containerRef.current,
+            options
+          );
+
+          // Validate the picker was created successfully
+          if (!colorPickerRef.current || !colorPickerRef.current.color) {
+            throw new Error('ColorPicker was not created properly');
+          }
+
+          console.log('✅ IroColorPicker successfully created');
+        } catch (error) {
+          console.error('❌ IroColorPicker creation failed:', error);
+          colorPickerRef.current = null;
+          return null; // Return null to indicate failure
+        }
 
         // Apply theme styles to iro.js elements after creation
         const applyThemeStyles = () => {
@@ -316,14 +363,45 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
     useEffect(() => {
       if (!width) return;
 
-      // Add a small delay to ensure DOM is ready
-      const timeoutId = setTimeout(() => {
-        const currentContainer = createColorPicker(width);
-        return currentContainer;
-      }, 50);
+      let retryCount = 0;
+      const maxRetries = 3;
+
+      const createWithRetry = () => {
+        // Longer initial delay to ensure DOM is completely ready
+        const timeoutId = setTimeout(() => {
+          try {
+            const result = createColorPicker(width);
+            if (
+              !result &&
+              colorPickerRef.current === null &&
+              retryCount < maxRetries
+            ) {
+              retryCount++;
+              console.log(
+                `🔄 IroColorPicker retry attempt ${retryCount}/${maxRetries}`
+              );
+              // Exponential backoff: 100ms, 200ms, 400ms
+              setTimeout(createWithRetry, 100 * Math.pow(2, retryCount - 1));
+            }
+          } catch (error) {
+            console.error('❌ IroColorPicker creation error:', error);
+            if (retryCount < maxRetries) {
+              retryCount++;
+              console.log(
+                `🔄 IroColorPicker retry attempt ${retryCount}/${maxRetries} after error`
+              );
+              setTimeout(createWithRetry, 100 * Math.pow(2, retryCount - 1));
+            }
+          }
+        }, 100); // Increased from 50ms to 100ms
+
+        return () => clearTimeout(timeoutId);
+      };
+
+      const cleanup = createWithRetry();
 
       return () => {
-        clearTimeout(timeoutId);
+        if (cleanup) cleanup();
         cleanup();
       };
     }, [width, theme, createColorPicker, cleanup]);
@@ -332,14 +410,48 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
     useEffect(() => {
       if (width) return; // Don't run if width prop is provided
 
-      // Add a small delay to ensure DOM is ready
-      const timeoutId = setTimeout(() => {
-        const currentContainer = createColorPicker(containerWidth);
-        return currentContainer;
-      }, 50);
+      let retryCount = 0;
+      const maxRetries = 3;
+
+      const createWithRetry = () => {
+        // Longer initial delay to ensure DOM is completely ready
+        const timeoutId = setTimeout(() => {
+          try {
+            const result = createColorPicker(containerWidth);
+            if (
+              !result &&
+              colorPickerRef.current === null &&
+              retryCount < maxRetries
+            ) {
+              retryCount++;
+              console.log(
+                `🔄 IroColorPicker retry attempt ${retryCount}/${maxRetries} (ResizeObserver mode)`
+              );
+              // Exponential backoff: 100ms, 200ms, 400ms
+              setTimeout(createWithRetry, 100 * Math.pow(2, retryCount - 1));
+            }
+          } catch (error) {
+            console.error(
+              '❌ IroColorPicker creation error (ResizeObserver mode):',
+              error
+            );
+            if (retryCount < maxRetries) {
+              retryCount++;
+              console.log(
+                `🔄 IroColorPicker retry attempt ${retryCount}/${maxRetries} after error (ResizeObserver mode)`
+              );
+              setTimeout(createWithRetry, 100 * Math.pow(2, retryCount - 1));
+            }
+          }
+        }, 100); // Increased from 50ms to 100ms
+
+        return () => clearTimeout(timeoutId);
+      };
+
+      const cleanup = createWithRetry();
 
       return () => {
-        clearTimeout(timeoutId);
+        if (cleanup) cleanup();
         cleanup();
       };
     }, [containerWidth, theme, createColorPicker, cleanup, width]);
