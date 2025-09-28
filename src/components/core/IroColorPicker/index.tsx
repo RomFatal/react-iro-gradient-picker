@@ -113,16 +113,15 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [padding, margin]); // Remove width from dependencies to prevent recreation
 
-    // Handle visibility changes (dev tools open/close, tab switching)
+    // Handle layout changes (dev tools open/close, window resize, tab switching)
     useEffect(() => {
       if (!containerRef.current) return;
 
-      const handleVisibilityChange = () => {
-        // When page becomes visible again, check if picker needs to be recreated
-        if (!document.hidden && containerRef.current) {
+      const handleLayoutChange = () => {
+        if (containerRef.current) {
           const rect = containerRef.current.getBoundingClientRect();
           if (rect.width > 0 && rect.height > 0) {
-            // Small delay to ensure layout is stable after dev tools change
+            // Small delay to ensure layout is stable after change
             setTimeout(() => {
               if (colorPickerRef.current?.colorPicker) {
                 try {
@@ -153,9 +152,19 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
         }
       };
 
+      const handleVisibilityChange = () => {
+        // When page becomes visible again, check if picker needs to be recreated
+        if (!document.hidden) {
+          handleLayoutChange();
+        }
+      };
+
+      // Listen for window resize (handles dev tools open/close)
+      window.addEventListener('resize', handleLayoutChange);
       document.addEventListener('visibilitychange', handleVisibilityChange);
 
       return () => {
+        window.removeEventListener('resize', handleLayoutChange);
         document.removeEventListener(
           'visibilitychange',
           handleVisibilityChange
@@ -269,6 +278,39 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
           if (onMount) {
             setTimeout(() => onMount(colorPickerRef.current), 0);
           }
+
+          // Validate initial layout after creation (handles dev tools open on load)
+          setTimeout(() => {
+            if (containerRef.current && colorPickerRef.current?.colorPicker) {
+              try {
+                const rect = containerRef.current.getBoundingClientRect();
+                const currentPickerWidth =
+                  colorPickerRef.current.colorPicker.width;
+
+                // Check if the picker width doesn't match the container appropriately
+                if (rect.width > 0 && !width) {
+                  const observedWidth = rect.width;
+                  const availableWidth =
+                    observedWidth - padding * 2 - margin * 2;
+                  let percentage = 0.8;
+                  if (availableWidth < 300) percentage = 0.9;
+                  else if (availableWidth < 200) percentage = 0.95;
+                  const expectedWidth = Math.floor(availableWidth * percentage);
+                  const finalExpectedWidth = Math.max(
+                    120,
+                    Math.min(expectedWidth, 250)
+                  );
+
+                  // If there's a significant difference, update the width
+                  if (Math.abs(currentPickerWidth - finalExpectedWidth) > 10) {
+                    setContainerWidth(finalExpectedWidth);
+                  }
+                }
+              } catch (error) {
+                console.warn('Initial layout validation failed:', error);
+              }
+            }
+          }, 200); // Give time for initial render to complete
         } catch (error) {
           colorPickerRef.current = null;
           return null; // Return null to indicate failure
@@ -353,7 +395,8 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
         onInputStart,
         onInputMove,
         onInputEnd,
-        onMount
+        onMount,
+        width
       ]
     );
 
