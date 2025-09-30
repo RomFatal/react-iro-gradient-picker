@@ -1,5 +1,5 @@
 import iro from '@jaames/iro';
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState, useCallback } from 'react';
 import tinycolor from 'tinycolor2';
 
 import { InputRgba } from '../../../forms';
@@ -84,13 +84,14 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
     };
   }, [getResponsiveWidth]); // Include getResponsiveWidth dependency
 
-  // Handle layout changes (dev tools open/close, window resize, tab switching)
+  // Handle visibility changes (dev tools open/close, tab switching)
   useEffect(() => {
-    const handleLayoutChange = () => {
-      if (node.current) {
+    const handleVisibilityChange = () => {
+      // When page becomes visible again, force a size update
+      if (!document.hidden && node.current) {
         const rect = node.current.getBoundingClientRect();
         if (rect.width > 0) {
-          // Small delay to ensure layout is stable after change
+          // Small delay to ensure layout is stable after dev tools change
           setTimeout(() => {
             const newWidth = Math.floor(getResponsiveWidth(rect.width));
             if (Math.abs(newWidth - pickerWidthRef.current) > 5) {
@@ -101,19 +102,9 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
       }
     };
 
-    const handleVisibilityChange = () => {
-      // When page becomes visible again, force a size update
-      if (!document.hidden) {
-        handleLayoutChange();
-      }
-    };
-
-    // Listen for window resize (handles dev tools open/close)
-    window.addEventListener('resize', handleLayoutChange);
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
-      window.removeEventListener('resize', handleLayoutChange);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [getResponsiveWidth]);
@@ -142,20 +133,6 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
       }
     };
     debug.getPickerRef = () => iroPickerRef.current;
-
-    // Initial layout validation (handles dev tools open on load)
-    setTimeout(() => {
-      if (node.current) {
-        const rect = node.current.getBoundingClientRect();
-        if (rect.width > 0) {
-          const expectedWidth = Math.floor(getResponsiveWidth(rect.width));
-          // If there's a significant difference, update the width
-          if (Math.abs(expectedWidth - pickerWidth) > 10) {
-            setPickerWidth(expectedWidth);
-          }
-        }
-      }
-    }, 200); // Give time for initial render to complete
 
     // Don't cleanup on unmount so user can access it
   }, [pickerWidth, getResponsiveWidth]);
