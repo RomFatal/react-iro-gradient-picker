@@ -78,8 +78,6 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
     const isUpdatingColor = useRef<boolean>(false);
     const [containerWidth, setContainerWidth] = useState<number>(width || 200);
     const [initialWidthSet, setInitialWidthSet] = useState<boolean>(false);
-    const [forceRecreate, setForceRecreate] = useState<number>(0);
-    const recreationAttempts = useRef<number>(0);
 
     // Detect if dev tools might be open on initial render
     const detectDevToolsOpen = useCallback(() => {
@@ -89,36 +87,6 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
 
       // Dev tools could be docked bottom, right, or in separate window
       return heightDiff > threshold || widthDiff > threshold;
-    }, []);
-
-    // Force complete recreation when dev tools detected
-    const forcePickerRecreation = useCallback(() => {
-      if (recreationAttempts.current < 3) {
-        recreationAttempts.current++;
-        console.log(
-          `🔄 Forcing picker recreation attempt #${recreationAttempts.current}`
-        );
-
-        // Completely destroy existing picker
-        if (colorPickerRef.current) {
-          try {
-            if (typeof colorPickerRef.current.base?.remove === 'function') {
-              colorPickerRef.current.base.remove();
-            }
-          } catch (error) {
-            console.warn('Error removing picker:', error);
-          }
-          colorPickerRef.current = null;
-        }
-
-        // Clear container
-        if (containerRef.current) {
-          containerRef.current.innerHTML = '';
-        }
-
-        // Force recreation via state change
-        setForceRecreate((prev) => prev + 1);
-      }
     }, []);
 
     // Set up ResizeObserver to make the color picker responsive
@@ -175,19 +143,30 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
 
           if (devToolsOpen && rect.width > 0) {
             console.log(
-              'Dev tools detected on initial render, forcing recreation instead of resize'
+              'Dev tools detected on initial render, forcing layout recalculation'
             );
-            // Use forced recreation instead of just width adjustment
+
+            // Force a more aggressive width calculation
             setTimeout(() => {
-              forcePickerRecreation();
-            }, 200);
+              const observedWidth = rect.width;
+              const availableWidth = observedWidth - padding * 2 - margin * 2;
+              let percentage = 0.8;
+              if (availableWidth < 300) percentage = 0.9;
+              else if (availableWidth < 200) percentage = 0.95;
+              const calculatedWidth = Math.floor(availableWidth * percentage);
+              const newWidth = Math.max(120, Math.min(calculatedWidth, 250));
+
+              // Force update even if similar to current width
+              setContainerWidth(newWidth);
+              setInitialWidthSet(true);
+            }, 100);
           }
         }
       };
 
       // Run check after component mounts
       setTimeout(checkInitialLayout, 50);
-    }, [width, padding, margin, detectDevToolsOpen, forcePickerRecreation]);
+    }, [width, padding, margin, detectDevToolsOpen]);
 
     // Handle layout changes (dev tools open/close, window resize, tab switching)
     useEffect(() => {
@@ -576,7 +555,7 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
         if (cleanup) cleanup();
         cleanup();
       };
-    }, [width, theme, createColorPicker, cleanup, forceRecreate]);
+    }, [width, theme, createColorPicker, cleanup]);
 
     // useEffect for when containerWidth is used (internal ResizeObserver)
     useEffect(() => {
@@ -618,14 +597,7 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
         if (cleanup) cleanup();
         cleanup();
       };
-    }, [
-      containerWidth,
-      theme,
-      createColorPicker,
-      cleanup,
-      width,
-      forceRecreate
-    ]);
+    }, [containerWidth, theme, createColorPicker, cleanup, width]);
 
     // Update color when prop changes
     useEffect(() => {

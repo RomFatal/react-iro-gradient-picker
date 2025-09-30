@@ -31,8 +31,6 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
   const [color, setColor] = useState(getHexAlpha(value));
   const [pickerWidth, setPickerWidth] = useState<number>(200);
   const pickerWidthRef = useRef<number>(200);
-  const [forceRecreate, setForceRecreate] = useState<number>(0);
-  const recreationAttempts = useRef<number>(0);
 
   // Update ref when state changes
   useEffect(() => {
@@ -60,27 +58,7 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
     return Math.min(350, available * 0.8);
   }, []);
 
-  // Force complete recreation when dev tools detected
-  const forcePickerRecreation = useCallback(() => {
-    if (recreationAttempts.current < 3) {
-      recreationAttempts.current++;
-      console.log(
-        `🔄 Forcing IroSolid recreation attempt #${recreationAttempts.current}`
-      );
-
-      // Force recreation via state change
-      setForceRecreate((prev) => prev + 1);
-
-      // Also force a new width calculation
-      if (node.current) {
-        const rect = node.current.getBoundingClientRect();
-        if (rect.width > 0) {
-          const newWidth = Math.floor(getResponsiveWidth(rect.width));
-          setPickerWidth(newWidth);
-        }
-      }
-    }
-  }, [getResponsiveWidth]); // Handle container resize
+  // Handle container resize
   useEffect(() => {
     if (!node.current) return;
 
@@ -126,19 +104,21 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
 
         if (devToolsOpen && rect.width > 0) {
           console.log(
-            'Dev tools detected on initial render in IroSolid, forcing recreation'
+            'Dev tools detected on initial render in IroSolid, forcing layout recalculation'
           );
-          // Use forced recreation instead of just width adjustment
+
+          // Force a width recalculation
           setTimeout(() => {
-            forcePickerRecreation();
-          }, 200);
+            const newWidth = Math.floor(getResponsiveWidth(rect.width));
+            setPickerWidth(newWidth);
+          }, 100);
         }
       }
     };
 
     // Run check after component mounts
     setTimeout(checkInitialLayout, 50);
-  }, [detectDevToolsOpen, forcePickerRecreation]);
+  }, [detectDevToolsOpen, getResponsiveWidth]);
 
   // Handle layout changes (dev tools open/close, window resize, tab switching)
   useEffect(() => {
@@ -214,7 +194,7 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
     }, 200); // Give time for initial render to complete
 
     // Don't cleanup on unmount so user can access it
-  }, [pickerWidth, getResponsiveWidth, forceRecreate]);
+  }, [pickerWidth, getResponsiveWidth]);
 
   const debounceColor = useDebounce(color, debounceMS);
 
