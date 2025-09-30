@@ -1,4 +1,4 @@
-import{r as a,R as e}from"./iframe-Cn06tATy.js";import{C as d}from"./index-D8AhkE8w.js";import"./preload-helper-PPVm8Dsz.js";const b={title:"Examples/Real World Usage",component:d,parameters:{layout:"fullscreen",docs:{description:{component:`This comprehensive example demonstrates real-world usage of the gradient picker with both solid and gradient modes. Key features showcased include:
+import{r as a,R as e}from"./iframe-BhIn08tI.js";import{C as d}from"./index-BdOyR2iw.js";import"./preload-helper-PPVm8Dsz.js";const b={title:"Examples/Real World Usage",component:d,parameters:{layout:"fullscreen",docs:{description:{component:`This comprehensive example demonstrates real-world usage of the gradient picker with both solid and gradient modes. Key features showcased include:
 
 • **Reset Functionality**: Built-in reset button with custom callback support
 • **State Management**: Track reset history and user interactions
