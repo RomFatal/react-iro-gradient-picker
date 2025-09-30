@@ -87,44 +87,9 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
       const heightDiff = window.outerHeight - window.innerHeight;
       const widthDiff = window.outerWidth - window.innerWidth;
 
-      // Additional check: if the viewport is unusually narrow, dev tools might be docked
-      const viewportTooNarrow =
-        window.innerWidth < 800 && window.outerWidth > 1000;
-
       // Dev tools could be docked bottom, right, or in separate window
-      return (
-        heightDiff > threshold || widthDiff > threshold || viewportTooNarrow
-      );
+      return heightDiff > threshold || widthDiff > threshold;
     }, []);
-
-    // Force container width recalculation based on actual DOM measurements
-    const recalculateContainerWidth = useCallback(() => {
-      if (!containerRef.current || width) return; // Don't recalculate if width is controlled
-
-      // Force a layout flush and get fresh measurements
-      containerRef.current.style.width = 'auto';
-      const rect = containerRef.current.getBoundingClientRect();
-
-      if (rect.width > 0) {
-        const observedWidth = rect.width;
-        const availableWidth = observedWidth - padding * 2 - margin * 2;
-        let percentage = 0.8;
-        if (availableWidth < 300) percentage = 0.9;
-        else if (availableWidth < 200) percentage = 0.95;
-        const calculatedWidth = Math.floor(availableWidth * percentage);
-        const newWidth = Math.max(120, Math.min(calculatedWidth, 250));
-
-        console.log(
-          `📏 Recalculated container width: ${containerWidth} → ${newWidth} (observed: ${observedWidth})`
-        );
-
-        if (Math.abs(containerWidth - newWidth) > 5) {
-          setContainerWidth(newWidth);
-          return true; // Indicate that width was changed
-        }
-      }
-      return false;
-    }, [containerWidth, padding, margin, width]);
 
     // Force complete recreation when dev tools detected
     const forcePickerRecreation = useCallback(() => {
@@ -133,9 +98,6 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
         console.log(
           `🔄 Forcing picker recreation attempt #${recreationAttempts.current}`
         );
-
-        // First, recalculate the container width
-        const widthChanged = recalculateContainerWidth();
 
         // Completely destroy existing picker
         if (colorPickerRef.current) {
@@ -156,15 +118,8 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
 
         // Force recreation via state change
         setForceRecreate((prev) => prev + 1);
-
-        // If width didn't change, force it anyway to trigger recreation
-        if (!widthChanged) {
-          setTimeout(() => {
-            setForceRecreate((prev) => prev + 1);
-          }, 100);
-        }
       }
-    }, [recalculateContainerWidth]);
+    }, []);
 
     // Set up ResizeObserver to make the color picker responsive
     // Only when width prop is NOT provided (parent doesn't control width)
@@ -215,37 +170,24 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
       // Wait for DOM to be fully ready, then check if dev tools might be affecting layout
       const checkInitialLayout = () => {
         if (containerRef.current) {
+          const rect = containerRef.current.getBoundingClientRect();
           const devToolsOpen = detectDevToolsOpen();
 
-          console.log(
-            `🔍 Initial layout check - Dev tools open: ${devToolsOpen}`
-          );
-
-          // Always recalculate width on initial render to ensure accuracy
-          const widthChanged = recalculateContainerWidth();
-
-          if (devToolsOpen || widthChanged) {
+          if (devToolsOpen && rect.width > 0) {
             console.log(
-              'Dev tools detected or width changed on initial render, forcing recreation'
+              'Dev tools detected on initial render, forcing recreation instead of resize'
             );
-            // Use forced recreation for more reliability
+            // Use forced recreation instead of just width adjustment
             setTimeout(() => {
               forcePickerRecreation();
-            }, 100); // Shorter delay for initial render
+            }, 200);
           }
         }
       };
 
       // Run check after component mounts
-      setTimeout(checkInitialLayout, 25); // Earlier check
-    }, [
-      width,
-      padding,
-      margin,
-      detectDevToolsOpen,
-      forcePickerRecreation,
-      recalculateContainerWidth
-    ]);
+      setTimeout(checkInitialLayout, 50);
+    }, [width, padding, margin, detectDevToolsOpen, forcePickerRecreation]);
 
     // Handle layout changes (dev tools open/close, window resize, tab switching)
     useEffect(() => {
