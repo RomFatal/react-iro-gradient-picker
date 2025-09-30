@@ -45,8 +45,12 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
     const heightDiff = window.outerHeight - window.innerHeight;
     const widthDiff = window.outerWidth - window.innerWidth;
 
+    // Additional check: if the viewport is unusually narrow, dev tools might be docked
+    const viewportTooNarrow =
+      window.innerWidth < 800 && window.outerWidth > 1000;
+
     // Dev tools could be docked bottom, right, or in separate window
-    return heightDiff > threshold || widthDiff > threshold;
+    return heightDiff > threshold || widthDiff > threshold || viewportTooNarrow;
   }, []);
 
   // Responsive width calculation - wrapped in useCallback
@@ -60,6 +64,28 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
     return Math.min(350, available * 0.8);
   }, []);
 
+  // Force container width recalculation based on actual DOM measurements
+  const recalculatePickerWidth = useCallback(() => {
+    if (!node.current) return false;
+
+    // Force a layout flush and get fresh measurements
+    const rect = node.current.getBoundingClientRect();
+
+    if (rect.width > 0) {
+      const newWidth = Math.floor(getResponsiveWidth(rect.width));
+
+      console.log(
+        `📏 IroSolid recalculated width: ${pickerWidth} → ${newWidth} (observed: ${rect.width})`
+      );
+
+      if (Math.abs(pickerWidth - newWidth) > 5) {
+        setPickerWidth(newWidth);
+        return true; // Indicate that width was changed
+      }
+    }
+    return false;
+  }, [pickerWidth, getResponsiveWidth]);
+
   // Force complete recreation when dev tools detected
   const forcePickerRecreation = useCallback(() => {
     if (recreationAttempts.current < 3) {
@@ -68,19 +94,20 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
         `🔄 Forcing IroSolid recreation attempt #${recreationAttempts.current}`
       );
 
+      // First, recalculate the picker width
+      const widthChanged = recalculatePickerWidth();
+
       // Force recreation via state change
       setForceRecreate((prev) => prev + 1);
 
-      // Also force a new width calculation
-      if (node.current) {
-        const rect = node.current.getBoundingClientRect();
-        if (rect.width > 0) {
-          const newWidth = Math.floor(getResponsiveWidth(rect.width));
-          setPickerWidth(newWidth);
-        }
+      // If width didn't change, force it anyway to trigger recreation
+      if (!widthChanged) {
+        setTimeout(() => {
+          setForceRecreate((prev) => prev + 1);
+        }, 100);
       }
     }
-  }, [getResponsiveWidth]); // Handle container resize
+  }, [recalculatePickerWidth]); // Handle container resize
   useEffect(() => {
     if (!node.current) return;
 
@@ -121,24 +148,30 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
     // Wait for DOM to be fully ready, then check if dev tools might be affecting layout
     const checkInitialLayout = () => {
       if (node.current) {
-        const rect = node.current.getBoundingClientRect();
         const devToolsOpen = detectDevToolsOpen();
 
-        if (devToolsOpen && rect.width > 0) {
+        console.log(
+          `🔍 IroSolid initial layout check - Dev tools open: ${devToolsOpen}`
+        );
+
+        // Always recalculate width on initial render to ensure accuracy
+        const widthChanged = recalculatePickerWidth();
+
+        if (devToolsOpen || widthChanged) {
           console.log(
-            'Dev tools detected on initial render in IroSolid, forcing recreation'
+            'Dev tools detected or width changed in IroSolid, forcing recreation'
           );
-          // Use forced recreation instead of just width adjustment
+          // Use forced recreation for more reliability
           setTimeout(() => {
             forcePickerRecreation();
-          }, 200);
+          }, 100); // Shorter delay for initial render
         }
       }
     };
 
     // Run check after component mounts
-    setTimeout(checkInitialLayout, 50);
-  }, [detectDevToolsOpen, forcePickerRecreation]);
+    setTimeout(checkInitialLayout, 25); // Earlier check
+  }, [detectDevToolsOpen, forcePickerRecreation, recalculatePickerWidth]);
 
   // Handle layout changes (dev tools open/close, window resize, tab switching)
   useEffect(() => {
