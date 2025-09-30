@@ -77,17 +77,6 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
     const colorPickerRef = useRef<any>(null);
     const isUpdatingColor = useRef<boolean>(false);
     const [containerWidth, setContainerWidth] = useState<number>(width || 200);
-    const [initialWidthSet, setInitialWidthSet] = useState<boolean>(false);
-
-    // Detect if dev tools might be open on initial render
-    const detectDevToolsOpen = useCallback(() => {
-      const threshold = 160; // Common dev tools minimum height
-      const heightDiff = window.outerHeight - window.innerHeight;
-      const widthDiff = window.outerWidth - window.innerWidth;
-
-      // Dev tools could be docked bottom, right, or in separate window
-      return heightDiff > threshold || widthDiff > threshold;
-    }, []);
 
     // Set up ResizeObserver to make the color picker responsive
     // Only when width prop is NOT provided (parent doesn't control width)
@@ -111,14 +100,7 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
             }
 
             const calculatedWidth = Math.floor(availableWidth * percentage);
-            const newWidth = Math.max(120, Math.min(calculatedWidth, 250));
-
-            setContainerWidth(newWidth);
-
-            // Mark that initial width has been set
-            if (!initialWidthSet) {
-              setInitialWidthSet(true);
-            }
+            setContainerWidth(Math.max(120, Math.min(calculatedWidth, 250)));
           }
         }
       });
@@ -129,44 +111,7 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
         resizeObserver.disconnect();
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [padding, margin, initialWidthSet]); // Add initialWidthSet to dependencies
-
-    // Initial dev tools detection and correction
-    useEffect(() => {
-      if (width) return; // Only run when we control the width
-
-      // Wait for DOM to be fully ready, then check if dev tools might be affecting layout
-      const checkInitialLayout = () => {
-        if (containerRef.current) {
-          const rect = containerRef.current.getBoundingClientRect();
-          const devToolsOpen = detectDevToolsOpen();
-
-          if (devToolsOpen && rect.width > 0) {
-            console.log(
-              'Dev tools detected on initial render, forcing layout recalculation'
-            );
-
-            // Force a more aggressive width calculation
-            setTimeout(() => {
-              const observedWidth = rect.width;
-              const availableWidth = observedWidth - padding * 2 - margin * 2;
-              let percentage = 0.8;
-              if (availableWidth < 300) percentage = 0.9;
-              else if (availableWidth < 200) percentage = 0.95;
-              const calculatedWidth = Math.floor(availableWidth * percentage);
-              const newWidth = Math.max(120, Math.min(calculatedWidth, 250));
-
-              // Force update even if similar to current width
-              setContainerWidth(newWidth);
-              setInitialWidthSet(true);
-            }, 100);
-          }
-        }
-      };
-
-      // Run check after component mounts
-      setTimeout(checkInitialLayout, 50);
-    }, [width, padding, margin, detectDevToolsOpen]);
+    }, [padding, margin]); // Remove width from dependencies to prevent recreation
 
     // Handle layout changes (dev tools open/close, window resize, tab switching)
     useEffect(() => {
@@ -335,58 +280,37 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
           }
 
           // Validate initial layout after creation (handles dev tools open on load)
-          // Multiple validation attempts to ensure correct sizing
-          const validateLayout = (attempt = 1, maxAttempts = 3) => {
-            setTimeout(() => {
-              if (containerRef.current && colorPickerRef.current?.colorPicker) {
-                try {
-                  const rect = containerRef.current.getBoundingClientRect();
-                  const currentPickerWidth =
-                    colorPickerRef.current.colorPicker.width;
+          setTimeout(() => {
+            if (containerRef.current && colorPickerRef.current?.colorPicker) {
+              try {
+                const rect = containerRef.current.getBoundingClientRect();
+                const currentPickerWidth =
+                  colorPickerRef.current.colorPicker.width;
 
-                  // Check if the picker width doesn't match the container appropriately
-                  if (rect.width > 0 && !width) {
-                    const observedWidth = rect.width;
-                    const availableWidth =
-                      observedWidth - padding * 2 - margin * 2;
-                    let percentage = 0.8;
-                    if (availableWidth < 300) percentage = 0.9;
-                    else if (availableWidth < 200) percentage = 0.95;
-                    const expectedWidth = Math.floor(
-                      availableWidth * percentage
-                    );
-                    const finalExpectedWidth = Math.max(
-                      120,
-                      Math.min(expectedWidth, 250)
-                    );
+                // Check if the picker width doesn't match the container appropriately
+                if (rect.width > 0 && !width) {
+                  const observedWidth = rect.width;
+                  const availableWidth =
+                    observedWidth - padding * 2 - margin * 2;
+                  let percentage = 0.8;
+                  if (availableWidth < 300) percentage = 0.9;
+                  else if (availableWidth < 200) percentage = 0.95;
+                  const expectedWidth = Math.floor(availableWidth * percentage);
+                  const finalExpectedWidth = Math.max(
+                    120,
+                    Math.min(expectedWidth, 250)
+                  );
 
-                    // If there's a significant difference, update the width
-                    if (
-                      Math.abs(currentPickerWidth - finalExpectedWidth) > 10
-                    ) {
-                      console.log(
-                        `Layout validation attempt ${attempt}: Correcting width from ${currentPickerWidth} to ${finalExpectedWidth}`
-                      );
-                      setContainerWidth(finalExpectedWidth);
-
-                      // If this isn't the last attempt, schedule another validation
-                      if (attempt < maxAttempts) {
-                        validateLayout(attempt + 1, maxAttempts);
-                      }
-                    }
-                  }
-                } catch (error) {
-                  console.warn('Initial layout validation failed:', error);
-                  // Retry on error if we have attempts left
-                  if (attempt < maxAttempts) {
-                    validateLayout(attempt + 1, maxAttempts);
+                  // If there's a significant difference, update the width
+                  if (Math.abs(currentPickerWidth - finalExpectedWidth) > 10) {
+                    setContainerWidth(finalExpectedWidth);
                   }
                 }
+              } catch (error) {
+                console.warn('Initial layout validation failed:', error);
               }
-            }, 200 * attempt); // Increasing delay for each attempt
-          };
-
-          validateLayout();
+            }
+          }, 200); // Give time for initial render to complete
         } catch (error) {
           colorPickerRef.current = null;
           return null; // Return null to indicate failure

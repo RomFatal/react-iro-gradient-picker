@@ -37,16 +37,6 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
     pickerWidthRef.current = pickerWidth;
   }, [pickerWidth]);
 
-  // Detect if dev tools might be open on initial render
-  const detectDevToolsOpen = useCallback(() => {
-    const threshold = 160; // Common dev tools minimum height
-    const heightDiff = window.outerHeight - window.innerHeight;
-    const widthDiff = window.outerWidth - window.innerWidth;
-
-    // Dev tools could be docked bottom, right, or in separate window
-    return heightDiff > threshold || widthDiff > threshold;
-  }, []);
-
   // Responsive width calculation - wrapped in useCallback
   const getResponsiveWidth = useCallback((containerWidth: number) => {
     const padding = 40; // Total padding and margins
@@ -93,32 +83,6 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
       window.removeEventListener('resize', updateSize);
     };
   }, [getResponsiveWidth]); // Include getResponsiveWidth dependency
-
-  // Initial dev tools detection and correction
-  useEffect(() => {
-    // Wait for DOM to be fully ready, then check if dev tools might be affecting layout
-    const checkInitialLayout = () => {
-      if (node.current) {
-        const rect = node.current.getBoundingClientRect();
-        const devToolsOpen = detectDevToolsOpen();
-
-        if (devToolsOpen && rect.width > 0) {
-          console.log(
-            'Dev tools detected on initial render in IroSolid, forcing layout recalculation'
-          );
-
-          // Force a width recalculation
-          setTimeout(() => {
-            const newWidth = Math.floor(getResponsiveWidth(rect.width));
-            setPickerWidth(newWidth);
-          }, 100);
-        }
-      }
-    };
-
-    // Run check after component mounts
-    setTimeout(checkInitialLayout, 50);
-  }, [detectDevToolsOpen, getResponsiveWidth]);
 
   // Handle layout changes (dev tools open/close, window resize, tab switching)
   useEffect(() => {
