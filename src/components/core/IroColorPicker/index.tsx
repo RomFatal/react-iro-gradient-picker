@@ -113,56 +113,6 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [padding, margin]); // Remove width from dependencies to prevent recreation
 
-    // Handle visibility changes (dev tools open/close, tab switching)
-    useEffect(() => {
-      if (!containerRef.current) return;
-
-      const handleVisibilityChange = () => {
-        // When page becomes visible again, check if picker needs to be recreated
-        if (!document.hidden && containerRef.current) {
-          const rect = containerRef.current.getBoundingClientRect();
-          if (rect.width > 0 && rect.height > 0) {
-            // Small delay to ensure layout is stable after dev tools change
-            setTimeout(() => {
-              if (colorPickerRef.current?.colorPicker) {
-                try {
-                  // Force the picker to redraw by triggering a resize
-                  colorPickerRef.current.colorPicker.resize();
-                } catch (error) {
-                  // If resize fails, recreate the picker
-                  console.warn('Picker resize failed, recreating:', error);
-                  if (!width) {
-                    // Only recreate if we control the width
-                    const observedWidth = rect.width;
-                    const availableWidth =
-                      observedWidth - padding * 2 - margin * 2;
-                    let percentage = 0.8;
-                    if (availableWidth < 300) percentage = 0.9;
-                    else if (availableWidth < 200) percentage = 0.95;
-                    const calculatedWidth = Math.floor(
-                      availableWidth * percentage
-                    );
-                    setContainerWidth(
-                      Math.max(120, Math.min(calculatedWidth, 250))
-                    );
-                  }
-                }
-              }
-            }, 150); // Wait for layout to stabilize
-          }
-        }
-      };
-
-      document.addEventListener('visibilitychange', handleVisibilityChange);
-
-      return () => {
-        document.removeEventListener(
-          'visibilitychange',
-          handleVisibilityChange
-        );
-      };
-    }, [padding, margin, width]);
-
     // Add state to track when picker is ready (removed as it's set but not used)
 
     useImperativeHandle(ref, () => ({

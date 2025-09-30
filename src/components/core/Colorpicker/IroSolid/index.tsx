@@ -1,5 +1,5 @@
 import iro from '@jaames/iro';
-import React, { FC, useEffect, useRef, useState, useCallback } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import tinycolor from 'tinycolor2';
 
 import { InputRgba } from '../../../forms';
@@ -37,16 +37,20 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
     pickerWidthRef.current = pickerWidth;
   }, [pickerWidth]);
 
-  // Responsive width calculation - wrapped in useCallback
-  const getResponsiveWidth = useCallback((containerWidth: number) => {
+  // Calculate responsive width based on container
+  const getResponsiveWidth = (containerWidth: number) => {
     const padding = 40; // Total padding and margins
     const available = containerWidth - padding;
 
     // Simple responsive calculation
-    if (available < 250) return Math.max(200, available);
-    if (available < 400) return Math.max(250, available * 0.9);
-    return Math.min(350, available * 0.8);
-  }, []);
+    if (available <= 200) {
+      return Math.max(150, available - 10); // Very small containers - fixed logic
+    } else if (available <= 320) {
+      return Math.min(available * 0.85, 250); // Medium containers
+    } else {
+      return Math.min(available * 0.8, 280); // Large containers
+    }
+  };
 
   // Handle container resize
   useEffect(() => {
@@ -82,32 +86,7 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
       resizeObserver.disconnect();
       window.removeEventListener('resize', updateSize);
     };
-  }, [getResponsiveWidth]); // Include getResponsiveWidth dependency
-
-  // Handle visibility changes (dev tools open/close, tab switching)
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      // When page becomes visible again, force a size update
-      if (!document.hidden && node.current) {
-        const rect = node.current.getBoundingClientRect();
-        if (rect.width > 0) {
-          // Small delay to ensure layout is stable after dev tools change
-          setTimeout(() => {
-            const newWidth = Math.floor(getResponsiveWidth(rect.width));
-            if (Math.abs(newWidth - pickerWidthRef.current) > 5) {
-              setPickerWidth(newWidth);
-            }
-          }, 150); // Wait for layout to stabilize
-        }
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, [getResponsiveWidth]);
+  }, []); // Empty dependency array is now safe
 
   // Debug helper for testing - create it once and update functions
   useEffect(() => {
@@ -135,7 +114,7 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
     debug.getPickerRef = () => iroPickerRef.current;
 
     // Don't cleanup on unmount so user can access it
-  }, [pickerWidth, getResponsiveWidth]);
+  }, [pickerWidth]);
 
   const debounceColor = useDebounce(color, debounceMS);
 
