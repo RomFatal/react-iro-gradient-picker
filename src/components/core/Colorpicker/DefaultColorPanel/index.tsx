@@ -20,6 +20,7 @@ interface IProps {
   setActiveColor?: (color: IActiveColor) => void;
   colorType: 'solid' | 'gradient';
   currentValue?: string; // Current color/gradient value to mark as active
+  size?: 'compact' | 'default' | 'large'; // Size variant based on container width
 }
 
 const DefaultColorPanel: FC<IProps> = ({
@@ -28,7 +29,8 @@ const DefaultColorPanel: FC<IProps> = ({
   setActiveColor,
   setInit,
   colorType,
-  currentValue
+  currentValue,
+  size = 'default'
 }) => {
   const [active, setActive] = useState<number>(-1);
   const [formatedDefColors, setFormatedDefColors] = useState<
@@ -159,10 +161,19 @@ const DefaultColorPanel: FC<IProps> = ({
     return null;
   }
 
+  // Determine sizing classes based on size prop
+  const sizeClasses = {
+    compact: { button: 'w-8 h-8', gap: 'gap-1.5' },
+    default: { button: 'w-10 h-10', gap: 'gap-4' },
+    large: { button: 'w-12 h-12', gap: 'gap-5' }
+  };
+
+  const { button: buttonSize, gap: gapSize } = sizeClasses[size];
+
   return (
     <div className='w-full'>
       <h3 className='text-sm font-medium colorpicker-text'>Popular Colors</h3>
-      <div className='grid grid-cols-5 gap-4 py-4'>
+      <div className={cn('grid grid-cols-5 py-4', gapSize)}>
         {formatedDefColors.map((item: string | IColor, index: number) => {
           switch (colorType) {
             case 'gradient':
@@ -175,7 +186,8 @@ const DefaultColorPanel: FC<IProps> = ({
                     onClick={() => onChooseColor(item, index)}
                     key={item.gradient + index}
                     className={cn(
-                      'aspect-square w-10 h-10 rounded-md border-2 transition-all duration-200',
+                      'aspect-square rounded-md border-2 transition-all duration-200',
+                      buttonSize,
                       'hover:scale-110 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50',
                       'relative overflow-hidden group',
                       active === index
@@ -199,7 +211,8 @@ const DefaultColorPanel: FC<IProps> = ({
                     onClick={() => onChooseColor(item, index)}
                     key={item + index}
                     className={cn(
-                      'aspect-square w-10 h-10 rounded-md border-2 transition-all duration-200',
+                      'aspect-square rounded-md border-2 transition-all duration-200',
+                      buttonSize,
                       'hover:scale-110 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50',
                       'relative overflow-hidden group',
                       active === index

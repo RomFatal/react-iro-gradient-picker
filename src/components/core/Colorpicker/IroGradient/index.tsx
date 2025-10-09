@@ -38,7 +38,8 @@ const IroGradient: FC<IPropsGradient> = ({
   colorBoardHeight = 120,
   defaultColors,
   showReset = false,
-  onReset
+  onReset,
+  popupWidth = 280
 }) => {
   // Store the initial value for reset functionality
   const initialValue = useRef(value);
@@ -623,6 +624,13 @@ const IroGradient: FC<IPropsGradient> = ({
           setActiveColor={handleSetActiveColor}
           colorType='gradient'
           currentValue={color.gradient}
+          size={
+            popupWidth < 250
+              ? 'compact'
+              : popupWidth <= 350
+              ? 'default'
+              : 'large'
+          }
         />
       </div>
 

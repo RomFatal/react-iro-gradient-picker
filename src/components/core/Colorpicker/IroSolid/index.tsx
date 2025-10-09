@@ -21,7 +21,8 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
   showInputs = true,
   defaultColors,
   showReset = false,
-  onReset
+  onReset,
+  popupWidth = 280
 }) => {
   const node = useRef<HTMLDivElement | null>(null);
   const iroPickerRef = useRef<any>(null);
@@ -338,6 +339,13 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
           setInit={setInit}
           colorType='solid'
           currentValue={color.hex}
+          size={
+            popupWidth < 250
+              ? 'compact'
+              : popupWidth <= 350
+              ? 'default'
+              : 'large'
+          }
         />
       </div>
       {/* Input Controls */}

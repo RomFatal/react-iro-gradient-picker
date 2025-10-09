@@ -155,6 +155,7 @@ const ColorPicker: FC<IPropsMain> = ({
                   colorBoardHeight={colorBoardHeight}
                   showReset={showReset}
                   onReset={onReset}
+                  popupWidth={popupWidth}
                 />
               </PopupTabsBodyItem>
               <PopupTabsBodyItem tabName='gradient'>
@@ -176,6 +177,7 @@ const ColorPicker: FC<IPropsMain> = ({
                   colorBoardHeight={colorBoardHeight}
                   showReset={showReset}
                   onReset={onReset}
+                  popupWidth={popupWidth}
                 />
               </PopupTabsBodyItem>
             </PopupTabsBody>
@@ -207,6 +209,7 @@ const ColorPicker: FC<IPropsMain> = ({
                   colorBoardHeight={colorBoardHeight}
                   showReset={showReset}
                   onReset={onReset}
+                  popupWidth={popupWidth}
                 />
               ) : (
                 <Fragment />
@@ -230,6 +233,7 @@ const ColorPicker: FC<IPropsMain> = ({
                   colorBoardHeight={colorBoardHeight}
                   showReset={showReset}
                   onReset={onReset}
+                  popupWidth={popupWidth}
                 />
               ) : (
                 <Fragment />

@@ -74,6 +74,7 @@ export interface IPropsSolid {
   onChange?: (value: string) => void;
   showReset?: boolean;
   onReset?: () => void;
+  popupWidth?: number;
 }
 
 // Separate interface for gradient components (string only - CSS gradient)
@@ -95,6 +96,7 @@ export interface IPropsGradient {
   onChange?: (value: string) => void;
   showReset?: boolean;
   onReset?: () => void;
+  popupWidth?: number;
 }
 
 export interface IPropsMain extends IPropsComp {
