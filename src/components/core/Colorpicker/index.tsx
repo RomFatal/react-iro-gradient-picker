@@ -87,7 +87,6 @@ const ColorPicker: FC<IPropsMain> = ({
           className='relative dark iro-gradient-picker'
           data-color-picker-theme
         >
-          <ThemeToggle />
           <PopupTabs activeTab={activeTab} popupWidth={popupWidth}>
             <PopupTabsHeader>
               <PopupTabsHeaderLabel
@@ -153,7 +152,6 @@ const ColorPicker: FC<IPropsMain> = ({
         className='relative dark iro-gradient-picker'
         data-color-picker-theme
       >
-        <ThemeToggle />
         {solid || gradient ? (
           <PopupTabs popupWidth={popupWidth}>
             <PopupTabsBody>
