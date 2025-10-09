@@ -1,9 +1,33 @@
+<!-- markdownlint-disable -->
 # Changelog
 
 All notable changes to React Iro Gradient Picker will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### ✨ Added
+
+- **`defaultGradientIndex` prop** - New prop to control which gradient from `defaultColors` is used when switching from solid to gradient tab
+  - Default value is `7` (8th gradient in the array)
+  - Allows users to customize the initial gradient experience
+  - Automatically highlights the selected gradient in Popular Colors panel
+  - Smart bounds checking prevents invalid indices
+- **Visual gradient selection feedback** - When switching to gradient tab, the default gradient is now highlighted in the Popular Colors panel with a blue border and scale effect
+- **Improved gradient tab behavior** - Switching from solid to gradient tab now uses a predefined gradient instead of converting the solid color
+- **Current value highlighting** - Both solid and gradient panels now highlight the currently selected color/gradient in the Popular Colors grid
+
+### 🐛 Fixed
+
+- **Popular gradient selection** - Fixed issue where clicking on popular gradients in gradient tab wouldn't properly apply them
+- **Gradient reconstruction** - Added proper gradient CSS string reconstruction when selecting from popular gradients
+- **Dev tools resize handling** - Enhanced detection and correction for layout issues when dev tools are open during page load/render
+  - Added initial layout validation with multiple retry attempts
+  - Implemented window resize listener for real-time dev tools detection
+  - Added dev tools detection heuristic using viewport dimensions
+  - Fixed picker dimensions when dev tools are already open on page load
 
 ## [1.0.0] - 2025-09-19
 

@@ -487,7 +487,23 @@ const IroGradient: FC<IPropsGradient> = ({
 
   // Update iro picker when color is selected from default colors panel
   const handleColorFromPanel = (newColor: any) => {
+    console.log('handleColorFromPanel called with:', newColor);
+
+    // Ensure the gradient CSS string is properly set
+    if (newColor?.stops && !newColor.gradient) {
+      // Reconstruct the gradient string if missing
+      newColor.gradient = getGradient(
+        newColor.type || 'linear',
+        newColor.stops,
+        newColor.modifier || 90,
+        format,
+        showAlpha
+      );
+      console.log('Reconstructed gradient:', newColor.gradient);
+    }
+
     setColor(newColor);
+
     if (newColor?.stops) {
       const lastStop = rgbaToArray(
         newColor.stops[newColor.stops.length - 1][0]
@@ -500,6 +516,7 @@ const IroGradient: FC<IPropsGradient> = ({
         index: newColor.stops.length - 1
       };
 
+      console.log('Setting activeColor to:', newActiveColor);
       setActiveColor(newActiveColor);
 
       // Note: useEffect will handle iro picker update automatically when activeColor changes
@@ -605,6 +622,7 @@ const IroGradient: FC<IPropsGradient> = ({
           setInit={() => {}}
           setActiveColor={handleSetActiveColor}
           colorType='gradient'
+          currentValue={color.gradient}
         />
       </div>
 

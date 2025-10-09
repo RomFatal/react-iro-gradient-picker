@@ -19,6 +19,7 @@ interface IProps {
   setInit: (init: boolean) => void;
   setActiveColor?: (color: IActiveColor) => void;
   colorType: 'solid' | 'gradient';
+  currentValue?: string; // Current color/gradient value to mark as active
 }
 
 const DefaultColorPanel: FC<IProps> = ({
@@ -26,7 +27,8 @@ const DefaultColorPanel: FC<IProps> = ({
   setColor,
   setActiveColor,
   setInit,
-  colorType
+  colorType,
+  currentValue
 }) => {
   const [active, setActive] = useState<number>(-1);
   const [formatedDefColors, setFormatedDefColors] = useState<
@@ -53,11 +55,32 @@ const DefaultColorPanel: FC<IProps> = ({
       });
 
       setFormatedDefColors(displayGradients);
+
+      // Set initial active state if currentValue matches a gradient
+      if (currentValue) {
+        const matchIndex = validGradients.findIndex(
+          (grad: string) => grad === currentValue
+        );
+        if (matchIndex !== -1) {
+          setActive(matchIndex);
+        }
+      }
     } else {
-      setFormatedDefColors(checkValidColorsArray(defaultColors, 'solid'));
+      const solidColors = checkValidColorsArray(defaultColors, 'solid');
+      setFormatedDefColors(solidColors);
+
+      // Set initial active state if currentValue matches a solid color
+      if (currentValue) {
+        const matchIndex = solidColors.findIndex(
+          (color: string) => color.toLowerCase() === currentValue.toLowerCase()
+        );
+        if (matchIndex !== -1) {
+          setActive(matchIndex);
+        }
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currentValue]);
 
   const onChooseColor = (item: string | IColor, index: number) => {
     // Allow re-applying the same color (removed guard clause that prevented this)

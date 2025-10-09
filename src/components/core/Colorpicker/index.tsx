@@ -1,7 +1,6 @@
 import React, { FC, Fragment, useState } from 'react';
 import '../../../styles/tailwind.css';
 import { ThemeProvider } from '../../providers/ThemeContext';
-import { ThemeToggle } from '../../ui/ThemeToggle';
 import './_colorpicker.scss';
 
 import IroGradient from './IroGradient';
@@ -40,6 +39,7 @@ const ColorPicker: FC<IPropsMain> = ({
   colorBoardHeight = 120,
   defaultColors = DEFAULT_COLORS,
   defaultActiveTab,
+  defaultGradientIndex = 7,
   onChangeTabs,
   onChange = () => ({}),
   showReset = false,
@@ -55,21 +55,55 @@ const ColorPicker: FC<IPropsMain> = ({
 
   const [activeTab, setActiveTab] = useState<string>(initialTab);
 
+  // Track the gradient value separately - use default gradient at specified index or fallback
+  const getDefaultGradient = () => {
+    const gradients = defaultColors.filter(
+      (color) =>
+        typeof color === 'string' &&
+        (color.includes('linear-gradient') || color.includes('radial-gradient'))
+    );
+
+    // Use the defaultGradientIndex if valid, otherwise fallback
+    if (gradients.length > 0) {
+      const index = Math.max(
+        0,
+        Math.min(defaultGradientIndex, gradients.length - 1)
+      );
+      return gradients[index];
+    }
+
+    return 'linear-gradient(90deg, rgb(255, 177, 153) 0%, rgb(255, 8, 68) 100%)';
+  };
+
+  const [gradientValue, setGradientValue] = useState<string>(
+    isGradientObject(value) || getIndexActiveTag(value) === 'gradient'
+      ? cssValue
+      : getDefaultGradient()
+  );
+
   // Auto-switch tab when value changes from object to string or vice versa
   React.useEffect(() => {
     if (isGradientObject(value) && activeTab !== 'gradient') {
       setActiveTab('gradient');
+      setGradientValue(cssValue); // Update gradient value when external value is gradient
       if (typeof onChangeTabs === 'function') {
         onChangeTabs('gradient');
       }
+    } else if (
+      isGradientObject(value) ||
+      getIndexActiveTag(value) === 'gradient'
+    ) {
+      // Update gradient value if external value is a gradient
+      setGradientValue(cssValue);
     }
-  }, [value, activeTab, onChangeTabs]);
+  }, [value, cssValue, activeTab, onChangeTabs]);
 
   const onChangeSolid = (value: string) => {
     onChange(value);
   };
 
   const onChangeGradient = (value: string) => {
+    setGradientValue(value); // Track gradient changes
     onChange(value);
   };
 
@@ -77,6 +111,11 @@ const ColorPicker: FC<IPropsMain> = ({
     setActiveTab(tab);
     if (typeof onChangeTabs === 'function' && !!onChangeTabs) {
       onChangeTabs(tab);
+    }
+
+    // When switching to gradient tab from solid, emit the default gradient
+    if (tab === 'gradient' && activeTab === 'solid') {
+      onChange(gradientValue);
     }
   };
 
@@ -121,7 +160,7 @@ const ColorPicker: FC<IPropsMain> = ({
               <PopupTabsBodyItem tabName='gradient'>
                 <IroGradient
                   onChange={onChangeGradient}
-                  value={cssValue}
+                  value={gradientValue}
                   format={format}
                   defaultColors={defaultColors}
                   debounceMS={debounceMS}

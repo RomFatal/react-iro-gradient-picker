@@ -246,6 +246,56 @@ function FormatExample() {
 }
 ```
 
+### 🎨 Default Gradient Selection
+
+Control which gradient is used when switching from solid to gradient tab:
+
+```tsx
+import React, { useState } from 'react';
+import ColorPicker from 'react-iro-gradient-picker';
+
+function GradientExample() {
+  const [color, setColor] = useState('#FF6B6B');
+
+  return (
+    <ColorPicker
+      solid
+      gradient
+      value={color}
+      onChange={setColor}
+      defaultGradientIndex={0} // Use first gradient from defaultColors (index 0)
+    />
+  );
+}
+```
+
+**How it works:**
+
+- `defaultGradientIndex` controls which gradient from your `defaultColors` array is used as the default
+- Default value is `7` (8th gradient in the array)
+- When switching from **Solid → Gradient** tab, the picker shows this gradient instead of converting the solid color
+- The selected gradient is automatically highlighted in the Popular Colors panel
+- Helps maintain consistent UX by starting with a predefined gradient
+
+**Examples:**
+
+```tsx
+// Use the first gradient (index 0)
+<ColorPicker defaultGradientIndex={0} gradient solid />
+
+// Use the 5th gradient (index 4)
+<ColorPicker defaultGradientIndex={4} gradient solid />
+
+// Default behavior (uses index 7)
+<ColorPicker gradient solid />
+```
+
+**Smart bounds checking:**
+
+- If index is negative, uses `0`
+- If index exceeds available gradients, uses the last gradient
+- If no gradients in `defaultColors`, uses a fallback gradient
+
 ### 📚 **[→ View Complete Documentation & Examples](https://romfatal.github.io/react-iro-gradient-picker/)**
 
 ## 🌟 What Makes This Special
@@ -431,6 +481,7 @@ linear-gradient(90deg, notacolor, #4ECDC4)
 | colorBoardHeight      |  `number`  |            `120`            | Board color height                                                                                    |
 | defaultColors         |  `array`   | [List](#default-color-list) | Default colors array for panel picker                                                                 |
 | defaultActiveTab      |  `string`  |         `undefined`         | Default value for active tab when initializing the component, takes two values: `solid` or `gradient` |
+| defaultGradientIndex  |  `number`  |             `7`             | Index of the gradient from `defaultColors` to use when switching from solid to gradient tab           |
 | onChangeTabs          | `function` |           `null`            | Default onChange function detect when tabs change and return one of the values: `solid` or `gradient` |
 | onChange              | `function` |           `null`            | Default onChange function returns string value in the given format                                    |
 | showReset             |   `bool`   |           `false`           | Show/hide reset button in the picker interface                                                        |

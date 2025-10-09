@@ -337,6 +337,7 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
           setColor={handleColorFromPanel}
           setInit={setInit}
           colorType='solid'
+          currentValue={color.hex}
         />
       </div>
       {/* Input Controls */}

@@ -54,6 +54,7 @@ export interface IPropsComp {
   colorBoardHeight?: number;
   defaultColors?: string[];
   defaultActiveTab?: string | undefined;
+  defaultGradientIndex?: number;
   onChangeTabs?: (tab: string) => void;
   onChange?: (value: string) => void;
   showReset?: boolean;
