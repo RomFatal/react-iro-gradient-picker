@@ -1,4 +1,4 @@
-import{R as n}from"./iframe-CeSNjW3R.js";import{c as p}from"./decorators-CS_e-2D-.js";import{C as l,d as a,s as d}from"./ColorPickerDemo-7JJLE6Yt.js";import"./preload-helper-PPVm8Dsz.js";import"./index-DdJJCXMf.js";const y={title:"Components/Color Picker/Solid Picker",component:l,parameters:{layout:"centered",docs:{description:{component:`
+import{R as n}from"./iframe-lFqbdORP.js";import{c as p}from"./decorators-CkAmQIfz.js";import{C as l,d as a,s as d}from"./ColorPickerDemo-DDPAyGsb.js";import"./preload-helper-PPVm8Dsz.js";import"./index-CcJxudOP.js";const y={title:"Components/Color Picker/Solid Picker",component:l,parameters:{layout:"centered",docs:{description:{component:`
 **Solid Color Picker** - Enhanced with complete dark theme support!
 
 ✅ Features:
