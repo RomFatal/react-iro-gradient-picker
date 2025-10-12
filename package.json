@@ -56,7 +56,7 @@
     "deploy": "gh-pages -d storybook-static/",
     "release": "npm run test && release-it",
     "build-storybook": "storybook build",
-    "version:patch": "npm run deploy && npm version patch && npm publish",
+    "version:patch": "npm run build && npm run deploy && npm version patch && npm publish",
     "version:minor": "npm run deploy && npm version minor && npm publish",
     "version:major": "npm run deploy && npm version major && npm publish"
   },
