@@ -172,7 +172,9 @@ const DefaultColorPanel: FC<IProps> = ({
 
   return (
     <div className='w-full'>
-      <h3 className='text-sm font-medium colorpicker-text'>Popular Colors</h3>
+      <h3 className='text-sm font-medium colorpicker-text text-center'>
+        Popular Colors
+      </h3>
       <div
         className={cn(
           'grid grid-cols-5 justify-items-center py-4 px-1',

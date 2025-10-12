@@ -105,7 +105,11 @@ const InputRgba: FC<TProps> = ({
           return (
             <div
               key={index}
-              className={cn('flex-1 min-w-0', 'relative group', wrapClass)}
+              className={cn(
+                'flex-1 min-w-0 px-2 pb-3',
+                'relative group',
+                wrapClass
+              )}
             >
               <div className='relative'>
                 <input
