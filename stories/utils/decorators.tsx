@@ -28,7 +28,7 @@ export const documentationDecorator: Decorator = (Story) => (
     <div
       className='dark'
       style={{
-        maxWidth: '800px',
+        maxWidth: '1600px',
         margin: '0 auto',
         padding: '2rem',
         background: '#1e293b',
