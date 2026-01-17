@@ -111,7 +111,6 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
     const theme = detectedTheme;
     const isUpdatingColor = useRef<boolean>(false);
     const [containerWidth, setContainerWidth] = useState<number>(width || 200);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     // Set up ResizeObserver to make the color picker responsive
     // Only when width prop is NOT provided (parent doesn't control width)
@@ -286,15 +285,11 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
             throw new Error('ColorPicker was not created properly');
           }
 
-          // Update picker ready state and notify parent
-          setIsLoading(false);
-
           // Force update of imperative handle by calling onMount callback
           if (onMount) {
             setTimeout(() => onMount(colorPickerRef.current), 0);
           }
         } catch (error) {
-          setIsLoading(false);
           colorPickerRef.current = null;
           return null; // Return null to indicate failure
         }
@@ -720,34 +715,11 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
           minWidth: 0,
           overflow: 'hidden',
           justifyContent: 'center',
-          minHeight: isLoading ? width || containerWidth : 'auto',
+          minHeight: 'auto',
           position: 'relative',
           backgroundColor: 'transparent'
         }}
       >
-        {isLoading && (
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: 'var(--colorpicker-panel-bg, #1e293b)'
-            }}
-          >
-            <div
-              style={{
-                width: '32px',
-                height: '32px',
-                border: '3px solid rgba(59, 130, 246, 0.3)',
-                borderTop: '3px solid rgb(59, 130, 246)',
-                borderRadius: '50%',
-                animation: 'spin 0.8s linear infinite'
-              }}
-            />
-          </div>
-        )}
         {/* Iro.js will render the picker here */}
       </div>
     );
