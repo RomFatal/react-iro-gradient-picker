@@ -114,7 +114,7 @@ export interface IPropsMain extends IPropsComp {
   wrapperHeight?: string | number;
   wrapperWidth?: string | number;
   wrapperPadding?: string | number;
-  wrapperRounded?: boolean;
+  wrapperRounded?: string | number | boolean;
 }
 
 export type TPropsChange = {

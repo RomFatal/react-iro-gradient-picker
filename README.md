@@ -550,13 +550,13 @@ linear-gradient(90deg, notacolor, #4ECDC4)
 | onChange              | `function` |           `null`            | Default onChange function returns string value in the given format                                    |
 | showReset             |   `bool`   |           `false`           | Show/hide reset button in the picker interface                                                        |
 | onReset               | `function` |           `null`            | Callback function triggered when reset button is clicked                                              |
-| theme                 |  `string`  |           `'dark'`          | Color scheme for the picker. Accept: 'light', 'dark'                                                  |
+| theme                 |  `string`  |          `'dark'`           | Color scheme for the picker. Accept: 'light', 'dark'                                                  |
 | showWrapper           |   `bool`   |           `false`           | Enable wrapper with background matching the picker's value                                            |
 | wrapperBackground     |  `string`  |         `undefined`         | Override automatic wrapper background with custom color/gradient                                      |
 | wrapperClassName      |  `string`  |            `''`             | CSS class for wrapper (can use preset gradient classes)                                               |
-| wrapperHeight         |  `string`  |           `'auto'`          | Wrapper container height                                                                              |
-| wrapperWidth          |  `string`  |           `'auto'`          | Wrapper container width                                                                               |
-| wrapperPadding        |  `string`  |           `'24px'`          | Wrapper container padding                                                                             |
+| wrapperHeight         |  `string`  |          `'auto'`           | Wrapper container height                                                                              |
+| wrapperWidth          |  `string`  |          `'auto'`           | Wrapper container width                                                                               |
+| wrapperPadding        |  `string`  |          `'24px'`           | Wrapper container padding                                                                             |
 | wrapperRounded        |   `bool`   |           `true`            | Enable rounded corners on wrapper                                                                     |
 
 ## 🎯 Radial Gradient Position Reference

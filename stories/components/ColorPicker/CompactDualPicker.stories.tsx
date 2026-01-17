@@ -7,7 +7,7 @@ import { defaultArgs } from '../../utils/storyData';
 /**
  * Compact Dual Mode Picker - A new compact horizontal design with close button
  * Perfect for embedding in applications where space is limited
- * 
+ *
  * ⚠️ **Note: Still in development**
  */
 const meta: Meta = {
@@ -102,54 +102,54 @@ const CompactDualPickerDemo = ({ onClose }: { onClose?: () => void }) => {
           .compact-picker-wrapper .w-full.rounded-xl {
             display: block !important;
           }
-          
+
           /* Remove vertical spacing */
           .compact-picker-wrapper .space-y-2 > * + * {
             margin-top: 0 !important;
           }
-          
+
           /* Iro picker - 50% smaller, visible */
           .compact-picker-wrapper .relative {
             transform: scale(0.5) !important;
             transform-origin: left top !important;
             display: block !important;
           }
-          
+
           /* Hue slider - hidden */
           .compact-picker-wrapper .rounded-lg.colorpicker-glass.px-4:first-of-type {
             display: none !important;
           }
-          
+
           /* Popular colors - hide completely */
           .compact-picker-wrapper .pt-4.px-2 {
             display: none !important;
           }
-          
+
           /* Color value display - hide completely */
           .compact-picker-wrapper .rounded-lg.colorpicker-glass.flex.items-center.gap-2 {
             display: none !important;
           }
-          
+
           /* Hide text inputs */
           .compact-picker-wrapper input[type="text"] {
             display: none !important;
           }
-          
+
           /* Hide tabs header (SOLID/GRADIENT tabs) */
           .compact-picker-wrapper .popup-tabs-header {
             display: none !important;
           }
-          
+
           /* Hide gradient bar/slider */
           .compact-picker-wrapper .gradient-interaction {
             display: none !important;
           }
-          
+
           .compact-picker-wrapper .popup-tabs-body-item {
             min-height: auto !important;
             padding: 0 !important;
           }
-          
+
           .compact-picker-wrapper .color-picker-panel {
             max-width: 200px !important;
           }

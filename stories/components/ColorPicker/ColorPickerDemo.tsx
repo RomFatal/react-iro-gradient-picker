@@ -25,10 +25,7 @@ const ColorPickerDemo: FC<IPropsMain> = ({
   }, [value]);
 
   return (
-    <div
-      className='wrapper rounded-2xl'
-      style={{ background: color }}
-    >
+    <div className='wrapper rounded-2xl' style={{ background: color }}>
       <ReactGPickerComp
         value={color}
         gradient={gradient}

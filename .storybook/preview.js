@@ -10,7 +10,15 @@ export const parameters = {
         'Welcome',
         'Documentation',
         'Components',
-        ['Color Picker', ['Solid Picker', 'Gradient Picker', 'DualPicker', '~Compact (In Development)']],
+        [
+          'Color Picker',
+          [
+            'Solid Picker',
+            'Gradient Picker',
+            'DualPicker',
+            '~Compact (In Development)'
+          ]
+        ],
         'Examples'
       ]
     }

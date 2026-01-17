@@ -92,7 +92,8 @@ const ColorPicker: FC<IPropsMain> = ({
   );
 
   // Track current color for wrapper background (updates in real-time)
-  const [currentWrapperColor, setCurrentWrapperColor] = useState<string>(cssValue);
+  const [currentWrapperColor, setCurrentWrapperColor] =
+    useState<string>(cssValue);
 
   // Auto-switch tab when value changes from object to string or vice versa
   React.useEffect(() => {
