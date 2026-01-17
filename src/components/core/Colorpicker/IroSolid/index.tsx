@@ -1,4 +1,3 @@
-import iro from '@jaames/iro';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import tinycolor from 'tinycolor2';
 
@@ -258,28 +257,8 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
     onReset?.();
   };
 
-  // Create layout array conditionally based on showAlpha
-  const layoutConfig = [
-    {
-      component: (iro as any).ui.Wheel,
-      options: {}
-    },
-    {
-      component: (iro as any).ui.Slider,
-      options: {
-        sliderType: 'value'
-      }
-    }
-  ];
-
-  if (showAlpha) {
-    layoutConfig.push({
-      component: (iro as any).ui.Slider,
-      options: {
-        sliderType: 'alpha'
-      }
-    });
-  }
+  // Use preset layout based on showAlpha
+  const layoutConfig = showAlpha ? 'wheel-value-alpha' : 'wheel-value';
 
   // Use hex8 format when alpha is enabled for proper alpha support
   const iroColorValue = showAlpha

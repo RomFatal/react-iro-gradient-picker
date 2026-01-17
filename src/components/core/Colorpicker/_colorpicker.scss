@@ -1,6 +1,16 @@
 $white: var(--colorpicker-cursor-border);
 $box-shadow: 0 2px 4px 0 var(--colorpicker-shadow);
 
+// Loading spinner animation
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .colorpicker {
   background-color: var(--colorpicker-bg);
   color: var(--colorpicker-text);

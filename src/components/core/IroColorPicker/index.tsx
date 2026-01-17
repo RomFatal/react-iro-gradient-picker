@@ -1,4 +1,3 @@
-import iro from '@jaames/iro';
 import React, {
   forwardRef,
   useCallback,
@@ -9,13 +8,24 @@ import React, {
 } from 'react';
 import { useTheme } from '../../providers/ThemeContext';
 
+// Lazy load iro.js to improve initial bundle size
+let iroPromise: Promise<any> | null = null;
+const loadIro = () => {
+  if (!iroPromise) {
+    iroPromise = import('@jaames/iro');
+  }
+  return iroPromise;
+};
+
+type LayoutPreset = 'wheel-value' | 'wheel-value-alpha' | any[];
+
 interface IroColorPickerProps {
   width?: number;
   color?: string;
   colors?: string[];
   display?: string;
   id?: string;
-  layout?: any[];
+  layout?: LayoutPreset;
   layoutDirection?: 'vertical' | 'horizontal';
   padding?: number;
   margin?: number;
@@ -77,6 +87,7 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
     const colorPickerRef = useRef<any>(null);
     const isUpdatingColor = useRef<boolean>(false);
     const [containerWidth, setContainerWidth] = useState<number>(width || 200);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     // Set up ResizeObserver to make the color picker responsive
     // Only when width prop is NOT provided (parent doesn't control width)
@@ -121,7 +132,7 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
 
     // Create a shared picker creation function with enhanced error handling
     const createColorPicker = useCallback(
-      (pickerWidth: number) => {
+      async (pickerWidth: number) => {
         if (!containerRef.current) {
           console.warn(
             'IroColorPicker: Container ref not available, skipping creation'
@@ -166,6 +177,47 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
           currentContainer.innerHTML = '';
         }
 
+        // Load iro.js dynamically
+        const iro = await loadIro();
+
+        // Build layout configuration based on preset or custom layout
+        let layoutConfig = layout;
+        if (typeof layout === 'string') {
+          if (layout === 'wheel-value') {
+            layoutConfig = [
+              {
+                component: (iro as any).ui.Wheel,
+                options: {}
+              },
+              {
+                component: (iro as any).ui.Slider,
+                options: {
+                  sliderType: 'value'
+                }
+              }
+            ];
+          } else if (layout === 'wheel-value-alpha') {
+            layoutConfig = [
+              {
+                component: (iro as any).ui.Wheel,
+                options: {}
+              },
+              {
+                component: (iro as any).ui.Slider,
+                options: {
+                  sliderType: 'value'
+                }
+              },
+              {
+                component: (iro as any).ui.Slider,
+                options: {
+                  sliderType: 'alpha'
+                }
+              }
+            ];
+          }
+        }
+
         // Set theme-appropriate border color and background
         const themeBorderColor = theme === 'light' ? '#ffffff' : '#334155';
         const themeBorderWidth = theme === 'light' ? 1 : 0;
@@ -177,7 +229,7 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
           colors: colors || undefined,
           display,
           id,
-          layout,
+          layout: layoutConfig,
           layoutDirection,
           padding,
           margin,
@@ -214,12 +266,14 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
           }
 
           // Update picker ready state and notify parent
+          setIsLoading(false);
 
           // Force update of imperative handle by calling onMount callback
           if (onMount) {
             setTimeout(() => onMount(colorPickerRef.current), 0);
           }
         } catch (error) {
+          setIsLoading(false);
           colorPickerRef.current = null;
           return null; // Return null to indicate failure
         }
@@ -483,9 +537,34 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
           maxWidth: '100%',
           minWidth: 0,
           overflow: 'hidden',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          minHeight: isLoading ? (width || containerWidth) : 'auto',
+          position: 'relative'
         }}
       >
+        {isLoading && (
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'var(--colorpicker-panel-bg, #1e293b)'
+            }}
+          >
+            <div
+              style={{
+                width: '32px',
+                height: '32px',
+                border: '3px solid rgba(59, 130, 246, 0.3)',
+                borderTop: '3px solid rgb(59, 130, 246)',
+                borderRadius: '50%',
+                animation: 'spin 0.8s linear infinite'
+              }}
+            />
+          </div>
+        )}
         {/* Iro.js will render the picker here */}
       </div>
     );
