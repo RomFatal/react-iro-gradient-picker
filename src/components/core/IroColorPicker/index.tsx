@@ -7,17 +7,7 @@ import React, {
   useState
 } from 'react';
 import { useTheme } from '../../providers/ThemeContext';
-
-// Lazy load iro.js to improve initial bundle size
-let iroPromise: Promise<any> | null = null;
-const loadIro = async () => {
-  if (!iroPromise) {
-    iroPromise = import('@jaames/iro').then(
-      (module) => module.default || module
-    );
-  }
-  return iroPromise;
-};
+import iro from '@jaames/iro';
 
 type LayoutPreset = 'wheel-value' | 'wheel-value-alpha' | any[];
 
@@ -166,7 +156,7 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
 
     // Create a shared picker creation function with enhanced error handling
     const createColorPicker = useCallback(
-      async (pickerWidth: number) => {
+      (pickerWidth: number) => {
         if (!containerRef.current) {
           console.warn(
             'IroColorPicker: Container ref not available, skipping creation'
@@ -203,13 +193,10 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
           }
         }
 
-        // Load iro.js dynamically
-        const iro = await loadIro();
-
-        // Check if component is still mounted after async load
+        // Check if component is still mounted
         if (!containerRef.current) {
           console.warn(
-            'IroColorPicker: Component unmounted during iro.js load'
+            'IroColorPicker: Component unmounted during initialization'
           );
           return;
         }
