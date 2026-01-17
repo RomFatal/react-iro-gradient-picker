@@ -7,7 +7,7 @@ export const parameters = {
   options: {
     storySort: {
       order: [
-        '0. Welcome',
+        'Welcome',
         'Documentation',
         'Components',
         ['Color Picker', ['Solid Picker', 'Gradient Picker', 'DualPicker', '~Compact (In Development)']],
