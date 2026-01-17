@@ -1,9 +1,8 @@
 .wrapper {
   text-align: center;
   padding: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: inline-block;
+  box-sizing: border-box;
 
   .color-text {
     color: #ffffff;

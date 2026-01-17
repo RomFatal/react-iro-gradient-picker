@@ -142,45 +142,6 @@ export const PresetGradients: Story = {
 };
 
 /**
- * Light theme picker with wrapper
- */
-export const LightTheme: Story = {
-  render: () => {
-    const [color, setColor] = useState('#3B82F6');
-    return (
-      <div 
-        style={{ 
-          padding: '40px',
-          background: '#ffffff',
-          minHeight: '500px',
-          borderRadius: '12px'
-        }}
-      >
-        <ColorPicker
-          theme='light'
-          showWrapper={true}
-          wrapperRounded={true}
-          value={color}
-          onChange={setColor}
-          solid={true}
-          gradient={true}
-          popupWidth={300}
-        />
-      </div>
-    );
-  },
-  decorators: [],
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Color picker in light theme with wrapper - the picker UI is light while wrapper shows the color.'
-      }
-    }
-  }
-};
-
-/**
  * Comparison: With and Without Wrapper
  */
 export const Comparison: Story = {

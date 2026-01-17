@@ -78,132 +78,14 @@ export const DesignToolInterface: Story = {
 
         <div
           style={{
-            display: 'grid',
-            gridTemplateColumns: '300px 1fr',
-            gap: '2rem',
             maxWidth: '1200px',
-            margin: '0 auto'
+            margin: '0 auto',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '2rem'
           }}
         >
-          {/* Color Panel */}
-          <div
-            style={{
-              background: '#1e293b', // Dark surface background
-              border: '1px solid #475569', // Dark border
-              borderRadius: '12px',
-              padding: '1.5rem',
-              height: 'fit-content'
-            }}
-          >
-            <h3
-              style={{
-                marginBottom: '1.5rem',
-                color: '#f8fafc', // Light text
-                fontSize: '16px'
-              }}
-            >
-              Color Palette
-            </h3>
-
-            <div style={{ marginBottom: '2rem' }}>
-              <label
-                style={{
-                  display: 'block',
-                  marginBottom: '8px',
-                  fontSize: '14px',
-                  fontWeight: '500'
-                }}
-              >
-                Primary Color
-              </label>
-              <ColorPickerDemo
-                {...defaultArgs}
-                solid
-                value={primaryColor}
-                onChange={(value: string) => {
-                  setPrimaryColor(value);
-                  return value;
-                }}
-                colorBoardHeight={80}
-                popupWidth={260}
-              />
-            </div>
-
-            <div style={{ marginBottom: '2rem' }}>
-              <label
-                style={{
-                  display: 'block',
-                  marginBottom: '8px',
-                  fontSize: '14px',
-                  fontWeight: '500'
-                }}
-              >
-                Secondary Color
-              </label>
-              <ColorPickerDemo
-                {...defaultArgs}
-                solid
-                value={secondaryColor}
-                onChange={(value: string) => {
-                  setSecondaryColor(value);
-                  return value;
-                }}
-                colorBoardHeight={80}
-                popupWidth={260}
-              />
-            </div>
-
-            <div style={{ marginBottom: '2rem' }}>
-              <label
-                style={{
-                  display: 'block',
-                  marginBottom: '8px',
-                  fontSize: '14px',
-                  fontWeight: '500'
-                }}
-              >
-                Background Gradient
-              </label>
-              <ColorPickerDemo
-                {...defaultArgs}
-                gradient
-                solid={false}
-                value={backgroundGradient}
-                onChange={(value: string) => {
-                  setBackgroundGradient(value);
-                  return value;
-                }}
-                colorBoardHeight={80}
-                popupWidth={260}
-              />
-            </div>
-
-            <div>
-              <label
-                style={{
-                  display: 'block',
-                  marginBottom: '8px',
-                  fontSize: '14px',
-                  fontWeight: '500'
-                }}
-              >
-                Text Color
-              </label>
-              <ColorPickerDemo
-                {...defaultArgs}
-                solid
-                value={textColor}
-                onChange={(value: string) => {
-                  setTextColor(value);
-                  return value;
-                }}
-                colorBoardHeight={80}
-                popupWidth={260}
-              />
-            </div>
-          </div>
-
-          {/* Preview Panel */}
+          {/* Preview Panel - Top */}
           <div
             style={{
               background: backgroundGradient,
@@ -214,7 +96,7 @@ export const DesignToolInterface: Story = {
               justifyContent: 'center',
               alignItems: 'center',
               color: textColor,
-              minHeight: '400px',
+              minHeight: '200px',
               position: 'relative',
               overflow: 'hidden'
             }}
@@ -281,6 +163,111 @@ export const DesignToolInterface: Story = {
                 >
                   Secondary Action
                 </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Color Pickers - Bottom Horizontal */}
+          <div
+            style={{
+              background: '#1e293b',
+              border: '1px solid #475569',
+              borderRadius: '12px',
+              padding: '1.5rem'
+            }}
+          >
+            <h3
+              style={{
+                marginBottom: '1.5rem',
+                color: '#f8fafc',
+                fontSize: '16px',
+                textAlign: 'center'
+              }}
+            >
+              Color Palette
+            </h3>
+
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                gap: '1.5rem'
+              }}
+            >
+              <div>
+                <label
+                  style={{
+                    display: 'block',
+                    marginBottom: '8px',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    color: '#f8fafc'
+                  }}
+                >
+                  Primary Color
+                </label>
+                <ColorPickerDemo
+                  {...defaultArgs}
+                  solid
+                  value={primaryColor}
+                  onChange={(value: string) => {
+                    setPrimaryColor(value);
+                    return value;
+                  }}
+                  colorBoardHeight={80}
+                  popupWidth={240}
+                />
+              </div>
+
+              <div>
+                <label
+                  style={{
+                    display: 'block',
+                    marginBottom: '8px',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    color: '#f8fafc'
+                  }}
+                >
+                  Secondary Color
+                </label>
+                <ColorPickerDemo
+                  {...defaultArgs}
+                  solid
+                  value={secondaryColor}
+                  onChange={(value: string) => {
+                    setSecondaryColor(value);
+                    return value;
+                  }}
+                  colorBoardHeight={80}
+                  popupWidth={240}
+                />
+              </div>
+
+              <div>
+                <label
+                  style={{
+                    display: 'block',
+                    marginBottom: '8px',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    color: '#f8fafc'
+                  }}
+                >
+                  Background Gradient
+                </label>
+                <ColorPickerDemo
+                  {...defaultArgs}
+                  gradient
+                  solid={false}
+                  value={backgroundGradient}
+                  onChange={(value: string) => {
+                    setBackgroundGradient(value);
+                    return value;
+                  }}
+                  colorBoardHeight={80}
+                  popupWidth={240}
+                />
               </div>
             </div>
           </div>
