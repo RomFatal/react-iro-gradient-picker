@@ -1,6 +1,6 @@
 {
   "name": "react-iro-gradient-picker",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Modern React gradient and solid color picker with complete dark theme support, built with TypeScript and Tailwind CSS",
   "keywords": [
     "react",
