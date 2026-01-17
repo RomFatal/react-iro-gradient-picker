@@ -8,7 +8,7 @@ import { defaultArgs } from '../utils/storyData';
  * Introduction and overview of React Iro Gradient Picker
  */
 const meta: Meta = {
-  title: '0. Welcome',
+  title: 'Welcome/Home',
   parameters: {
     layout: 'fullscreen',
     docs: {
