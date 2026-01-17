@@ -1,4 +1,4 @@
-import{R as e,r as c,T as u}from"./iframe-Dy2yj-Zc.js";import{C as g}from"./index-Jk5Rix6P.js";import{d as f}from"./storyData-zpFB94QM.js";import"./preload-helper-PPVm8Dsz.js";const C={title:"Components/Color Picker/Compact Dual Mode",parameters:{layout:"centered",docs:{description:{component:`
+import{R as e,r as c,T as u}from"./iframe-EdNgvpF1.js";import{C as g}from"./index-DNBOjQvA.js";import{d as f}from"./storyData-zpFB94QM.js";import"./preload-helper-PPVm8Dsz.js";const C={title:"Components/Color Picker/Compact Dual Mode",parameters:{layout:"centered",docs:{description:{component:`
 **Compact Dual Mode Picker** - New streamlined horizontal design!
 
 ✅ Features:

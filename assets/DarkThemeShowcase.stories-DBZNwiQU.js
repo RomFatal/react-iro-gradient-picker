@@ -1,4 +1,4 @@
-import{R as e}from"./iframe-Dy2yj-Zc.js";import{C as a}from"./ColorPickerDemo-BqKcPHEE.js";import{e as d}from"./decorators-DxqSDzlZ.js";import{d as c}from"./storyData-zpFB94QM.js";import"./preload-helper-PPVm8Dsz.js";import"./index-Jk5Rix6P.js";const h={title:"Examples/Dark Theme Showcase",component:a,parameters:{layout:"fullscreen",docs:{description:{component:`
+import{R as e}from"./iframe-EdNgvpF1.js";import{C as a}from"./ColorPickerDemo-BOSZaujk.js";import{e as d}from"./decorators-50EPQMXB.js";import{d as c}from"./storyData-zpFB94QM.js";import"./preload-helper-PPVm8Dsz.js";import"./index-DNBOjQvA.js";const h={title:"Examples/Dark Theme Showcase",component:a,parameters:{layout:"fullscreen",docs:{description:{component:`
 **Dark Theme Showcase** - Demonstrating the comprehensive dark theme integration!
 
 This showcase highlights all the dark theme enhancements that make React Iro Gradient Picker perfect for modern applications:
