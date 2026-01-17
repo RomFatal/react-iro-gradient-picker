@@ -23,6 +23,7 @@ import {
 const IroGradient: FC<IPropsGradient> = ({
   value = 'linear-gradient(90deg, #ffffff 0%, #000000 100%)',
   onChange = () => ({}),
+  onColorChangeImmediate,
   format = 'rgb',
   debounceMS = 300,
   debounce = true,
@@ -277,6 +278,14 @@ const IroGradient: FC<IPropsGradient> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounceColor]);
+
+  // Call immediate callback for real-time updates (e.g., wrapper background)
+  useEffect(() => {
+    if (onColorChangeImmediate && color.gradient) {
+      onColorChangeImmediate(color.gradient);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [color.gradient]);
 
   // Initialize iro picker with current activeColor when component mounts or picker becomes ready
   useEffect(() => {
@@ -558,7 +567,8 @@ const IroGradient: FC<IPropsGradient> = ({
         <div
           className='flex justify-center items-center rounded-lg'
           style={{
-            height: colorBoardHeight + pickerWidth
+            height: colorBoardHeight + pickerWidth,
+            backgroundColor: 'transparent'
           }}
         >
           <IroColorPicker

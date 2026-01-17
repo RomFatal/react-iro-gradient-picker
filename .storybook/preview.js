@@ -5,10 +5,14 @@ import './storybook-dark.css';
 
 export const parameters = {
   options: {
-    storySort: (a, b) => {
-      const aName = a[0];
-      const bName = b[0];
-      return aName < bName ? 1 : -1;
+    storySort: {
+      order: [
+        '0. Welcome',
+        'Documentation',
+        'Components',
+        ['Color Picker', ['Solid Picker', 'Gradient Picker', 'DualPicker', '~Compact (In Development)']],
+        'Examples'
+      ]
     }
   },
   controls: { expanded: true },

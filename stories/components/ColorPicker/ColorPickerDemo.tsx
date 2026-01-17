@@ -27,26 +27,24 @@ const ColorPickerDemo: FC<IPropsMain> = ({
   return (
     <div
       className='wrapper rounded-2xl'
-      style={{ background: color, height: 'auto', minHeight: 'auto' }}
+      style={{ background: color }}
     >
-      <div className='centered'>
-        <ReactGPickerComp
-          value={color}
-          gradient={gradient}
-          format={format}
-          solid={solid}
-          debounceMS={debounceMS}
-          debounce={debounce}
-          showAlpha={showAlpha}
-          popupWidth={popupWidth}
-          colorBoardHeight={colorBoardHeight}
-          defaultColors={defaultColors}
-          onChange={(value) => {
-            onChangeColor(value);
-            onChange?.(value);
-          }}
-        />
-      </div>
+      <ReactGPickerComp
+        value={color}
+        gradient={gradient}
+        format={format}
+        solid={solid}
+        debounceMS={debounceMS}
+        debounce={debounce}
+        showAlpha={showAlpha}
+        popupWidth={popupWidth}
+        colorBoardHeight={colorBoardHeight}
+        defaultColors={defaultColors}
+        onChange={(value) => {
+          onChangeColor(value);
+          onChange?.(value);
+        }}
+      />
     </div>
   );
 };

@@ -28,7 +28,12 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   defaultTheme = 'dark' // Dark theme as default
 }) => {
   const [theme, setTheme] = useState<Theme>(() => {
-    // Check localStorage first, then use default
+    // If defaultTheme is explicitly provided (not default 'dark'), use it
+    // This allows stories to override localStorage
+    if (defaultTheme !== 'dark') {
+      return defaultTheme;
+    }
+    // Otherwise check localStorage first, then use default
     if (typeof window !== 'undefined') {
       const stored = localStorage.getItem('color-picker-theme') as Theme;
       return stored || defaultTheme;

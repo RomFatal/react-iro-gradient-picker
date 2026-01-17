@@ -120,11 +120,12 @@ function App() {
 ```
 
 **Preset Gradients (Optional):**
+
 ```tsx
 // Override with preset gradient
 <ColorPicker
   showWrapper={true}
-  wrapperClassName="gradient-sunset"
+  wrapperClassName='gradient-sunset'
   value={color}
   onChange={setColor}
 />
@@ -134,22 +135,24 @@ function App() {
 ```
 
 **Custom Background (Optional):**
+
 ```tsx
 // Override with custom gradient or solid color
 <ColorPicker
   showWrapper={true}
-  wrapperBackground="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+  wrapperBackground='linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
   value={color}
   onChange={setColor}
 />
 ```
 
 **Wrapper Props:**
+
 - `showWrapper` - Enable/disable wrapper (default: false)
 - `wrapperBackground` - Override with custom background (optional)
 - `wrapperClassName` - Preset gradient class (optional)
 - `wrapperHeight` - Container height (default: 'auto')
-- `wrapperWidth` - Container width (default: 'auto')  
+- `wrapperWidth` - Container width (default: 'auto')
 - `wrapperPadding` - Container padding (default: '24px')
 - `wrapperRounded` - Rounded corners (default: true)
 

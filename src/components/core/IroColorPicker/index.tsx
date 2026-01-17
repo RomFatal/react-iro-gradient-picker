@@ -84,9 +84,41 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme();
+    const { theme: contextTheme } = useTheme();
     const containerRef = useRef<HTMLDivElement>(null);
     const colorPickerRef = useRef<any>(null);
+
+    // Detect theme from parent element as fallback
+    const [detectedTheme, setDetectedTheme] = useState<'light' | 'dark'>(
+      contextTheme
+    );
+
+    useEffect(() => {
+      if (!containerRef.current) return;
+
+      // Check parent elements for light/dark class
+      let element: HTMLElement | null = containerRef.current;
+      let foundTheme: 'light' | 'dark' | null = null;
+      while (element) {
+        if (element.classList.contains('light')) {
+          foundTheme = 'light';
+          break;
+        }
+        if (element.classList.contains('dark')) {
+          foundTheme = 'dark';
+          break;
+        }
+        element = element.parentElement;
+      }
+
+      if (foundTheme) {
+        setDetectedTheme(foundTheme);
+      } else {
+        setDetectedTheme(contextTheme);
+      }
+    }, [contextTheme]);
+
+    const theme = detectedTheme;
     const isUpdatingColor = useRef<boolean>(false);
     const [containerWidth, setContainerWidth] = useState<number>(width || 200);
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -281,35 +313,102 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
         }
 
         // Apply theme styles to iro.js elements after creation
+        // iro.js uses DIV elements with inline backgrounds, not SVG rects
         const applyThemeStyles = () => {
           if (!containerRef.current) return;
 
-          const svgElements = containerRef.current.querySelectorAll('svg');
-          svgElements.forEach((svg) => {
-            // Remove default background
-            svg.style.backgroundColor = 'transparent';
+          // Target the main iro containers including IroColorPicker wrapper
+          const pickers =
+            containerRef.current.querySelectorAll('.IroColorPicker');
+          const wheels = containerRef.current.querySelectorAll('.IroWheel');
+          const sliders = containerRef.current.querySelectorAll('.IroSlider');
+          const boxes = containerRef.current.querySelectorAll('.IroBox');
 
-            // Style background rectangles
-            const backgroundRects = svg.querySelectorAll('rect:first-child');
-            backgroundRects.forEach((rect) => {
-              if (theme === 'light') {
-                rect.setAttribute('fill', 'white');
-                rect.setAttribute('stroke', '#e5e7eb');
-                rect.setAttribute('stroke-width', '1');
-              } else {
-                rect.setAttribute('fill', '#374151');
-                rect.setAttribute('stroke', '#6b7280');
-                rect.setAttribute('stroke-width', '1');
-              }
+          if (theme === 'light') {
+            // Light theme - keep iro elements transparent so container bg shows
+            pickers.forEach((el) => {
+              (el as HTMLElement).style.setProperty(
+                'background-color',
+                'transparent',
+                'important'
+              );
             });
-          });
+            wheels.forEach((el) => {
+              (el as HTMLElement).style.setProperty(
+                'background-color',
+                'transparent',
+                'important'
+              );
+            });
+            sliders.forEach((el) => {
+              (el as HTMLElement).style.setProperty(
+                'background-color',
+                'transparent',
+                'important'
+              );
+            });
+            boxes.forEach((el) => {
+              (el as HTMLElement).style.setProperty(
+                'background-color',
+                'transparent',
+                'important'
+              );
+            });
+          } else {
+            // Dark theme - transparent to let parent bg show
+            pickers.forEach((el) => {
+              (el as HTMLElement).style.setProperty(
+                'background-color',
+                'transparent',
+                'important'
+              );
+            });
+            wheels.forEach((el) => {
+              (el as HTMLElement).style.setProperty(
+                'background-color',
+                'transparent',
+                'important'
+              );
+            });
+            sliders.forEach((el) => {
+              (el as HTMLElement).style.setProperty(
+                'background-color',
+                'transparent',
+                'important'
+              );
+            });
+            boxes.forEach((el) => {
+              (el as HTMLElement).style.setProperty(
+                'background-color',
+                'transparent',
+                'important'
+              );
+            });
+          }
         };
 
-        // Apply styles immediately and after a short delay
+        // Apply styles immediately
         applyThemeStyles();
-        setTimeout(applyThemeStyles, 100);
 
-        // Set up event listeners
+        // Use MutationObserver to reapply when iro.js modifies DOM
+        const observer = new MutationObserver(() => {
+          applyThemeStyles();
+        });
+
+        if (containerRef.current) {
+          observer.observe(containerRef.current, {
+            childList: true,
+            subtree: true,
+            attributes: true
+          });
+        }
+
+        // Apply on timers as fallback
+        setTimeout(applyThemeStyles, 50);
+        setTimeout(applyThemeStyles, 200);
+        setTimeout(applyThemeStyles, 500);
+
+        // Set up event listeners BEFORE returning the cleanup function
         if (onColorChange) {
           colorPickerRef.current.on('color:change', (color: any) => {
             if (!isUpdatingColor.current) {
@@ -333,7 +432,8 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
           colorPickerRef.current.on('mount', onMount);
         }
 
-        return containerRef.current;
+        // Cleanup observer on unmount
+        return () => observer.disconnect();
       },
       [
         theme,
@@ -528,6 +628,101 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
       }
     }, [colors]);
 
+    // Apply theme styles when theme changes without recreating picker
+    useEffect(() => {
+      if (!colorPickerRef.current || !containerRef.current) return;
+
+      const applyThemeStyles = () => {
+        if (!containerRef.current) return;
+
+        const pickers =
+          containerRef.current.querySelectorAll('.IroColorPicker');
+        const wheels = containerRef.current.querySelectorAll('.IroWheel');
+        const sliders = containerRef.current.querySelectorAll('.IroSlider');
+        const boxes = containerRef.current.querySelectorAll('.IroBox');
+
+        if (theme === 'light') {
+          pickers.forEach((el) => {
+            (el as HTMLElement).style.setProperty(
+              'background-color',
+              'transparent',
+              'important'
+            );
+          });
+          wheels.forEach((el) => {
+            (el as HTMLElement).style.setProperty(
+              'background-color',
+              'transparent',
+              'important'
+            );
+          });
+          sliders.forEach((el) => {
+            (el as HTMLElement).style.setProperty(
+              'background-color',
+              'transparent',
+              'important'
+            );
+          });
+          boxes.forEach((el) => {
+            (el as HTMLElement).style.setProperty(
+              'background-color',
+              'transparent',
+              'important'
+            );
+          });
+
+          const borders =
+            containerRef.current.querySelectorAll('.IroWheelBorder');
+          borders.forEach((el) => {
+            (el as HTMLElement).style.setProperty(
+              'border-color',
+              '#e5e7eb',
+              'important'
+            );
+          });
+        } else {
+          // Dark theme - transparent to let parent bg show
+          pickers.forEach((el) => {
+            (el as HTMLElement).style.setProperty(
+              'background-color',
+              'transparent',
+              'important'
+            );
+          });
+          wheels.forEach((el) => {
+            (el as HTMLElement).style.setProperty(
+              'background-color',
+              'transparent',
+              'important'
+            );
+          });
+          sliders.forEach((el) => {
+            (el as HTMLElement).style.setProperty(
+              'background-color',
+              'transparent',
+              'important'
+            );
+          });
+          boxes.forEach((el) => {
+            (el as HTMLElement).style.setProperty(
+              'background-color',
+              'transparent',
+              'important'
+            );
+          });
+        }
+      };
+
+      applyThemeStyles();
+      const timer1 = setTimeout(applyThemeStyles, 50);
+      const timer2 = setTimeout(applyThemeStyles, 150);
+
+      return () => {
+        clearTimeout(timer1);
+        clearTimeout(timer2);
+      };
+    }, [theme]);
+
     return (
       <div
         ref={containerRef}
@@ -539,7 +734,8 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
           overflow: 'hidden',
           justifyContent: 'center',
           minHeight: isLoading ? width || containerWidth : 'auto',
-          position: 'relative'
+          position: 'relative',
+          backgroundColor: 'transparent'
         }}
       >
         {isLoading && (

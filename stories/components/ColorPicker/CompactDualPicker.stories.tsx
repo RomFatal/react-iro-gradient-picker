@@ -7,14 +7,18 @@ import { defaultArgs } from '../../utils/storyData';
 /**
  * Compact Dual Mode Picker - A new compact horizontal design with close button
  * Perfect for embedding in applications where space is limited
+ * 
+ * ⚠️ **Note: Still in development**
  */
 const meta: Meta = {
-  title: 'Components/Color Picker/Compact Dual Mode',
+  title: 'Components/Color Picker/~Compact (In Development)',
   parameters: {
     layout: 'centered',
     docs: {
       description: {
         component: `
+# ⚠️ **STILL IN DEVELOPMENT - NOT PRODUCTION READY**
+
 **Compact Dual Mode Picker** - New streamlined horizontal design!
 
 ✅ Features:

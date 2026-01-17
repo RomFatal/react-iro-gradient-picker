@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import React, { useState } from 'react';
 import ColorPicker from '../../src/components/core/Colorpicker';
-import { ThemeProvider } from '../../src/components/providers/ThemeContext';
 
 const meta: Meta<typeof ColorPicker> = {
   title: 'Examples/Light Theme Showcase',
@@ -27,17 +26,25 @@ export const BasicLight: Story = {
   render: () => {
     const [color, setColor] = useState('#3B82F6');
     return (
-      <ThemeProvider defaultTheme='light'>
-        <div className='light' style={{ padding: '20px' }}>
-          <ColorPicker
-            value={color}
-            onChange={setColor}
-            solid={true}
-            gradient={false}
-            popupWidth={280}
-          />
-        </div>
-      </ThemeProvider>
+      <div
+        style={{
+          padding: '40px',
+          background: '#ffffff',
+          minHeight: '500px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <ColorPicker
+          theme='light'
+          value={color}
+          onChange={setColor}
+          solid={true}
+          gradient={false}
+          popupWidth={280}
+        />
+      </div>
     );
   },
   decorators: [],
@@ -59,19 +66,27 @@ export const GradientLight: Story = {
       'linear-gradient(90deg, rgb(91, 76, 253) 0%, rgb(167, 139, 250) 100%)'
     );
     return (
-      <ThemeProvider defaultTheme='light'>
-        <div className='light' style={{ padding: '20px' }}>
-          <ColorPicker
-            value={gradient}
-            onChange={setGradient}
-            solid={false}
-            gradient={true}
-            popupWidth={300}
-            showGradientAngle={true}
-            showGradientStops={true}
-          />
-        </div>
-      </ThemeProvider>
+      <div
+        style={{
+          padding: '40px',
+          background: '#ffffff',
+          minHeight: '500px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <ColorPicker
+          theme='light'
+          value={gradient}
+          onChange={setGradient}
+          solid={false}
+          gradient={true}
+          popupWidth={300}
+          showGradientAngle={true}
+          showGradientStops={true}
+        />
+      </div>
     );
   },
   decorators: [],
@@ -91,18 +106,26 @@ export const WithWrapper: Story = {
   render: () => {
     const [color, setColor] = useState('#8b5cf6');
     return (
-      <ThemeProvider defaultTheme='light'>
-        <div className='light' style={{ padding: '20px' }}>
-          <ColorPicker
-            showWrapper={true}
-            value={color}
-            onChange={setColor}
-            solid={true}
-            gradient={true}
-            popupWidth={300}
-          />
-        </div>
-      </ThemeProvider>
+      <div
+        style={{
+          padding: '40px',
+          background: '#ffffff',
+          minHeight: '500px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <ColorPicker
+          theme='light'
+          showWrapper={true}
+          value={color}
+          onChange={setColor}
+          solid={true}
+          gradient={true}
+          popupWidth={300}
+        />
+      </div>
     );
   },
   decorators: [],
@@ -130,34 +153,42 @@ export const LightVsDark: Story = {
           <h3 style={{ marginBottom: '10px', color: '#1a1d23' }}>
             Light Theme
           </h3>
-          <ThemeProvider defaultTheme='light'>
-            <div className='light'>
-              <ColorPicker
-                value={lightColor}
-                onChange={setLightColor}
-                solid={true}
-                gradient={false}
-                popupWidth={260}
-              />
-            </div>
-          </ThemeProvider>
+          <div
+            style={{
+              padding: '20px',
+              background: '#ffffff',
+              borderRadius: '8px'
+            }}
+          >
+            <ColorPicker
+              theme='light'
+              value={lightColor}
+              onChange={setLightColor}
+              solid={true}
+              gradient={false}
+              popupWidth={260}
+            />
+          </div>
         </div>
 
         <div>
-          <h3 style={{ marginBottom: '10px', color: '#f7f8f9' }}>
-            Dark Theme
-          </h3>
-          <ThemeProvider defaultTheme='dark'>
-            <div className='dark'>
-              <ColorPicker
-                value={darkColor}
-                onChange={setDarkColor}
-                solid={true}
-                gradient={false}
-                popupWidth={260}
-              />
-            </div>
-          </ThemeProvider>
+          <h3 style={{ marginBottom: '10px', color: '#f7f8f9' }}>Dark Theme</h3>
+          <div
+            style={{
+              padding: '20px',
+              background: '#1e293b',
+              borderRadius: '8px'
+            }}
+          >
+            <ColorPicker
+              theme='dark'
+              value={darkColor}
+              onChange={setDarkColor}
+              solid={true}
+              gradient={false}
+              popupWidth={260}
+            />
+          </div>
         </div>
       </div>
     );

@@ -20,7 +20,14 @@ export const PopupTabs: FC<Popups> = ({
   });
 
   return (
-    <div className='relative rounded-md' style={{ width: `${popupWidth}px` }}>
+    <div
+      className='relative rounded-md'
+      style={{
+        width: `${popupWidth}px`,
+        backgroundColor: 'var(--colorpicker-bg)',
+        color: 'var(--colorpicker-text)'
+      }}
+    >
       {childrenContact}
     </div>
   );
@@ -56,7 +63,10 @@ export const PopupTabsHeader: FC<Popups> = ({
     });
   });
   return (
-    <div className='w-full h-12 flex rounded-md rounded-b-none overflow-hidden colorpicker-glass shadow-inner'>
+    <div
+      className='w-full h-12 flex rounded-md rounded-b-none overflow-hidden colorpicker-glass shadow-inner'
+      style={{ backgroundColor: 'var(--colorpicker-panel-bg)' }}
+    >
       {childrenContact}
     </div>
   );
@@ -69,7 +79,17 @@ export const PopupTabsBody: FC<Popups> = ({ children, activeTab }) => {
     });
   });
 
-  return <div className='p-4'>{childrenContact}</div>;
+  return (
+    <div
+      className='p-4'
+      style={{
+        backgroundColor: 'var(--colorpicker-bg)',
+        color: 'var(--colorpicker-text)'
+      }}
+    >
+      {childrenContact}
+    </div>
+  );
 };
 
 export const PopupTabsBodyItem: FC<Popups> = ({

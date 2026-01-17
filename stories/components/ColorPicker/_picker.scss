@@ -1,6 +1,9 @@
 .wrapper {
-  height: 100vh;
   text-align: center;
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   .color-text {
     color: #ffffff;
@@ -14,5 +17,4 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 24px;
 }

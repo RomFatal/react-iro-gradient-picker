@@ -105,11 +105,7 @@ const InputRgba: FC<TProps> = ({
           return (
             <div
               key={index}
-              className={cn(
-                'flex-1 min-w-0 px-2 pb-3',
-                'relative group',
-                wrapClass
-              )}
+              className={cn('flex-1 min-w-0', 'relative group', wrapClass)}
             >
               <div className='relative'>
                 <input
@@ -121,9 +117,8 @@ const InputRgba: FC<TProps> = ({
                   onBlur={onHandleSubmit}
                   onKeyPress={(e) => handlePressEnter(e, onHandleSubmit)}
                   className={cn(
-                    'w-full py-2.5 text-md font-mono rounded-lg',
+                    'w-full py-2.5 px-3 text-md font-mono rounded-lg',
                     'focus:ring-2 focus:ring-blue-500/20 transition-all duration-200',
-                    labelSymbol && 'pl-4',
                     name === 'alpha' && 'pr-7'
                   )}
                   style={{

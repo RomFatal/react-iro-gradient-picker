@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useState, CSSProperties } from 'react';
+import React, { CSSProperties, FC, Fragment, useState } from 'react';
 import '../../../styles/tailwind.css';
 import { ThemeProvider } from '../../providers/ThemeContext';
 import './_colorpicker.scss';
@@ -44,6 +44,8 @@ const ColorPicker: FC<IPropsMain> = ({
   onChange = () => ({}),
   showReset = false,
   onReset,
+  // Theme prop
+  theme = 'dark',
   // Wrapper props
   showWrapper = false,
   wrapperBackground,
@@ -89,6 +91,9 @@ const ColorPicker: FC<IPropsMain> = ({
       : getDefaultGradient()
   );
 
+  // Track current color for wrapper background (updates in real-time)
+  const [currentWrapperColor, setCurrentWrapperColor] = useState<string>(cssValue);
+
   // Auto-switch tab when value changes from object to string or vice versa
   React.useEffect(() => {
     if (isGradientObject(value) && activeTab !== 'gradient') {
@@ -104,14 +109,18 @@ const ColorPicker: FC<IPropsMain> = ({
       // Update gradient value if external value is a gradient
       setGradientValue(cssValue);
     }
+    // Also update wrapper color when value prop changes
+    setCurrentWrapperColor(cssValue);
   }, [value, cssValue, activeTab, onChangeTabs]);
 
   const onChangeSolid = (value: string) => {
+    setCurrentWrapperColor(value); // Update wrapper immediately
     onChange(value);
   };
 
   const onChangeGradient = (value: string) => {
     setGradientValue(value); // Track gradient changes
+    setCurrentWrapperColor(value); // Update wrapper immediately
     onChange(value);
   };
 
@@ -127,10 +136,10 @@ const ColorPicker: FC<IPropsMain> = ({
     }
   };
 
-  // Wrapper styling
+  // Wrapper styling - use currentWrapperColor for real-time updates
   const wrapperStyle: CSSProperties | undefined = showWrapper
     ? {
-        background: wrapperBackground || cssValue || 'transparent',
+        background: wrapperBackground || currentWrapperColor || 'transparent',
         height: wrapperHeight,
         width: wrapperWidth,
         padding: wrapperPadding,
@@ -145,82 +154,65 @@ const ColorPicker: FC<IPropsMain> = ({
       }
     : undefined;
 
-  const pickerContent = solid && gradient ? (
-    <ThemeProvider>
-      <div
-        className='relative dark iro-gradient-picker'
-        data-color-picker-theme
-      >
-        <PopupTabs activeTab={activeTab} popupWidth={popupWidth}>
-          <PopupTabsHeader>
-            <PopupTabsHeaderLabel
-              tabName='solid'
-              onClick={() => onChangeTab('solid')}
-            >
-              Solid
-            </PopupTabsHeaderLabel>
-            <PopupTabsHeaderLabel
-              tabName='gradient'
-              onClick={() => onChangeTab('gradient')}
-            >
-              Gradient
-            </PopupTabsHeaderLabel>
-          </PopupTabsHeader>
-          <PopupTabsBody>
-            <PopupTabsBodyItem tabName='solid'>
-              <IroSolid
-                onChange={onChangeSolid}
-                value={cssValue}
-                format={format}
-                defaultColors={defaultColors}
-                debounceMS={debounceMS}
-                debounce={debounce}
-                showAlpha={showAlpha}
-                showInputs={showInputs}
-                colorBoardHeight={colorBoardHeight}
-                showReset={showReset}
-                onReset={onReset}
-                popupWidth={popupWidth}
-              />
-            </PopupTabsBodyItem>
-            <PopupTabsBodyItem tabName='gradient'>
-              <IroGradient
-                onChange={onChangeGradient}
-                value={gradientValue}
-                format={format}
-                defaultColors={defaultColors}
-                debounceMS={debounceMS}
-                debounce={debounce}
-                showAlpha={showAlpha}
-                showInputs={showInputs}
-                showGradientResult={showGradientResult}
-                showGradientStops={showGradientStops}
-                showGradientMode={showGradientMode}
-                showGradientAngle={showGradientAngle}
-                showGradientPosition={showGradientPosition}
-                allowAddGradientStops={allowAddGradientStops}
-                colorBoardHeight={colorBoardHeight}
-                showReset={showReset}
-                onReset={onReset}
-                popupWidth={popupWidth}
-              />
-            </PopupTabsBodyItem>
-          </PopupTabsBody>
-        </PopupTabs>
-      </div>
-    </ThemeProvider>
-  ) : (
-    <ThemeProvider>
-      <div
-        className='relative dark iro-gradient-picker'
-        data-color-picker-theme
-      >
-        {solid || gradient ? (
-          <PopupTabs popupWidth={popupWidth}>
+  // Theme-specific inline styles for maximum specificity
+  const themeStyles: CSSProperties =
+    theme === 'light'
+      ? ({
+          backgroundColor: '#ffffff',
+          color: '#1a1d23',
+          '--colorpicker-bg': '#ffffff',
+          '--colorpicker-text': '#1a1d23',
+          '--colorpicker-panel-bg': '#f8f9fa',
+          '--colorpicker-input-bg': '#f3f4f6',
+          '--colorpicker-border': '#e5e7eb',
+          '--colorpicker-input-border': '#d1d5db',
+          '--color-background': '#ffffff',
+          '--color-foreground': '#1a1d23',
+          '--color-muted-foreground': '#6b7280',
+          '--colorpicker-shadow': '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+        } as CSSProperties)
+      : ({
+          backgroundColor: 'rgba(26, 26, 28, 0.8)',
+          color: '#f7f8f9',
+          '--colorpicker-bg': 'rgba(26, 26, 28, 0.8)',
+          '--colorpicker-text': '#ffffff',
+          '--colorpicker-panel-bg': 'rgba(0, 0, 0, 1)',
+          '--colorpicker-input-bg': 'rgba(39, 39, 42, 0.8)',
+          '--colorpicker-border': 'rgba(39, 39, 42, 0.8)',
+          '--colorpicker-input-border': 'rgba(39, 39, 42, 0.8)',
+          '--color-background': '#000000',
+          '--color-foreground': '#f7f8f9',
+          '--color-muted-foreground': '#a1a1aa'
+        } as CSSProperties);
+
+  const pickerContent =
+    solid && gradient ? (
+      <ThemeProvider defaultTheme={theme}>
+        <div
+          className={`relative ${theme} iro-gradient-picker`}
+          data-color-picker-theme
+          style={themeStyles}
+        >
+          <PopupTabs activeTab={activeTab} popupWidth={popupWidth}>
+            <PopupTabsHeader>
+              <PopupTabsHeaderLabel
+                tabName='solid'
+                onClick={() => onChangeTab('solid')}
+              >
+                Solid
+              </PopupTabsHeaderLabel>
+              <PopupTabsHeaderLabel
+                tabName='gradient'
+                onClick={() => onChangeTab('gradient')}
+              >
+                Gradient
+              </PopupTabsHeaderLabel>
+            </PopupTabsHeader>
             <PopupTabsBody>
-              {solid ? (
+              <PopupTabsBodyItem tabName='solid'>
                 <IroSolid
                   onChange={onChangeSolid}
+                  onColorChangeImmediate={setCurrentWrapperColor}
                   value={cssValue}
                   format={format}
                   defaultColors={defaultColors}
@@ -233,13 +225,12 @@ const ColorPicker: FC<IPropsMain> = ({
                   onReset={onReset}
                   popupWidth={popupWidth}
                 />
-              ) : (
-                <Fragment />
-              )}
-              {gradient ? (
+              </PopupTabsBodyItem>
+              <PopupTabsBodyItem tabName='gradient'>
                 <IroGradient
                   onChange={onChangeGradient}
-                  value={cssValue}
+                  onColorChangeImmediate={setCurrentWrapperColor}
+                  value={gradientValue}
                   format={format}
                   defaultColors={defaultColors}
                   debounceMS={debounceMS}
@@ -257,19 +248,75 @@ const ColorPicker: FC<IPropsMain> = ({
                   onReset={onReset}
                   popupWidth={popupWidth}
                 />
-              ) : (
-                <Fragment />
-              )}
+              </PopupTabsBodyItem>
             </PopupTabsBody>
           </PopupTabs>
-        ) : null}
-      </div>
-    </ThemeProvider>
-  );
+        </div>
+      </ThemeProvider>
+    ) : (
+      <ThemeProvider defaultTheme={theme}>
+        <div
+          className={`relative ${theme} iro-gradient-picker`}
+          data-color-picker-theme
+          style={themeStyles}
+        >
+          {solid || gradient ? (
+            <PopupTabs popupWidth={popupWidth}>
+              <PopupTabsBody>
+                {solid ? (
+                  <IroSolid
+                    onChange={onChangeSolid}
+                    onColorChangeImmediate={setCurrentWrapperColor}
+                    value={cssValue}
+                    format={format}
+                    defaultColors={defaultColors}
+                    debounceMS={debounceMS}
+                    debounce={debounce}
+                    showAlpha={showAlpha}
+                    showInputs={showInputs}
+                    colorBoardHeight={colorBoardHeight}
+                    showReset={showReset}
+                    onReset={onReset}
+                    popupWidth={popupWidth}
+                  />
+                ) : (
+                  <Fragment />
+                )}
+                {gradient ? (
+                  <IroGradient
+                    onChange={onChangeGradient}
+                    onColorChangeImmediate={setCurrentWrapperColor}
+                    value={cssValue}
+                    format={format}
+                    defaultColors={defaultColors}
+                    debounceMS={debounceMS}
+                    debounce={debounce}
+                    showAlpha={showAlpha}
+                    showInputs={showInputs}
+                    showGradientResult={showGradientResult}
+                    showGradientStops={showGradientStops}
+                    showGradientMode={showGradientMode}
+                    showGradientAngle={showGradientAngle}
+                    showGradientPosition={showGradientPosition}
+                    allowAddGradientStops={allowAddGradientStops}
+                    colorBoardHeight={colorBoardHeight}
+                    showReset={showReset}
+                    onReset={onReset}
+                    popupWidth={popupWidth}
+                  />
+                ) : (
+                  <Fragment />
+                )}
+              </PopupTabsBody>
+            </PopupTabs>
+          ) : null}
+        </div>
+      </ThemeProvider>
+    );
 
   if (showWrapper) {
     return (
-      <div 
+      <div
         className={`iro-picker-wrapper ${wrapperClassName}`}
         style={wrapperStyle}
       >

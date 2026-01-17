@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import React, { useState } from 'react';
 import ColorPicker from '../../src/components/core/Colorpicker';
-import { examplesDecorator } from '../utils/decorators';
 import { ThemeProvider } from '../../src/components/providers/ThemeContext';
+import { examplesDecorator } from '../utils/decorators';
 
 const meta: Meta<typeof ColorPicker> = {
   title: 'Examples/Wrapper Showcase',
@@ -21,38 +21,6 @@ const meta: Meta<typeof ColorPicker> = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-/**
- * Basic wrapper - background automatically matches the picker color
- */
-export const AutomaticBackground: Story = {
-  render: () => {
-    const [color, setColor] = useState('#e77ab');
-    return (
-      <div style={{ padding: '20px' }}>
-        <ColorPicker
-          showWrapper={true}
-          value={color}
-          onChange={setColor}
-          solid={true}
-          gradient={true}
-          popupWidth={300}
-        />
-        <p style={{ marginTop: '20px', textAlign: 'center', color: '#fff' }}>
-          Current: {color}
-        </p>
-      </div>
-    );
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'The wrapper background automatically matches the selected color. Try changing colors to see it update!'
-      }
-    }
-  }
-};
 
 /**
  * Solid color with wrapper
@@ -174,84 +142,39 @@ export const PresetGradients: Story = {
 };
 
 /**
- * Custom wrapper background override
+ * Light theme picker with wrapper
  */
-export const CustomBackground: Story = {
+export const LightTheme: Story = {
   render: () => {
-    const [color, setColor] = useState('#10b981');
+    const [color, setColor] = useState('#3B82F6');
     return (
-      <ColorPicker
-        showWrapper={true}
-        wrapperBackground="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
-        value={color}
-        onChange={setColor}
-        solid={true}
-        gradient={false}
-        popupWidth={280}
-      />
+      <div 
+        style={{ 
+          padding: '40px',
+          background: '#ffffff',
+          minHeight: '500px',
+          borderRadius: '12px'
+        }}
+      >
+        <ColorPicker
+          theme='light'
+          showWrapper={true}
+          wrapperRounded={true}
+          value={color}
+          onChange={setColor}
+          solid={true}
+          gradient={true}
+          popupWidth={300}
+        />
+      </div>
     );
   },
+  decorators: [],
   parameters: {
     docs: {
       description: {
         story:
-          'Override the automatic background with a custom gradient or solid color.'
-      }
-    }
-  }
-};
-
-/**
- * Custom wrapper size
- */
-export const CustomSize: Story = {
-  render: () => {
-    const [color, setColor] = useState('#f59e0b');
-    return (
-      <ColorPicker
-        showWrapper={true}
-        wrapperHeight="600px"
-        wrapperWidth="450px"
-        wrapperPadding="40px"
-        value={color}
-        onChange={setColor}
-        solid={true}
-        gradient={true}
-        popupWidth={350}
-      />
-    );
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Customize wrapper size, padding, and dimensions.'
-      }
-    }
-  }
-};
-
-/**
- * Without rounded corners
- */
-export const NoRoundedCorners: Story = {
-  render: () => {
-    const [color, setColor] = useState('#ec4899');
-    return (
-      <ColorPicker
-        showWrapper={true}
-        wrapperRounded={false}
-        value={color}
-        onChange={setColor}
-        solid={true}
-        gradient={false}
-        popupWidth={280}
-      />
-    );
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Wrapper without rounded corners for a more angular design.'
+          'Color picker in light theme with wrapper - the picker UI is light while wrapper shows the color.'
       }
     }
   }
@@ -300,85 +223,6 @@ export const Comparison: Story = {
       description: {
         story:
           'Side-by-side comparison of the color picker with and without the wrapper.'
-      }
-    }
-  }
-};
-
-/**
- * Live gradient editing with wrapper
- */
-export const LiveGradientEdit: Story = {
-  render: () => {
-    const [gradient, setGradient] = useState(
-      'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f857a6 100%)'
-    );
-
-    return (
-      <div>
-        <ColorPicker
-          showWrapper={true}
-          value={gradient}
-          onChange={setGradient}
-          solid={false}
-          gradient={true}
-          popupWidth={320}
-          showGradientAngle={true}
-          showGradientStops={true}
-          allowAddGradientStops={true}
-        />
-        <div
-          style={{
-            marginTop: '20px',
-            padding: '10px',
-            background: 'rgba(0,0,0,0.5)',
-            borderRadius: '8px',
-            maxWidth: '350px'
-          }}
-        >
-          <p style={{ color: '#fff', fontSize: '12px', wordBreak: 'break-all' }}>
-            {gradient}
-          </p>
-        </div>
-      </div>
-    );
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Edit gradients and watch the wrapper background update in real-time!'
-      }
-    }
-  }
-};
-
-/**
- * Light theme picker with wrapper
- */
-export const LightTheme: Story = {
-  render: () => {
-    const [color, setColor] = useState('#3B82F6');
-    return (
-      <ThemeProvider defaultTheme='light'>
-        <div className='light'>
-          <ColorPicker
-            showWrapper={true}
-            value={color}
-            onChange={setColor}
-            solid={true}
-            gradient={true}
-            popupWidth={300}
-          />
-        </div>
-      </ThemeProvider>
-    );
-  },
-  decorators: [],
-  parameters: {
-    docs: {
-      description: {
-        story: 'Color picker in light theme with wrapper - the picker UI is light while wrapper shows the color.'
       }
     }
   }

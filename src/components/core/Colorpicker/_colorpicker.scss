@@ -51,6 +51,83 @@ $box-shadow: 0 2px 4px 0 var(--colorpicker-shadow);
   }
 }
 
+// Light theme overrides - target the iro-gradient-picker container with light class
+.light.iro-gradient-picker,
+.dark .light.iro-gradient-picker {
+  background-color: #ffffff !important;
+  color: #1a1d23 !important;
+
+  // Override all nested elements
+  * {
+    --colorpicker-bg: #ffffff;
+    --colorpicker-text: #1a1d23;
+    --colorpicker-panel-bg: #ffffff;
+    --colorpicker-input-bg: #f3f4f6;
+    --colorpicker-border: #e5e7eb;
+    --colorpicker-input-border: #e5e7eb;
+  }
+
+  .colorpicker {
+    background-color: #ffffff !important;
+    color: #1a1d23 !important;
+  }
+
+  .color-picker-panel {
+    background-color: #ffffff !important;
+    color: #1a1d23 !important;
+  }
+
+  input,
+  .colorpicker-input {
+    background-color: #f3f4f6 !important;
+    border-color: #e5e7eb !important;
+    color: #1a1d23 !important;
+  }
+
+  .color-picker-wrap input {
+    background-color: #ffffff !important;
+    border-color: #e5e7eb !important;
+    color: #1a1d23 !important;
+  }
+
+  .default-color-panel {
+    background-color: transparent !important;
+  }
+
+  .default-color-panel .default-color-panel_item {
+    box-shadow: 0px 0px 0px 1px #cbd5e1 !important;
+  }
+
+  // Light theme - all text elements
+  h3,
+  h4,
+  p,
+  span,
+  label {
+    color: #1a1d23 !important;
+  }
+
+  .color-picker-panel-inner {
+    background-color: #ffffff !important;
+  }
+}
+
+// Also target via ancestor selector for backwards compatibility
+.light .colorpicker,
+html.light .colorpicker,
+.dark .light .colorpicker,
+.light .iro-gradient-picker,
+.dark .light .iro-gradient-picker {
+  background-color: #ffffff !important;
+  color: #1a1d23 !important;
+}
+
+// Target the root picker container
+.light [data-color-picker-theme],
+.dark .light [data-color-picker-theme] {
+  background-color: #ffffff !important;
+}
+
 .colorpicker {
   background-color: var(--colorpicker-bg);
   color: var(--colorpicker-text);

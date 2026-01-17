@@ -72,6 +72,7 @@ export interface IPropsSolid {
   colorBoardHeight?: number;
   defaultColors?: string[];
   onChange?: (value: string) => void;
+  onColorChangeImmediate?: (value: string) => void; // Called immediately without debounce
   showReset?: boolean;
   onReset?: () => void;
   popupWidth?: number;
@@ -94,6 +95,7 @@ export interface IPropsGradient {
   colorBoardHeight?: number;
   defaultColors?: string[];
   onChange?: (value: string) => void;
+  onColorChangeImmediate?: (value: string) => void; // Called immediately without debounce
   showReset?: boolean;
   onReset?: () => void;
   popupWidth?: number;
@@ -103,6 +105,8 @@ export interface IPropsMain extends IPropsComp {
   gradient?: boolean;
   solid?: boolean;
   popupWidth?: number;
+  // Theme prop
+  theme?: 'light' | 'dark';
   // Wrapper props
   showWrapper?: boolean;
   wrapperBackground?: string;

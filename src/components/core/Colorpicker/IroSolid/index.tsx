@@ -13,6 +13,7 @@ import { IPropsSolid, TPropsChange } from '../../../../lib/types';
 const IroSolidColorPicker: FC<IPropsSolid> = ({
   value = '#ffffff',
   onChange = () => ({}),
+  onColorChangeImmediate,
   format = 'rgb',
   debounceMS = 300,
   debounce = true,
@@ -173,6 +174,19 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
 
     setInit(false);
     setColor(newColor);
+
+    // Call immediate callback for real-time updates (e.g., wrapper background)
+    if (onColorChangeImmediate) {
+      const rgba = tinycolor(newColor.hex);
+      rgba.setAlpha(newColor.alpha / 100);
+      const formattedColor = checkFormat(
+        rgba.toRgbString(),
+        format,
+        showAlpha,
+        newColor.alpha
+      );
+      onColorChangeImmediate(formattedColor);
+    }
   };
 
   const handleInputChange = (newColor: { hex: string; alpha: number }) => {
@@ -282,22 +296,28 @@ const IroSolidColorPicker: FC<IPropsSolid> = ({
       }}
     >
       {/* Color Picker Container */}
-      <div className='relative overflow-hidden'>
+      <div
+        className='relative overflow-hidden'
+        style={{ backgroundColor: 'transparent' }}
+      >
         <div
-          className='flex justify-center items-center rounded-lg colorpicker-glass w-full overflow-hidden'
+          className='flex justify-center items-center rounded-lg w-full overflow-hidden'
           style={{
             height: Math.max(pickerWidth + 80, 220), // Better height calculation
             width: '100%',
             minWidth: 0,
             maxWidth: '100%',
-            boxSizing: 'border-box'
+            boxSizing: 'border-box',
+            backgroundColor: 'var(--colorpicker-panel-bg)',
+            border: '1px solid var(--colorpicker-border)'
           }}
         >
           <div
             style={{
               width: pickerWidth,
               height: 'fit-content',
-              maxWidth: '90%'
+              maxWidth: '90%',
+              backgroundColor: 'transparent'
             }}
           >
             <IroColorPicker

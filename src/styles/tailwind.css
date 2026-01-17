@@ -64,10 +64,10 @@
     --colorpicker-bg: #ffffff;
     --colorpicker-text: #1a1d23;
     --colorpicker-border: #e5e7eb;
-    --colorpicker-panel-bg: rgba(255, 255, 255, 0.95);
+    --colorpicker-panel-bg: #f8f9fa;
     --colorpicker-input-bg: #f3f4f6;
-    --colorpicker-input-border: #e5e7eb;
-    --colorpicker-shadow: var(--shadow-md);
+    --colorpicker-input-border: #d1d5db;
+    --colorpicker-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
     --colorpicker-cursor-border: #ffffff;
     --colorpicker-modal-bg: #ffffff;
     --colorpicker-modal-overlay: rgba(0, 0, 0, 0.5);
@@ -78,10 +78,10 @@
     --colorpicker-bg: #ffffff;
     --colorpicker-text: #1a1d23;
     --colorpicker-border: #e5e7eb;
-    --colorpicker-panel-bg: rgba(255, 255, 255, 0.95);
+    --colorpicker-panel-bg: #f8f9fa;
     --colorpicker-input-bg: #f3f4f6;
-    --colorpicker-input-border: #e5e7eb;
-    --colorpicker-shadow: var(--shadow-md);
+    --colorpicker-input-border: #d1d5db;
+    --colorpicker-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
     --colorpicker-cursor-border: #ffffff;
     --colorpicker-modal-bg: #ffffff;
     --colorpicker-modal-overlay: rgba(0, 0, 0, 0.5);
@@ -202,37 +202,44 @@
     @apply bg-primary/20 text-primary-foreground;
   }
 
-  /* Dark glass morphism effect for color picker containers */
-  html.dark .IroSlider svg,
-  html.dark .IroWheel svg,
-  html.dark .IroBox svg {
+  /* Dark theme - iro elements should have dark background */
+  html.dark .IroColorPicker,
+  html.dark .IroSlider,
+  html.dark .IroWheel,
+  html.dark .IroBox,
+  .dark .IroColorPicker,
+  .dark .IroSlider,
+  .dark .IroWheel,
+  .dark .IroBox,
+  .dark.iro-gradient-picker .IroColorPicker,
+  .dark.iro-gradient-picker .IroSlider,
+  .dark.iro-gradient-picker .IroWheel,
+  .dark.iro-gradient-picker .IroBox {
+    background-color: transparent !important;
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
   }
 
-  /* Style iro.js SVG elements for glass theme */
-  html.dark .IroSlider svg > rect:first-child,
-  html.dark .IroWheel svg > rect:first-child,
-  html.dark .IroBox svg > rect:first-child {
-    fill: rgba(26, 26, 28, 0.8) !important;
-    stroke: rgba(124, 58, 237, 0.3) !important;
-    stroke-width: 1px !important;
-    backdrop-filter: blur(16px);
+  /* Light theme - target the actual iro.js div elements */
+  .light .IroColorPicker,
+  .light .IroWheel,
+  .light .IroSlider,
+  .light .IroBox,
+  div.light .IroColorPicker,
+  div.light .IroWheel,
+  div.light .IroSlider,
+  div.light .IroBox,
+  .dark .light .IroColorPicker,
+  .dark .light .IroWheel,
+  .dark .light .IroSlider,
+  .dark .light .IroBox {
+    background-color: transparent !important;
   }
 
-  /* Light theme iro.js styling */
-  html:not(.dark) .IroSlider svg > rect:first-child,
-  html:not(.dark) .IroWheel svg > rect:first-child,
-  html:not(.dark) .IroBox svg > rect:first-child,
-  html.light .IroSlider svg > rect:first-child,
-  html.light .IroWheel svg > rect:first-child,
-  html.light .IroBox svg > rect:first-child,
-  .light .IroSlider svg > rect:first-child,
-  .light .IroWheel svg > rect:first-child,
-  .light .IroBox svg > rect:first-child {
-    fill: rgba(255, 255, 255, 0.95) !important;
-    stroke: rgba(229, 231, 235, 0.8) !important;
-    stroke-width: 1px !important;
+  .light .IroWheelBorder,
+  div.light .IroWheelBorder,
+  .dark .light .IroWheelBorder {
+    border-color: #e5e7eb !important;
   }
 }
 
@@ -324,4 +331,106 @@
   input[style*='--colorpicker-input-bg']:hover {
     border-color: var(--colorpicker-border) !important;
   }
+
+  /* Rounded borders for all pickers */
+  .iro-gradient-picker {
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+}
+
+/* ============================================
+   LIGHT THEME COMPLETE OVERRIDE
+   Forces light theme when .light class is present
+   even if parent has .dark class
+   ============================================ */
+.light.iro-gradient-picker,
+.light.iro-gradient-picker *,
+.dark .light.iro-gradient-picker,
+.dark .light.iro-gradient-picker * {
+  /* Reset ALL Tailwind theme colors to light values */
+  --color-background: #fafbfc !important;
+  --color-foreground: #1a1d23 !important;
+  --color-card: #ffffff !important;
+  --color-card-foreground: #1a1d23 !important;
+  --color-popover: #ffffff !important;
+  --color-popover-foreground: #1a1d23 !important;
+  --color-secondary: #f3f4f6 !important;
+  --color-secondary-foreground: #374151 !important;
+  --color-muted: #f9fafb !important;
+  --color-muted-foreground: #6b7280 !important;
+  --color-border: #e5e7eb !important;
+  --color-input: #f3f4f6 !important;
+
+  /* Colorpicker-specific variables */
+  --colorpicker-bg: #ffffff !important;
+  --colorpicker-text: #1a1d23 !important;
+  --colorpicker-border: #e5e7eb !important;
+  --colorpicker-panel-bg: #f8f9fa !important;
+  --colorpicker-input-bg: #f3f4f6 !important;
+  --colorpicker-input-border: #d1d5db !important;
+  --colorpicker-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
+  --colorpicker-cursor-border: #ffffff !important;
+  --colorpicker-modal-bg: #ffffff !important;
+}
+
+/* Light theme - explicit background overrides */
+.light.iro-gradient-picker,
+.dark .light.iro-gradient-picker {
+  background-color: #ffffff !important;
+  color: #1a1d23 !important;
+}
+
+/* Glass panels in light mode */
+.light.iro-gradient-picker .colorpicker-glass,
+.dark .light.iro-gradient-picker .colorpicker-glass {
+  background-color: #f3f4f6 !important;
+  backdrop-filter: none;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Inputs in light mode */
+.light.iro-gradient-picker input,
+.dark .light.iro-gradient-picker input {
+  background-color: #f3f4f6 !important;
+  border-color: #e5e7eb !important;
+  color: #1a1d23 !important;
+}
+
+/* Text in light mode */
+.light.iro-gradient-picker h3,
+.light.iro-gradient-picker h4,
+.light.iro-gradient-picker p,
+.light.iro-gradient-picker span,
+.light.iro-gradient-picker label,
+.dark .light.iro-gradient-picker h3,
+.dark .light.iro-gradient-picker h4,
+.dark .light.iro-gradient-picker p,
+.dark .light.iro-gradient-picker span,
+.dark .light.iro-gradient-picker label {
+  color: #1a1d23 !important;
+}
+
+/* Tabs header in light mode */
+.light.iro-gradient-picker .colorpicker-glass.shadow-inner,
+.dark .light.iro-gradient-picker .colorpicker-glass.shadow-inner {
+  background-color: #f3f4f6 !important;
+}
+
+/* Iro wheel/slider elements */
+.light.iro-gradient-picker .IroWheel,
+.light.iro-gradient-picker .IroSlider,
+.light.iro-gradient-picker .IroBox,
+.light.iro-gradient-picker .IroColorPicker,
+.dark .light.iro-gradient-picker .IroWheel,
+.dark .light.iro-gradient-picker .IroSlider,
+.dark .light.iro-gradient-picker .IroBox,
+.dark .light.iro-gradient-picker .IroColorPicker {
+  background-color: transparent !important;
+}
+
+/* Light theme container backgrounds */
+.light.iro-gradient-picker > div,
+.dark .light.iro-gradient-picker > div {
+  background-color: #ffffff !important;
 }
