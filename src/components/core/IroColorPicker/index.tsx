@@ -487,13 +487,83 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
     // useEffect for when width prop is provided by parent
     useEffect(() => {
       if (!width) return;
-      createColorPicker(width);
+
+      let retryCount = 0;
+      const maxRetries = 3;
+
+      const createWithRetry = () => {
+        // Longer initial delay to ensure DOM is completely ready
+        const timeoutId = setTimeout(() => {
+          try {
+            const result = createColorPicker(width);
+            if (
+              !result &&
+              colorPickerRef.current === null &&
+              retryCount < maxRetries
+            ) {
+              retryCount++;
+
+              // Exponential backoff: 100ms, 200ms, 400ms
+              setTimeout(createWithRetry, 100 * Math.pow(2, retryCount - 1));
+            }
+          } catch (error) {
+            if (retryCount < maxRetries) {
+              retryCount++;
+
+              setTimeout(createWithRetry, 100 * Math.pow(2, retryCount - 1));
+            }
+          }
+        }, 100); // Increased from 50ms to 100ms
+
+        return () => clearTimeout(timeoutId);
+      };
+
+      const cleanupFn = createWithRetry();
+
+      return () => {
+        if (cleanupFn) cleanupFn();
+      };
     }, [width, theme, createColorPicker]);
 
     // useEffect for when containerWidth is used (internal ResizeObserver)
     useEffect(() => {
       if (width) return; // Don't run if width prop is provided
-      createColorPicker(containerWidth);
+
+      let retryCount = 0;
+      const maxRetries = 3;
+
+      const createWithRetry = () => {
+        // Longer initial delay to ensure DOM is completely ready
+        const timeoutId = setTimeout(() => {
+          try {
+            const result = createColorPicker(containerWidth);
+            if (
+              !result &&
+              colorPickerRef.current === null &&
+              retryCount < maxRetries
+            ) {
+              retryCount++;
+
+              // Exponential backoff: 100ms, 200ms, 400ms
+              setTimeout(createWithRetry, 100 * Math.pow(2, retryCount - 1));
+            }
+          } catch (error) {
+            if (retryCount < maxRetries) {
+              retryCount++;
+
+              setTimeout(createWithRetry, 100 * Math.pow(2, retryCount - 1));
+            }
+          }
+        }, 100); // Increased from 50ms to 100ms
+
+        return () => clearTimeout(timeoutId);
+      };
+
+      const cleanupFn = createWithRetry();
+
+      return () => {
+        if (cleanupFn) cleanupFn();
+      };
     }, [containerWidth, theme, createColorPicker, width]);
 
     // Update color when prop changes
