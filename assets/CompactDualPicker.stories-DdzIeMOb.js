@@ -1,4 +1,4 @@
-import{R as e,r as c,T as u}from"./iframe-BhXHjRNh.js";import{C as g}from"./index-CNG_CHOG.js";import{d as f}from"./storyData-zpFB94QM.js";import"./preload-helper-PPVm8Dsz.js";const h={title:"Components/Color Picker/~Compact (In Development)",parameters:{layout:"centered",docs:{description:{component:`
+import{R as e,r as c,T as u}from"./iframe-DRL87R3M.js";import{C as g}from"./index-BPbYLJ3A.js";import{d as f}from"./storyData-zpFB94QM.js";import"./preload-helper-PPVm8Dsz.js";const h={title:"Components/Color Picker/~Compact (In Development)",parameters:{layout:"centered",docs:{description:{component:`
 # ⚠️ **STILL IN DEVELOPMENT - NOT PRODUCTION READY**
 
 **Compact Dual Mode Picker** - New streamlined horizontal design!
@@ -20,54 +20,54 @@ import{R as e,r as c,T as u}from"./iframe-BhXHjRNh.js";import{C as g}from"./inde
           .compact-picker-wrapper .w-full.rounded-xl {
             display: block !important;
           }
-          
+
           /* Remove vertical spacing */
           .compact-picker-wrapper .space-y-2 > * + * {
             margin-top: 0 !important;
           }
-          
+
           /* Iro picker - 50% smaller, visible */
           .compact-picker-wrapper .relative {
             transform: scale(0.5) !important;
             transform-origin: left top !important;
             display: block !important;
           }
-          
+
           /* Hue slider - hidden */
           .compact-picker-wrapper .rounded-lg.colorpicker-glass.px-4:first-of-type {
             display: none !important;
           }
-          
+
           /* Popular colors - hide completely */
           .compact-picker-wrapper .pt-4.px-2 {
             display: none !important;
           }
-          
+
           /* Color value display - hide completely */
           .compact-picker-wrapper .rounded-lg.colorpicker-glass.flex.items-center.gap-2 {
             display: none !important;
           }
-          
+
           /* Hide text inputs */
           .compact-picker-wrapper input[type="text"] {
             display: none !important;
           }
-          
+
           /* Hide tabs header (SOLID/GRADIENT tabs) */
           .compact-picker-wrapper .popup-tabs-header {
             display: none !important;
           }
-          
+
           /* Hide gradient bar/slider */
           .compact-picker-wrapper .gradient-interaction {
             display: none !important;
           }
-          
+
           .compact-picker-wrapper .popup-tabs-body-item {
             min-height: auto !important;
             padding: 0 !important;
           }
-          
+
           .compact-picker-wrapper .color-picker-panel {
             max-width: 200px !important;
           }
