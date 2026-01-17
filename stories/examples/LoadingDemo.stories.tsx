@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
+import React, { useEffect, useState } from 'react';
 import ColorPicker from '../../src';
 
 const meta: Meta<typeof ColorPicker> = {
   title: 'Examples/Loading Demo',
   component: ColorPicker,
   parameters: {
-    layout: 'centered',
-  },
+    layout: 'centered'
+  }
 };
 
 export default meta;
@@ -37,10 +37,17 @@ const LoadingWithPopup = () => {
           alignItems: 'center',
           justifyContent: 'center',
           flexDirection: 'column',
-          gap: '20px',
+          gap: '20px'
         }}
       >
-        <div style={{ color: 'white', fontSize: '18px', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
+        <div
+          style={{
+            color: 'white',
+            fontSize: '18px',
+            fontWeight: 'bold',
+            textShadow: '0 2px 4px rgba(0,0,0,0.3)'
+          }}
+        >
           Main Page Color
         </div>
         <button
@@ -56,12 +63,19 @@ const LoadingWithPopup = () => {
             fontSize: '16px',
             fontWeight: '600',
             boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-            transition: 'all 0.2s ease',
+            transition: 'all 0.2s ease'
           }}
         >
           Open Color Picker
         </button>
-        <div style={{ color: 'white', fontSize: '14px', textShadow: '0 2px 4px rgba(0,0,0,0.3)', fontFamily: 'monospace' }}>
+        <div
+          style={{
+            color: 'white',
+            fontSize: '14px',
+            textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+            fontFamily: 'monospace'
+          }}
+        >
           {currentColor}
         </div>
       </div>
@@ -81,10 +95,10 @@ const LoadingWithPopup = () => {
               background: 'rgba(0,0,0,0.5)',
               backdropFilter: 'blur(4px)',
               zIndex: 9998,
-              animation: 'fadeIn 0.2s ease-in-out',
+              animation: 'fadeIn 0.2s ease-in-out'
             }}
           />
-          
+
           {/* Popup Window */}
           <div
             style={{
@@ -97,11 +111,20 @@ const LoadingWithPopup = () => {
               borderRadius: '16px',
               padding: '30px',
               boxShadow: '0 20px 60px rgba(0,0,0,0.4)',
-              animation: 'slideIn 0.3s ease-out',
+              animation: 'slideIn 0.3s ease-out'
             }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <h3 style={{ margin: 0, color: 'white', fontSize: '20px' }}>Choose Color</h3>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '20px'
+              }}
+            >
+              <h3 style={{ margin: 0, color: 'white', fontSize: '20px' }}>
+                Choose Color
+              </h3>
               <button
                 onClick={togglePicker}
                 style={{
@@ -117,7 +140,7 @@ const LoadingWithPopup = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderRadius: '4px',
-                  transition: 'all 0.2s ease',
+                  transition: 'all 0.2s ease'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
@@ -131,7 +154,7 @@ const LoadingWithPopup = () => {
                 ×
               </button>
             </div>
-            
+
             <ColorPicker
               solid
               gradient
@@ -140,10 +163,10 @@ const LoadingWithPopup = () => {
                 setCurrentColor(color);
                 return color;
               }}
-              theme="dark"
+              theme='dark'
               showWrapper={true}
-              wrapperPadding="20px"
-              wrapperRounded="12px"
+              wrapperPadding='20px'
+              wrapperRounded='12px'
               showAlpha={true}
               showInputs={true}
               colorBoardHeight={150}
@@ -158,12 +181,12 @@ const LoadingWithPopup = () => {
                 to { opacity: 1; }
               }
               @keyframes slideIn {
-                from { 
-                  opacity: 0; 
+                from {
+                  opacity: 0;
                   transform: translateY(-50%) translateX(100px);
                 }
-                to { 
-                  opacity: 1; 
+                to {
+                  opacity: 1;
                   transform: translateY(-50%) translateX(0);
                 }
               }
@@ -183,8 +206,8 @@ export const LoadingWithDualMode: Story = {
         story:
           'Click "Open Color Picker" to launch a popup modal with the dual mode picker. ' +
           'As you select colors in the popup, the main page background updates in real-time. ' +
-          'Click the × button or the backdrop to close the popup.',
-      },
-    },
-  },
+          'Click the × button or the backdrop to close the popup.'
+      }
+    }
+  }
 };
