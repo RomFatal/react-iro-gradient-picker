@@ -10,9 +10,11 @@ import { useTheme } from '../../providers/ThemeContext';
 
 // Lazy load iro.js to improve initial bundle size
 let iroPromise: Promise<any> | null = null;
-const loadIro = () => {
+const loadIro = async () => {
   if (!iroPromise) {
-    iroPromise = import('@jaames/iro');
+    iroPromise = import('@jaames/iro').then(
+      (module) => module.default || module
+    );
   }
   return iroPromise;
 };
@@ -169,16 +171,16 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
           }
         }
 
-        // Capture the container reference for cleanup
-        const currentContainer = containerRef.current;
-
-        // IMPORTANT: Clear any existing DOM content first
-        if (currentContainer) {
-          currentContainer.innerHTML = '';
-        }
-
         // Load iro.js dynamically
         const iro = await loadIro();
+
+        // Check if component is still mounted after async load
+        if (!containerRef.current) {
+          console.warn(
+            'IroColorPicker: Component unmounted during iro.js load'
+          );
+          return;
+        }
 
         // Build layout configuration based on preset or custom layout
         let layoutConfig = layout;
@@ -331,7 +333,7 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
           colorPickerRef.current.on('mount', onMount);
         }
 
-        return currentContainer;
+        return containerRef.current;
       },
       [
         theme,
@@ -434,13 +436,12 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
         return () => clearTimeout(timeoutId);
       };
 
-      const cleanup = createWithRetry();
+      const cleanupFn = createWithRetry();
 
       return () => {
-        if (cleanup) cleanup();
-        cleanup();
+        if (cleanupFn) cleanupFn();
       };
-    }, [width, theme, createColorPicker, cleanup]);
+    }, [width, theme, createColorPicker]);
 
     // useEffect for when containerWidth is used (internal ResizeObserver)
     useEffect(() => {
@@ -476,13 +477,12 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
         return () => clearTimeout(timeoutId);
       };
 
-      const cleanup = createWithRetry();
+      const cleanupFn = createWithRetry();
 
       return () => {
-        if (cleanup) cleanup();
-        cleanup();
+        if (cleanupFn) cleanupFn();
       };
-    }, [containerWidth, theme, createColorPicker, cleanup, width]);
+    }, [containerWidth, theme, createColorPicker, width]);
 
     // Update color when prop changes
     useEffect(() => {
@@ -538,7 +538,7 @@ const IroColorPicker = forwardRef<IroColorPickerRef, IroColorPickerProps>(
           minWidth: 0,
           overflow: 'hidden',
           justifyContent: 'center',
-          minHeight: isLoading ? (width || containerWidth) : 'auto',
+          minHeight: isLoading ? width || containerWidth : 'auto',
           position: 'relative'
         }}
       >
