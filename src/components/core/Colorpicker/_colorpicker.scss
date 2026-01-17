@@ -11,6 +11,46 @@ $box-shadow: 0 2px 4px 0 var(--colorpicker-shadow);
   }
 }
 
+// Wrapper styles
+.iro-picker-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: auto;
+  text-align: center;
+  transition: background 0.3s ease;
+  box-sizing: border-box;
+
+  // Preset gradients
+  &.gradient-sunset {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%) !important;
+  }
+
+  &.gradient-ocean {
+    background: linear-gradient(135deg, #667eea 0%, #48c6ef 100%) !important;
+  }
+
+  &.gradient-forest {
+    background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%) !important;
+  }
+
+  &.gradient-fire {
+    background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%) !important;
+  }
+
+  &.gradient-cool {
+    background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%) !important;
+  }
+
+  &.gradient-rose {
+    background: linear-gradient(135deg, #f857a6 0%, #ff5858 100%) !important;
+  }
+
+  &.gradient-purple {
+    background: linear-gradient(135deg, #a8c0ff 0%, #3f2b96 100%) !important;
+  }
+}
+
 .colorpicker {
   background-color: var(--colorpicker-bg);
   color: var(--colorpicker-text);

@@ -94,6 +94,67 @@ function App() {
 export default App;
 ```
 
+### 🎨 With Beautiful Gradient Background (NEW!)
+
+The wrapper automatically uses the picker's color as the background! Just add `showWrapper={true}`:
+
+```tsx
+import React, { useState } from 'react';
+import ColorPicker from 'react-iro-gradient-picker';
+import 'react-iro-gradient-picker/dist/index.css';
+
+function App() {
+  const [color, setColor] = useState('#e77ab');
+
+  return (
+    <ColorPicker
+      showWrapper={true}
+      solid
+      gradient
+      value={color}
+      onChange={setColor}
+    />
+  );
+}
+// Background automatically changes to match the selected color!
+```
+
+**Preset Gradients (Optional):**
+```tsx
+// Override with preset gradient
+<ColorPicker
+  showWrapper={true}
+  wrapperClassName="gradient-sunset"
+  value={color}
+  onChange={setColor}
+/>
+
+// Available presets: gradient-sunset, gradient-ocean, gradient-forest,
+// gradient-fire, gradient-cool, gradient-rose, gradient-purple
+```
+
+**Custom Background (Optional):**
+```tsx
+// Override with custom gradient or solid color
+<ColorPicker
+  showWrapper={true}
+  wrapperBackground="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+  value={color}
+  onChange={setColor}
+/>
+```
+
+**Wrapper Props:**
+- `showWrapper` - Enable/disable wrapper (default: false)
+- `wrapperBackground` - Override with custom background (optional)
+- `wrapperClassName` - Preset gradient class (optional)
+- `wrapperHeight` - Container height (default: 'auto')
+- `wrapperWidth` - Container width (default: 'auto')  
+- `wrapperPadding` - Container padding (default: '24px')
+- `wrapperRounded` - Rounded corners (default: true)
+
+💡 **By default, the wrapper background automatically matches the picker's value!**
+
 ### 🔄 With Reset Functionality
 
 ```tsx

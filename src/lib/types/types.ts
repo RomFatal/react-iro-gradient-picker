@@ -103,6 +103,14 @@ export interface IPropsMain extends IPropsComp {
   gradient?: boolean;
   solid?: boolean;
   popupWidth?: number;
+  // Wrapper props
+  showWrapper?: boolean;
+  wrapperBackground?: string;
+  wrapperClassName?: string;
+  wrapperHeight?: string | number;
+  wrapperWidth?: string | number;
+  wrapperPadding?: string | number;
+  wrapperRounded?: boolean;
 }
 
 export type TPropsChange = {

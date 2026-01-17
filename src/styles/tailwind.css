@@ -64,14 +64,31 @@
     --colorpicker-bg: #ffffff;
     --colorpicker-text: #1a1d23;
     --colorpicker-border: #e5e7eb;
-    --colorpicker-panel-bg: rgba(255, 255, 255, 0.8);
+    --colorpicker-panel-bg: rgba(255, 255, 255, 0.95);
     --colorpicker-input-bg: #f3f4f6;
     --colorpicker-input-border: #e5e7eb;
     --colorpicker-shadow: var(--shadow-md);
     --colorpicker-cursor-border: #ffffff;
     --colorpicker-modal-bg: #ffffff;
     --colorpicker-modal-overlay: rgba(0, 0, 0, 0.5);
+  }
 
+  /* Explicit light class */
+  .light {
+    --colorpicker-bg: #ffffff;
+    --colorpicker-text: #1a1d23;
+    --colorpicker-border: #e5e7eb;
+    --colorpicker-panel-bg: rgba(255, 255, 255, 0.95);
+    --colorpicker-input-bg: #f3f4f6;
+    --colorpicker-input-border: #e5e7eb;
+    --colorpicker-shadow: var(--shadow-md);
+    --colorpicker-cursor-border: #ffffff;
+    --colorpicker-modal-bg: #ffffff;
+    --colorpicker-modal-overlay: rgba(0, 0, 0, 0.5);
+  }
+
+  :root,
+  :host {
     @variant dark {
       /* Dark Theme - Modern Glass Design */
       --color-background: #000000;
@@ -206,8 +223,14 @@
   /* Light theme iro.js styling */
   html:not(.dark) .IroSlider svg > rect:first-child,
   html:not(.dark) .IroWheel svg > rect:first-child,
-  html:not(.dark) .IroBox svg > rect:first-child {
-    fill: rgba(255, 255, 255, 0.8) !important;
+  html:not(.dark) .IroBox svg > rect:first-child,
+  html.light .IroSlider svg > rect:first-child,
+  html.light .IroWheel svg > rect:first-child,
+  html.light .IroBox svg > rect:first-child,
+  .light .IroSlider svg > rect:first-child,
+  .light .IroWheel svg > rect:first-child,
+  .light .IroBox svg > rect:first-child {
+    fill: rgba(255, 255, 255, 0.95) !important;
     stroke: rgba(229, 231, 235, 0.8) !important;
     stroke-width: 1px !important;
   }
