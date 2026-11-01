@@ -768,10 +768,6 @@ html.light .colorpicker,
             border-radius: 100%;
             border: 2px solid white;
             background-color: white;
-
-            & + .gradient-angle {
-              opacity: 0;
-            }
           }
 
           &[data-mode='radial'] {
